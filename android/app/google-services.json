@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "675098476366",
+    "firebase_url": "https://sanafansapp.firebaseio.com",
+    "project_id": "sanafansapp",
+    "storage_bucket": "sanafansapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675098476366:android:c1de097c1fe34a6618e81f",
+        "android_client_info": {
+          "package_name": "com.sanafansapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675098476366-lpgm247h8d3v4e22qs3bstahjqfjf7bq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sanafansapp",
+            "certificate_hash": "e7dbb216f0314784c7ebefd6453e8713fc1f0735"
+          }
+        },
+        {
+          "client_id": "675098476366-l59oumdk3434ngsl01vvj5nu3mgnislf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvz-8T4aoufaXAo5B1lGro5yhaunwNbhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675098476366-l59oumdk3434ngsl01vvj5nu3mgnislf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
