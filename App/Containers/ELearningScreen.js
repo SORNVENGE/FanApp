@@ -5,7 +5,7 @@ import { Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Images, Colors, Metrics, Fonts } from '../Themes'
 import Swiper from 'react-native-swiper'
-
+import FilePickerManager from 'react-native-file-picker';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 export default class ELearningScreen extends Component {
@@ -42,7 +42,6 @@ export default class ELearningScreen extends Component {
         this.type_clicked = tab.key
         this.setState({ tap: [...this.state.tap], key_tab: tab.key });
     }
-
     _renderTab = ({ item, index }) => {
         IsTab = this.state.key_tab == item.key ? true : false;
         return (
@@ -57,7 +56,7 @@ export default class ELearningScreen extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '33.33%',
-                height: width / 2.7,
+                height: width /3,
                 // height: height < 731 ? width / 2.2 : width / 2,
                 borderWidth: 10,
                 borderColor: "white",
@@ -81,6 +80,21 @@ export default class ELearningScreen extends Component {
     }
     handleSearchRealTime = () => {
 
+    }
+    handleOnUploadFile=()=>{
+        FilePickerManager.showFilePicker(null, (response) => {
+            console.tron.log('Response = ', response);
+            if (response.didCancel) {
+              console.tron.log('User cancelled file picker');
+            }
+            else if (response.error) {
+              console.tron.log('FilePickerManager Error: ', response.error);
+            }
+            else {
+              console.tron.log("............");
+              
+            }
+          });
     }
     render() {
         const { tap } = this.state
@@ -118,7 +132,7 @@ export default class ELearningScreen extends Component {
                                         />
                                     </View>
                                     <View style={{ width: '15%', justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity onPress={()=>alert("upload File")}>
+                                        <TouchableOpacity onPress={()=>this.handleOnUploadFile()}>
                                             <Icon name='upload' type="FontAwesome" style={{ color: Colors.black, fontSize: 22, fontWeight: "bold" }} />
                                         </TouchableOpacity>
                                     </View>

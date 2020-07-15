@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity } from 'react-native'
+import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import { Images, Metrics, Colors, Fonts } from '../../Themes'
-import { Icon } from 'native-base';
+import { Icon, Item } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'react-native-firebase'
+import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
 
 //component
 import Loading from '../../Components/Loading'
-
-
 export default class LoginScreen extends Component {
 	constructor(props) {
 		super(props);
@@ -16,11 +15,19 @@ export default class LoginScreen extends Component {
 			phoneNum: '',
 			confirmResult: null,
 			statusLoading: false,
-			fullPhoneNumber: null
+			statusPassword: true,
+			statusBorder:false,
+			username: '',
+			password: '',
+			userData: [],
 		};
 	}
-	_handleValidatePhoneNumber = (number) => {
-		this.setState({ phoneNum: number });
+	_handleOnUsernameChange = (username) => {
+		this.setState({ username: username });
+	}
+	_handleOnPasswordChange = (password) => {
+		this.setState({ password: password });
+
 	}
 	_handleSignInWithPhoneNumber = () => {
 		const { phoneNum } = this.state;
@@ -49,82 +56,100 @@ export default class LoginScreen extends Component {
 				});
 		}
 	};
+	handleOnLoginButton = () => {
+		const {username,password}=this.state
+		this.setState({ statusLoading: true });
+
+		CloudFireStoreUserHelper.readAllUser(response => {
+			if (response) {
+				response.map((eachData, index) => {
+					if(eachData.username==username && eachData.password==password){
+						this.setState({userData:eachData,statusLoading: false,statusBorder:false});
+						Actions.HomeScreen()
+					}
+					else{
+						this.setState({statusLoading: false,statusBorder:true});
+					}
+				})
+			} else {
+				this.setState({ statusLoading: false });
+			}
+		});
+	}
 
 
 	render() {
 		const { statusLoading } = this.state
 		if (statusLoading) return <Loading />
 		return (
-			// <ImageBackground source={Images.backGroundImage} style={{ flex: 1, width: '100%', height: '100%' }}>
-
+			<ScrollView>
 				<View style={styles.logoBlock}>
-					{/* <Text style={{ color: Colors.main_color, fontSize: 18, marginTop: 15 }}>Register</Text> */}
-					<Image source={Images.fansLogo} style={styles.image} />
-					<View style={{ marginTop: Metrics.doubleBaseMargin * 2, padding: 5, backgroundColor: 'white', width: '90%', height: 47, borderRadius: 25, justifyContent: 'space-between', flexDirection: "row",borderColor:'black',borderWidth:1 }}>
-						<View style={{ width: '20%', alignSelf: 'center', justifyContent: 'space-between', paddingLeft: 4, borderRightWidth: 1, borderRightColor: 'black', flexDirection: 'row' }}>
-							<View style={{ paddingTop: 5 }}>
-								<Image style={{ width: 33, height: 22 }}
-									source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_Cambodia.svg/1200px-Flag_of_Cambodia.svg.png' }}
-								/>
-							</View>
-							<TouchableOpacity onPress={() => alert("show Country list")} style={{ paddingRight: 5, paddingTop: 3 }}>
-								<Icon name='md-arrow-dropdown' type="Ionicons" style={{ fontSize: 30, color: 'black' }} />
-							</TouchableOpacity>
+					<View style={{ height: 160, marginTop: 20 }}>
+						<Image source={Images.fansLogo} style={styles.image} />
+					</View>
+					<View style={{ height: '50%', padding: Metrics.doubleBaseMargin, justifyContent: 'center' }}>
+						<View style={styles.searchSection}>
+							<Icon style={styles.searchIcon} name="md-person" size={20} color={Colors.main_color} />
+							<TextInput
+								style={[styles.input,{borderColor: this.state.statusBorder?'red':Colors.main_color}]}
+								placeholder="UserName"
+								value={this.state.username}
+								onChangeText={(username) => { this._handleOnUsernameChange(username) }}
+							/>
 						</View>
-						<View style={{ width: '64%', flexDirection: 'row', alignItems: 'center' }}>
-							<View>
-								<Text style={{ fontSize: Fonts.size.regular, paddingLeft: 5 }}>+855 </Text>
-							</View>
-							<View>
-								<TextInput
-									style={{ height: 50, textAlignVertical: 'center', width: '100%', fontSize: 16, }}
-									onChangeText={(number) => { this._handleValidatePhoneNumber(number) }}
-									placeholder={'Phone number'}
-									keyboardType='numeric'
-									maxLength={10}
-								/>
-							</View>
-						</View>
-						<View style={{ paddingRight: 10, width: '15%', justifyContent: 'flex-end', alignItems: 'flex-end', justifyContent: 'center' }}>
-							<TouchableOpacity onPress={this._handleSignInWithPhoneNumber}>
-								<Icon name='arrowright' type="AntDesign" style={{ fontSize: 25, color: Colors.main_color }} />
+						<View style={styles.searchSection}>
+							<TouchableOpacity onPress={() => this.setState({ statusPassword: !this.state.statusPassword })}>
+								<Icon style={styles.searchIcon} name="ios-lock" size={20} />
 							</TouchableOpacity>
+							<TextInput
+								style={[styles.input,{borderColor: this.state.statusBorder?'red':Colors.main_color}]}
+								placeholder="Password"
+								value={this.state.password}
+								onChangeText={(password) => { this._handleOnPasswordChange(password) }}
+								secureTextEntry={this.state.statusPassword}
+							/>
+						</View>
+
+						<TouchableOpacity onPress={() => this.handleOnLoginButton()} style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', marginTop: Metrics.baseMargin, backgroundColor: Colors.main_color, padding: 13, borderRadius: 10 }}>
+							<Text style={{ fontSize: 15, color: Colors.white }}>Logins</Text>
+						</TouchableOpacity>
+						<View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', marginTop: Metrics.baseMargin }}>
+							<Text style={{ fontSize: 15, color: Colors.gray }}>Forget password?</Text>
+							<Text style={{ fontSize: 15, color: Colors.main_color, paddingLeft: 5 }}>Reset password</Text>
 						</View>
 					</View>
 				</View>
-			//  </ImageBackground>
-
+			</ScrollView>
 		)
 	}
 }
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'space-between',
-		padding: 10
-	},
 	logoBlock: {
-		flex: 1,
 		alignItems: 'center',
-		
 	},
-
+	searchSection: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: 20,
+		// backgroundColor: 'red',
+	},
+	searchIcon: {
+		padding: 10,
+	},
 	input: {
 		width: Metrics.screenWidth - 70,
 		color: '#555555',
 		paddingRight: 10,
-		paddingLeft: 0,
+		paddingLeft: 15,
 		paddingTop: 5,
-		height: '100%',
-		borderColor: '#6E5BAA',
 		borderWidth: 1,
-		borderRadius: 2,
+		borderRadius: 10,
 		alignSelf: 'center',
-		backgroundColor: '#ffffff'
+		backgroundColor: '#ffffff',
 	},
 	image: {
-		width: Metrics.screenWidth / 2 + 40,
-		height: Metrics.screenWidth / 2 + 40,
-		marginTop: Metrics.doubleBaseMargin * 2
+		width: 125,
+		height: 125,
 	}
 })

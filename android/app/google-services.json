@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "675098476366",
-    "firebase_url": "https://sanafansapp.firebaseio.com",
-    "project_id": "sanafansapp",
-    "storage_bucket": "sanafansapp.appspot.com"
+    "project_number": "968124282830",
+    "firebase_url": "https://fans-e66a4.firebaseio.com",
+    "project_id": "fans-e66a4",
+    "storage_bucket": "fans-e66a4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:675098476366:android:c1de097c1fe34a6618e81f",
+        "mobilesdk_app_id": "1:968124282830:android:1c5ea34f16a6a554949d9f",
         "android_client_info": {
           "package_name": "com.sanafansapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "675098476366-lpgm247h8d3v4e22qs3bstahjqfjf7bq.apps.googleusercontent.com",
+          "client_id": "968124282830-3nkbqdld64n8m3ntjlapev3pmgciavig.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sanafansapp",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "675098476366-l59oumdk3434ngsl01vvj5nu3mgnislf.apps.googleusercontent.com",
+          "client_id": "968124282830-0maq1tqimtrnvdodjvovkd3ia1uc9mmn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvz-8T4aoufaXAo5B1lGro5yhaunwNbhs"
+          "current_key": "AIzaSyCEVNJaEwWri3NBL8EhdWxYDai2vBf8EqQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "675098476366-l59oumdk3434ngsl01vvj5nu3mgnislf.apps.googleusercontent.com",
+              "client_id": "968124282830-0maq1tqimtrnvdodjvovkd3ia1uc9mmn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
