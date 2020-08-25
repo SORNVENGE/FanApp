@@ -32,19 +32,47 @@ const CloudFireStoreUserHelper = {
     // },
 
 
-    readAllUser: function (callback) {
-        db.collection("users").get()
+    // readAllUser: function (callback) {
+    //     db.collection("users").get()
+    //         .then(function (querySnapshot) {
+	// 			console.tron.log({ querySnapshot: querySnapshot })
+
+    //             let objeData = [];
+    //             querySnapshot.forEach(function (doc) {
+    //                 if (doc) {
+    //                     let mergeData = { ...doc.data(), ...{ userId: doc.id } }
+    //                     objeData.push(mergeData);
+    //                 }
+    //             });
+    //             return callback(objeData);
+    //         });
+    // },
+
+
+    readAllUser: function (username, password, callback) {    
+        db.collection('users').where('username', '==', `${username}`, 'password', '==', `${password}`).get()
             .then(function (querySnapshot) {
-                let objeData = [];
+                let newObjectData = [];
                 querySnapshot.forEach(function (doc) {
                     if (doc) {
-                        let mergeData = { ...doc.data(), ...{ userId: doc.id } }
-                        objeData.push(mergeData);
+                        let concatObj = { ...doc.data(), ...{ user_id: doc.id } }
+                        newObjectData.push(concatObj);
                     }
                 });
-                return callback(objeData);
-            });
+                return callback(newObjectData);
+            }).catch( err => {
+                console.tron.log({err:err});
+        });
     },
+
+    // readAllProvince: function (callback) {
+    //     db.collection("users").get()
+    //         .then(function (querySnapshot) {
+    //             console.tron.log({querySnapshot:querySnapshot})
+    //             return callback(querySnapshot);
+    //         });
+    // },
+
 
 
 

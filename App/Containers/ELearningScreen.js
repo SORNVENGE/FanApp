@@ -6,9 +6,12 @@ import { Actions } from 'react-native-router-flux';
 import { Images, Colors, Metrics, Fonts } from '../Themes'
 import Swiper from 'react-native-swiper'
 import FilePickerManager from 'react-native-file-picker';
+import { connect } from 'react-redux'
+import firebase from 'react-native-firebase';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-export default class ELearningScreen extends Component {
+class ELearningScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -56,7 +59,7 @@ export default class ELearningScreen extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '33.33%',
-                height: width /3,
+                height: width / 3,
                 // height: height < 731 ? width / 2.2 : width / 2,
                 borderWidth: 10,
                 borderColor: "white",
@@ -81,20 +84,57 @@ export default class ELearningScreen extends Component {
     handleSearchRealTime = () => {
 
     }
-    handleOnUploadFile=()=>{
+    handleOnUploadFile = () => {
+        const { tempUser } = this.props
+        console.tron.log({ tempUser: tempUser })
+
+
         FilePickerManager.showFilePicker(null, (response) => {
-            console.tron.log('Response = ', response);
             if (response.didCancel) {
-              console.tron.log('User cancelled file picker');
+
+                console.tron.log('User cancelled file picker');
             }
             else if (response.error) {
-              console.tron.log('FilePickerManager Error: ', response.error);
+                console.tron.log('FilePickerManager Error: ', response.error);
             }
             else {
-              console.tron.log("............");
-              
+                const pathToFile = response.path;
+                firebase
+                    .storage()
+                    .ref('/document/' + response.fileName)
+                    .putFile(response.path)
+                    .then((snapshot) => {
+                        var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf('.') + 1);
+                        var type = ''
+                        if (ext == 'jpeg' || ext == 'jpg' || ext == 'png') {
+                            type = 'image'
+                        } else if (ext == 'pdf') {
+                            type = 'pdf'
+                        }
+                        let mergeObj = {
+                            created_date: firebase.firestore.FieldValue.serverTimestamp(),
+                            file: snapshot.downloadURL,
+                            fileName: response.fileName,
+                            teacherId:tempUser.user_id,
+                            teacherName:tempUser.username,
+                            title:"",
+                            classId:tempUser,
+                            className:tempUser,
+                            type: type,
+                            file_size: response.size
+                        }
+                        // CloudFireStoreUserHelper.updateUserFileSize(uid, sizeFile)
+                        // CloudFireStoreUserHelper.addDocumentByUser(mergeObj)
+                        // this.setState({ statusIsProgress: false, progress_bar: 0 })
+                        // if (Actions.currentScene == 'DocumentScreen') {
+                        //     Actions.DocumentPreview({ selectedFile: mergeObj })
+                        // }
+                    })
+                    .catch(
+
+                    );
             }
-          });
+        });
     }
     render() {
         const { tap } = this.state
@@ -118,7 +158,7 @@ export default class ELearningScreen extends Component {
                         </View>
                         : this.type_clicked == "Upload File" ?
                             <View style={{ padding: 10 }}>
-                                <View style={{ marginLeft: 10,marginRight: 10,marginBottom: 15,flexDirection: 'row', justifyContent: 'space-between',borderRadius: 10,backgroundColor: Colors.background,shadowColor: "#000",shadowOffset: { width: 0, height: 2, },shadowOpacity: 0.25,shadowRadius: 3.84,elevation: 5,height: 45}}>
+                                <View style={{ marginLeft: 10, marginRight: 10, marginBottom: 15, flexDirection: 'row', justifyContent: 'space-between', borderRadius: 10, backgroundColor: Colors.background, shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, height: 45 }}>
                                     <View style={{ width: '15%', justifyContent: 'center', alignItems: 'center' }}>
                                         <TouchableOpacity>
                                             <Icon name='search1' type="AntDesign" style={{ color: Colors.black, fontSize: 22, fontWeight: "bold" }} />
@@ -132,7 +172,7 @@ export default class ELearningScreen extends Component {
                                         />
                                     </View>
                                     <View style={{ width: '15%', justifyContent: 'center', alignItems: 'center' }}>
-                                        <TouchableOpacity onPress={()=>this.handleOnUploadFile()}>
+                                        <TouchableOpacity onPress={() => this.handleOnUploadFile()}>
                                             <Icon name='upload' type="FontAwesome" style={{ color: Colors.black, fontSize: 22, fontWeight: "bold" }} />
                                         </TouchableOpacity>
                                     </View>
@@ -160,3 +200,10 @@ export default class ELearningScreen extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        tempUser: state.tempUser,
+    }
+}
+
+export default connect(mapStateToProps, null)(ELearningScreen)

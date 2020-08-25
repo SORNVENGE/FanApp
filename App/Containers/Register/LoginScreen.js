@@ -3,12 +3,15 @@ import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, 
 import { Images, Metrics, Colors, Fonts } from '../../Themes'
 import { Icon, Item } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux'
+import StoreUserInfoActions from '../../Redux/StoreUserInfoRedux'
+
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
 
 //component
 import Loading from '../../Components/Loading'
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -16,7 +19,7 @@ export default class LoginScreen extends Component {
 			confirmResult: null,
 			statusLoading: false,
 			statusPassword: true,
-			statusBorder:false,
+			statusBorder: false,
 			username: '',
 			password: '',
 			userData: [],
@@ -56,28 +59,45 @@ export default class LoginScreen extends Component {
 				});
 		}
 	};
+
+
+	// CloudFireStoreUserHelper.readAllUser(response => {
+	// 	if (response) {
+	// 		response.map((eachData, index) => {
+	// 			if (eachData.username == username && eachData.password == password) {
+	// 				this.setState({ userData: eachData, statusLoading: false, statusBorder: false });
+	// 				Actions.HomeScreen()
+	// 			}
+	// 			else {
+	// 				this.setState({ statusLoading: false, statusBorder: true });
+	// 			}
+	// 		})
+	// 	} else {
+	// 		this.setState({ statusLoading: false });
+	// 	}
+	// });
+
+
+
 	handleOnLoginButton = () => {
-		const {username,password}=this.state
-		this.setState({ statusLoading: true });
-
-		CloudFireStoreUserHelper.readAllUser(response => {
-			if (response) {
-				response.map((eachData, index) => {
-					if(eachData.username==username && eachData.password==password){
-						this.setState({userData:eachData,statusLoading: false,statusBorder:false});
-						Actions.HomeScreen()
-					}
-					else{
-						this.setState({statusLoading: false,statusBorder:true});
-					}
-				})
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
+		const { username, password } = this.state
+		if (username == "" || password == "") {
+			alert("Please input username and password!!")
+		}
+		else {
+			this.setState({ statusLoading: true });
+			CloudFireStoreUserHelper.readAllUser(username, password, (response) => {
+				if (response) {
+					this.setState({ statusLoading: false });
+					this.props.setAllUserInfoAfterLogin(response)
+					Actions.HomeScreen();
+				}
+				else {
+					this.setState({ statusLoading: false });
+				}
+			})
+		}
 	}
-
-
 	render() {
 		const { statusLoading } = this.state
 		if (statusLoading) return <Loading />
@@ -91,7 +111,7 @@ export default class LoginScreen extends Component {
 						<View style={styles.searchSection}>
 							<Icon style={styles.searchIcon} name="md-person" size={20} color={Colors.main_color} />
 							<TextInput
-								style={[styles.input,{borderColor: this.state.statusBorder?'red':Colors.main_color}]}
+								style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color }]}
 								placeholder="UserName"
 								value={this.state.username}
 								onChangeText={(username) => { this._handleOnUsernameChange(username) }}
@@ -102,7 +122,7 @@ export default class LoginScreen extends Component {
 								<Icon style={styles.searchIcon} name="ios-lock" size={20} />
 							</TouchableOpacity>
 							<TextInput
-								style={[styles.input,{borderColor: this.state.statusBorder?'red':Colors.main_color}]}
+								style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color }]}
 								placeholder="Password"
 								value={this.state.password}
 								onChangeText={(password) => { this._handleOnPasswordChange(password) }}
@@ -153,3 +173,12 @@ const styles = StyleSheet.create({
 		height: 125,
 	}
 })
+
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
+	}
+}
+export default connect(null, mapDispatchToProps)(LoginScreen)
+

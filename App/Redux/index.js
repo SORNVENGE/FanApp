@@ -11,6 +11,8 @@ export const reducers = combineReducers({
   search: require('./SearchRedux').reducer,
   header: require('./HeaderRedux').reducer,
   footer: require('./FooterRedux').reducer,
+  tempUser: require('./StoreUserInfoRedux').reducer,
+
 
 
 })
