@@ -79,7 +79,7 @@ class MyClassDetailScreen extends Component {
                             if (response) {
                                 CloudFireStoreUserHelper.readDocument((response) => {
                                     if (response) {
-                                        this.setState({ readDocument: response, statusLoading: false });
+                                        this.setState({ documentData: response, statusLoading: false });
                                     }
                                 })
                             }
@@ -100,9 +100,10 @@ class MyClassDetailScreen extends Component {
     }
     render() {
 
-        const { statusLoading, classData, studentData } = this.state
+        const { statusLoading, classData, studentData,documentData } = this.state
         // const source = { uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf', cache: true };
         if (statusLoading) return <Loading />
+        console.tron.log({documentData:documentData})
         return (
             <View style={{ flex: 1 }}>
                 <View style={{ padding: 10 }}>
