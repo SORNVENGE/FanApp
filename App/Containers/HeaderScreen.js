@@ -16,7 +16,18 @@ class HeaderScreen extends Component {
     }
 
     handlePressBack = () => {
-        Actions.pop()
+        const { data } = this.props.getHeader;
+        var screen = "";
+        if (data) {
+            let { screenName } = data
+            if (screenName == "MyClassScreen") {
+                Actions.HomeScreen()
+            }
+            else {
+                Actions.pop()
+
+            }
+        }
     }
 
     render() {
@@ -24,13 +35,16 @@ class HeaderScreen extends Component {
         var title = "";
         var screen = "";
         var statusLogo = true;
-        var statusIcon = false;
+        var statusLogoHomeScreen = false;
         if (data) {
             let { titleHeader, statusHeader, screenName } = data
             title = titleHeader;
             screen = screenName;
-            if (screen == "NewsScreen" || screen == "DetailScreen" || screen == "MainProgramScreen" || screen == "MyClassScreen" || screen == "MyClassDetailScreen" || screen == "MyDocumentScreen" || screen == "FeeScreen" || screen == "YoutubeScreen" || screen == "ContactScreen" || screen == "SettingScreen" || screen == "FacebookScreen" || screen == "ELearningScreen" || screen == "AdmissionScreen" || screen == "FeeDetailScreen" || screen == "MainProgramDetailScreen"|| screen == "DocumentPreviewScreen" ) {
+            if (screen == "NewsScreen" || screen == "HomeScreen" || screen == "DetailScreen" || screen == "MainProgramScreen" || screen == "MyClassScreen" || screen == "MyClassDetailScreen" || screen == "MyDocumentScreen" || screen == "FeeScreen" || screen == "YoutubeScreen" || screen == "ContactScreen" || screen == "SettingScreen" || screen == "FacebookScreen" || screen == "ELearningScreen" || screen == "AdmissionScreen" || screen == "FeeDetailScreen" || screen == "MainProgramDetailScreen" || screen == "DocumentPreviewScreen") {
                 statusLogo = false
+            }
+            if (screen == "HomeScreen") {
+                statusLogoHomeScreen = true
             }
             if (!statusHeader) {
                 return false;
@@ -48,17 +62,30 @@ class HeaderScreen extends Component {
                     </View>
                     :
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56 }}>
-                        <TouchableOpacity onPress={this.handlePressBack} style={{ width: '10%', alignItems: 'flex-end' }}>
-                            <Icon name='arrowleft' type="AntDesign" style={{ color: Colors.white, fontSize: 26, fontWeight: "bold" }} />
-                        </TouchableOpacity>
+                        {statusLogoHomeScreen ?
+                            <TouchableOpacity onPress={this.handlePressBack} style={{ width: '25%', alignItems: 'flex-end' }}>
+                                <View style={{}}>
+                                    <Image source={Images.fansLogo} style={{
+                                        width: 40,
+                                        height: 40,
+                                        resizeMode: 'cover'
+                                    }} />
+                                </View>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={this.handlePressBack} style={{ width: '10%', alignItems: 'flex-end' }}>
+                                <Icon name='arrowleft' type="AntDesign" style={{ color: Colors.white, fontSize: 26, fontWeight: "bold" }} />
+                            </TouchableOpacity>
+                        }
                         <View style={{ width: '80%' }}>
-                            <Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: 'center' }}>{title}</Text>
+
+                            <Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: statusLogoHomeScreen ? "left" : 'center', marginLeft: statusLogoHomeScreen ? 10 : 0 }}> {title}</Text>
                         </View>
                         <View style={{ width: '10%' }} />
                     </View>
                 }
                 <View style={{}} />
-            </View>
+            </View >
         );
     }
 }

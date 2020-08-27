@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import { Images, Metrics, Colors, Fonts } from '../../Themes'
-import { Icon, Item } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import StoreUserInfoActions from '../../Redux/StoreUserInfoRedux'
+import { Icon } from 'native-base';
 
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
@@ -89,7 +89,12 @@ class LoginScreen extends Component {
 				if (response) {
 					this.setState({ statusLoading: false });
 					this.props.setAllUserInfoAfterLogin(response)
-					Actions.HomeScreen();
+					if (this.props.fromScreen == "MyClassScreen") {
+						Actions.MyClassScreen();
+					}
+					else {
+						Actions.HomeScreen();
+					}
 				}
 				else {
 					this.setState({ statusLoading: false });
@@ -106,9 +111,11 @@ class LoginScreen extends Component {
 					<View style={{ height: 160, marginTop: 20 }}>
 						<Image source={Images.fansLogo} style={styles.image} />
 					</View>
-					<View style={{ height: '50%', padding: Metrics.doubleBaseMargin, justifyContent: 'center' }}>
+					<View style={{ height: '50%', padding: 10, justifyContent: 'center' }}>
 						<View style={styles.searchSection}>
-							<Icon style={styles.searchIcon} name="md-person" size={20} color={Colors.main_color} />
+							<TouchableOpacity style={{ width: '10%', alignItems: 'center',marginBottom:7 }}>
+								<Icon name='user-plus' type="FontAwesome" style={{ color: Colors.main_color, fontSize: 26, fontWeight: "bold" }} />
+							</TouchableOpacity>
 							<TextInput
 								style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color }]}
 								placeholder="UserName"
@@ -118,7 +125,7 @@ class LoginScreen extends Component {
 						</View>
 						<View style={styles.searchSection}>
 							<TouchableOpacity onPress={() => this.setState({ statusPassword: !this.state.statusPassword })}>
-								<Icon style={styles.searchIcon} name="ios-lock" size={20} />
+								<Icon name='unlock-alt' type="FontAwesome" style={{ color: Colors.main_color, fontSize: 35, fontWeight: "bold" }} />
 							</TouchableOpacity>
 							<TextInput
 								style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color }]}
@@ -151,7 +158,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		marginBottom: 20,
-		// backgroundColor: 'red',
 	},
 	searchIcon: {
 		padding: 10,

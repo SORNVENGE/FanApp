@@ -22,6 +22,7 @@ import MainProgramDetailScreen from '../Containers/MainProgramDetailScreen';
 import DocumentPreviewScreen from '../Containers/DocumentPreviewScreen';
 import VerificationScreen from '../Containers/Register/VerificationScreen';
 import LoginScreen from '../Containers/Register/LoginScreen';
+import FlashScreen from '../Containers/FlashScreen'
 
 class NavigationRouter extends Component {
 	constructor(props) {
@@ -36,7 +37,7 @@ class NavigationRouter extends Component {
 		return (
 			<Router>
 				<Scene>
-					<Scene onEnter={() => this.onEnter(false, false, 'HomeScreen', 'HomeScreen')} key="HomeScreen" component={HomeScreen} hideNavBar={true} initial={true} />
+					<Scene onEnter={() => this.onEnter(false, true, 'HomeScreen', 'HomeScreen')} key="HomeScreen" component={HomeScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'DetailScreen', 'DetailScreen')} key="DetailScreen" component={DetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'News', 'NewsScreen')} key="NewsScreen" component={NewsScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'MainProgram', 'MainProgramScreen')} key="MainProgramScreen" component={MainProgramScreen} hideNavBar={true} />
@@ -49,15 +50,17 @@ class NavigationRouter extends Component {
 					<Scene onEnter={() => this.onEnter(false, true, 'ELearning', 'ELearningScreen')} key="ELearningScreen" component={ELearningScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'My Class', 'MyClassScreen')} key="MyClassScreen" component={MyClassScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'My Class Detail', 'MyClassDetailScreen')} key="MyClassDetailScreen" component={MyClassDetailScreen} hideNavBar={true} />
-					
+
 					<Scene onEnter={() => this.onEnter(false, true, 'My Document', 'MyDocumentScreen')} key="MyDocumentScreen" component={MyDocumentScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'FeeDetail', 'FeeDetailScreen')} key="FeeDetailScreen" component={FeeDetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Main Program Detail', 'MainProgramDetailScreen')} key="MainProgramDetailScreen" component={MainProgramDetailScreen} hideNavBar={true} />
-					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} initial={true} />
-					{/* <Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} /> */}
+					{/* <Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} initial={true} /> */}
+					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')} initial={true} key="FlashScreen" component={FlashScreen} hideNavBar={true}  initial={true}/>
+				
+					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'VerificationScreen', 'VerificationScreen')} key="VerificationScreen" component={VerificationScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'DocumentPreviewScreen', 'DocumentPreviewScreen')} key="DocumentPreviewScreen" component={DocumentPreviewScreen} hideNavBar={true} />
-				
+
 				</Scene>
 			</Router>
 		);

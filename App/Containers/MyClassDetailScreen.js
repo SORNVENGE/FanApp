@@ -41,7 +41,7 @@ class MyClassDetailScreen extends Component {
         var teacherName = ""
         userData.data.map((eachData, ind) => {
             teacherId = eachData.user_id,
-                teacherName = eachData.username
+            teacherName = eachData.username
         })
         CloudFireStoreUserHelper.readDocument(classId, teacherId, (response) => {
             if (response) {
