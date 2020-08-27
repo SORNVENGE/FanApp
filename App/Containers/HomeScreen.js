@@ -41,14 +41,16 @@ export default class HomeScreen extends Component {
 				},
 			],
 			category: [
-				// { name: 'News', image: Images.food },
+
+				{ name: 'My Class', image: Images.glocery },
+				{ name: 'My Document', image: Images.glocery },
 				{ name: 'Main Program', image: Images.glocery },
 				{ name: 'Admission', image: Images.berverages },
 				{ name: 'Tuition Fee', image: Images.bakery },
-				// { name: 'Contacts', image: Images.stationary },
-				{ name: 'Setting', image: Images.flower },
 				{ name: 'Youtube', image: Images.bakery },
 				{ name: 'E-Learning', image: Images.stationary },
+				{ name: 'Setting', image: Images.flower },
+
 			],
 			activeIndex: 1,
 			locationShop: ''
@@ -69,7 +71,6 @@ export default class HomeScreen extends Component {
 		}
 		else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
 			Actions.SettingScreen()
-
 		}
 		else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
 			Actions.YoutubeScreen()
@@ -77,6 +78,12 @@ export default class HomeScreen extends Component {
 		}
 		else if (Actions.currentScene == "HomeScreen" && item.name == "E-Learning") {
 			Actions.ELearningScreen()
+		}
+		else if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
+			Actions.MyClassScreen()
+		}
+		else if (Actions.currentScene == "HomeScreen" && item.name == "My Document") {
+			Actions.MyDocumentScreen()
 		}
 	}
 

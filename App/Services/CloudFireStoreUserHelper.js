@@ -30,26 +30,7 @@ const CloudFireStoreUserHelper = {
     //         }
     //         );
     // },
-
-
-    // readAllUser: function (callback) {
-    //     db.collection("users").get()
-    //         .then(function (querySnapshot) {
-	// 			console.tron.log({ querySnapshot: querySnapshot })
-
-    //             let objeData = [];
-    //             querySnapshot.forEach(function (doc) {
-    //                 if (doc) {
-    //                     let mergeData = { ...doc.data(), ...{ userId: doc.id } }
-    //                     objeData.push(mergeData);
-    //                 }
-    //             });
-    //             return callback(objeData);
-    //         });
-    // },
-
-
-    readAllUser: function (username, password, callback) {    
+    readAllUser: function (username, password, callback) {
         db.collection('users').where('username', '==', `${username}`, 'password', '==', `${password}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];
@@ -60,19 +41,69 @@ const CloudFireStoreUserHelper = {
                     }
                 });
                 return callback(newObjectData);
-            }).catch( err => {
-                console.tron.log({err:err});
-        });
+            }).catch(err => {
+                console.tron.log({ err: err });
+            });
+    },
+    readClassByTeacherId: function (teacherId, callback) {
+        db.collection('class').where('teacher_id', '==', `${teacherId}`).get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        let concatObj = { ...doc.data(), ...{ user_id: doc.id } }
+                        newObjectData.push(concatObj);
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+                console.tron.log({ error: error });
+            });
     },
 
-    // readAllProvince: function (callback) {
-    //     db.collection("users").get()
-    //         .then(function (querySnapshot) {
-    //             console.tron.log({querySnapshot:querySnapshot})
-    //             return callback(querySnapshot);
-    //         });
-    // },
+    readStudentByClassId: function (classId, callback) {
+        db.collection('users').where('role', '==', 'STUDENT').get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        doc.data().classes.forEach(function (eachClasses) {
+                            if (eachClasses == classId) {
+                                let concatObj = { ...doc.data(), ...{ user_id: doc.id } }
+                                newObjectData.push(concatObj);
+                            }
+                        })
 
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+                console.tron.log({ error: error });
+            });
+    },
+    addDocumentByUser: function (data, callback) {
+        var documentRef = db.collection("Documents")
+        documentRef.add(data).then(function (querySnapshot) {
+            var status = true
+            return callback(status);
+        })
+    },
+    readDocument: function (callback) {
+        db.collection('Documents').get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        let concatObj = { ...doc.data(), ...{ document_id: doc.id } }
+                        newObjectData.push(concatObj);
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+                console.tron.log({ error: error });
+            });
+    },
+    
 
 
 
