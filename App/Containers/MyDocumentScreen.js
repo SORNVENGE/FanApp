@@ -59,7 +59,6 @@ class MyDocumentScreen extends Component {
         );
     };
     clickOnEachClass=(eachData)=>{
-        console.tron.log({eachData:eachData})
     }
     render() {
         const { tap, statusLoading, classData } = this.state
@@ -81,7 +80,8 @@ class MyDocumentScreen extends Component {
                    
                     {this.type_clicked == "All Class" ?
                         <View style={{ padding: 10 }}>
-                            {classData.map((eachData, inde) => {
+                            <Text>Hello </Text>
+                            {/* {classData.map((eachData, inde) => {
                                 return (
                                     <TouchableOpacity onPress={() => this.clickOnEachClass(eachData)} style={{ marginTop:10,flexDirection: 'row', backgroundColor: Colors.main_color, padding: 4, shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.5, shadowRadius: 2, elevation: 0.5, borderRadius: 5 }}>
                                         <View style={{ justifyContent: 'center', width: '20%' }}>
@@ -90,7 +90,7 @@ class MyDocumentScreen extends Component {
                                         <View style={{ justifyContent: 'center', width: '80%' }}><Text style={{ color: 'white', fontWight: 'bold', fontSize: 16 }}>{eachData.class_name}</Text></View>
                                     </TouchableOpacity>
                                 )
-                            })}
+                            })} */}
 
                         </View>
                         :

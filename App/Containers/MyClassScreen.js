@@ -36,7 +36,6 @@ class MyClassScreen extends Component {
     }
 
     clickOnEachClass = (eachData) => {
-        console.tron.log({eachData:eachData})
         Actions.MyClassDetailScreen({classDetail:eachData})
     }
     render() {

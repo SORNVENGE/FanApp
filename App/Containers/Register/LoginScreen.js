@@ -55,7 +55,6 @@ class LoginScreen extends Component {
 					Actions.VerificationScreen({ fullPhoneNumber: phoneNumber, confirmResult: confirmResult })
 				})
 				.catch(error => {
-					console.tron.log(error)
 				});
 		}
 	};

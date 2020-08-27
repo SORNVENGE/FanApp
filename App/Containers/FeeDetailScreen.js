@@ -12,7 +12,6 @@ export default class FeeDetailScreen extends Component {
     }
 
     render() {
-        console.tron.log(this.state.item)
         const { item } = this.state
         return (
             <View style={{ flex: 1 }}>

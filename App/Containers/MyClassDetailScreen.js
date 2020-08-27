@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Image, ImageBackground, FlatList, StyleSheet, TextInput, ScrollView, Platform } from 'react-native';
-
-import { Icon } from 'native-base';
+import { Container, Header, Content, List, ListItem } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Images, Colors, Metrics, Fonts } from '../Themes'
 import FilePickerManager from 'react-native-file-picker';
@@ -22,22 +21,29 @@ class MyClassDetailScreen extends Component {
             statusLoading: false,
             tap: [
                 {
-                    key: "All Class",
-                    title: "All Class"
+                    key: "Information",
+                    title: "Information"
                 },
                 {
-                    key: "Score",
-                    title: "Score"
+                    key: "Document File",
+                    title: "Document File"
                 }
             ],
-            key_tab: 'All Class',
-
+            key_tab: 'Information',
         }
+        this.type_clicked = "Information";
+
     }
     componentWillMount = () => {
-        const { classId } = this.state
+        const { classId, userData } = this.state
         this.setState({ statusLoading: true });
-        CloudFireStoreUserHelper.readDocument((response) => {
+        var teacherId = "";
+        var teacherName = ""
+        userData.data.map((eachData, ind) => {
+            teacherId = eachData.user_id,
+                teacherName = eachData.username
+        })
+        CloudFireStoreUserHelper.readDocument(classId, teacherId, (response) => {
             if (response) {
                 this.setState({ documentData: response });
             }
@@ -74,10 +80,8 @@ class MyClassDetailScreen extends Component {
         })
         FilePickerManager.showFilePicker(null, (response) => {
             if (response.didCancel) {
-                console.tron.log('User cancelled file picker');
             }
             else if (response.error) {
-                console.tron.log('FilePickerManager Error: ', response.error);
             }
             else {
                 this.setState({ statusLoading: true });
@@ -93,6 +97,10 @@ class MyClassDetailScreen extends Component {
                         } else if (ext == 'pdf') {
                             type = 'pdf'
                         }
+                        else if (ext == 'pptx') {
+                            type = 'pptx'
+                        }
+
                         let mergeObj = {
                             created_date: firebase.firestore.FieldValue.serverTimestamp(),
                             file: snapshot.downloadURL,
@@ -107,9 +115,12 @@ class MyClassDetailScreen extends Component {
                         }
                         CloudFireStoreUserHelper.addDocumentByUser(mergeObj, (response) => {
                             if (response) {
-                                CloudFireStoreUserHelper.readDocument((response) => {
+                                CloudFireStoreUserHelper.readDocument(classId, teacherId, (response) => {
                                     if (response) {
                                         this.setState({ documentData: response, statusLoading: false });
+                                    }
+                                    else {
+
                                     }
                                 })
                             }
@@ -138,7 +149,7 @@ class MyClassDetailScreen extends Component {
                 marginLeft: 5,
                 marginRight: 5,
                 marginBottom: 5,
-                width: '30.5%',
+                width: '30.8%',
                 borderColor: Colors.border,
                 borderWidth: 0.5,
                 justifyContent: 'center',
@@ -168,7 +179,6 @@ class MyClassDetailScreen extends Component {
             <View style={{ flex: 1, backgroundColor: Colors.white }}>
                 <View style={{ flex: 5.3 }}>
                     <View style={{ borderBottomColor: '#d9d9d9', borderBottomWidth: 1, width: '100%' }} />
-
                     <View style={{ padding: Metrics.marginVertical }}>
                         <FlatList
                             style={{ marginTop: Metrics.baseMargin }}
@@ -179,7 +189,7 @@ class MyClassDetailScreen extends Component {
                         />
                     </View>
 
-                    {this.type_clicked == "All Class" ?
+                    {this.type_clicked == "Information" ?
                         <View style={{ padding: 10 }}>
                             <TouchableOpacity style={{ marginTop: 10, shadowOpacity: 0.5, borderWidth: 0.4, borderColor: Colors.main_color, borderRadius: 15 }}>
                                 <View style={{ padding: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -212,18 +222,17 @@ class MyClassDetailScreen extends Component {
                                 </View>
                             </TouchableOpacity>
                             <Text style={{ marginTop: 25, fontSize: 18, color: 'black', fontWight: 'bold' }}> List Student in class </Text>
-                            <View style={{ width: '100%', marginTop: 10, height: 120 }}>
-                                <ScrollView showsVerticalScrollIndicator={false}>
+                            <View style={{ height: '70%', marginTop: 10 }}>
+                                <ScrollView>
                                     {studentData.map((eachStudent, ind) => {
                                         return (
-                                            <TouchableOpacity style={{ marginTop: 10, shadowOpacity: 0.5, borderWidth: 0.4, borderColor: Colors.main_color, borderRadius: 15 }}>
-                                                <View style={{ padding: 10, justifyContent: 'space-between', flexDirection: 'row' }}>
+                                            <View style={{ marginBottom: 5, marginTop: 5 }}>
+                                                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                                                     <View style={{ width: '90%', paddingLeft: 10 }}>
-                                                        <Text style={{ fontSize: 17, color: Colors.main_color, fontWight: 'bold' }}>{eachStudent.username} ( {eachStudent.student_phone} )</Text>
-
+                                                        <Text style={{ fontSize: 16, color: Colors.black, fontWight: 'bold' }}>{eachStudent.username} ( {eachStudent.student_phone} )</Text>
                                                     </View>
                                                 </View>
-                                            </TouchableOpacity>
+                                            </View>
                                         )
                                     })}
                                 </ScrollView>
@@ -242,10 +251,14 @@ class MyClassDetailScreen extends Component {
                             </View>
                         </View>
                     }
+
                 </View>
-                <TouchableOpacity onPress={() => this.handleOnUploadFile()} style={{ position: 'absolute', bottom: 0, backgroundColor: Colors.main_color, width: '100%', height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: "white", fontSize: Fonts.size.medium, fontWeight: 'bold' }}>UPLOAD DOCUMENT</Text>
-                </TouchableOpacity>
+                {this.type_clicked == "Information" ? null :
+                    <TouchableOpacity onPress={() => this.handleOnUploadFile()} style={{ position: 'absolute', bottom: 0, backgroundColor: Colors.main_color, width: '100%', height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: "white", fontSize: Fonts.size.medium, fontWeight: 'bold' }}>UPLOAD DOCUMENT</Text>
+                    </TouchableOpacity>
+                }
+
             </View>
         );
 

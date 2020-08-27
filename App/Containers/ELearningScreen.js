@@ -86,16 +86,10 @@ class ELearningScreen extends Component {
     }
     handleOnUploadFile = () => {
         const { tempUser } = this.props
-        console.tron.log({ tempUser: tempUser })
-
-
         FilePickerManager.showFilePicker(null, (response) => {
             if (response.didCancel) {
-
-                console.tron.log('User cancelled file picker');
             }
             else if (response.error) {
-                console.tron.log('FilePickerManager Error: ', response.error);
             }
             else {
                 const pathToFile = response.path;
@@ -151,7 +145,6 @@ class ELearningScreen extends Component {
                             keyExtractor={(item, index) => index.toString()}
                         />
                     </View>
-                    {console.tron.log(this.type_clicked)}
                     {this.type_clicked == "Total Student" ?
                         <View style={{ padding: 10 }}>
                             <Text>Total Student</Text>

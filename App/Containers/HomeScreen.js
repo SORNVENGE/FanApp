@@ -43,7 +43,7 @@ export default class HomeScreen extends Component {
 			category: [
 
 				{ name: 'My Class', image: Images.glocery },
-				{ name: 'My Document', image: Images.glocery },
+				// { name: 'My Document', image: Images.glocery },
 				{ name: 'Main Program', image: Images.glocery },
 				{ name: 'Admission', image: Images.berverages },
 				{ name: 'Tuition Fee', image: Images.bakery },

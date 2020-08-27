@@ -37,7 +37,6 @@ class VerificationScreen extends Component {
 		// 	if (user) {
 		// 		if (user.uid) {
 		// 			CloudFireStoreUserHelper.isAccountExisting(user.uid, (status,response) => {
-		// 				console.tron.log({isAccountExisting:response})
 		// 				if (response) {
 		// 					this.props.setAllUserInfoAfterLogin(response)
 		// 					AsyncStorage.multiSet([['LoginStatus', 'true'], ['uid', user.uid]]);

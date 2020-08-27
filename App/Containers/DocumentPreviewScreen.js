@@ -33,17 +33,8 @@ class DocumentPreviewScreen extends React.Component {
         Actions.DocumentScreen()
     }
 
-    _handlePrint = () => {
-        const { selectedItem, screen } = this.state
-        if (screen == 'ChooseFilesScreen') {
-            Actions.PrinterSettingScreen({ selectedItem: selectedItem })
-        } else {
-            Actions.PrinterLocation({ selectedItem: selectedItem })
-        }
-    }
-
     render() {
-        const { documentArray, selectedItem, numOfPage, current, loading } = this.state
+        const { selectedItem, numOfPage, current, loading } = this.state
         const source = { uri: selectedItem.file, cache: true };
         if (loading) return <Loading />
         return (

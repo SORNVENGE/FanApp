@@ -29,7 +29,6 @@ class NavigationRouter extends Component {
 		this.state = {}
 	}
 	onEnter = (statusFooter, statusHeader, titleHeader, screenName) => {
-		console.tron.log(statusFooter, statusHeader, titleHeader, screenName)
 		this.props.setFooter({ statusFooter: statusFooter, screenName: screenName })
 		this.props.setHeader({ statusHeader: statusHeader, titleHeader: titleHeader, screenName: screenName })
 	}

@@ -42,7 +42,6 @@ const CloudFireStoreUserHelper = {
                 });
                 return callback(newObjectData);
             }).catch(err => {
-                console.tron.log({ err: err });
             });
     },
     readClassByTeacherId: function (teacherId, callback) {
@@ -57,7 +56,6 @@ const CloudFireStoreUserHelper = {
                 });
                 return callback(newObjectData);
             }).catch(error => {
-                console.tron.log({ error: error });
             });
     },
 
@@ -78,7 +76,6 @@ const CloudFireStoreUserHelper = {
                 });
                 return callback(newObjectData);
             }).catch(error => {
-                console.tron.log({ error: error });
             });
     },
     addDocumentByUser: function (data, callback) {
@@ -88,8 +85,8 @@ const CloudFireStoreUserHelper = {
             return callback(status);
         })
     },
-    readDocument: function (callback) {
-        db.collection('Documents').get()
+    readDocument: function (classId,teacherId,callback) {
+        db.collection('Documents').where('classId', '==', `${classId}`, 'teacherId', '==', `${teacherId}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];
                 querySnapshot.forEach(function (doc) {
@@ -100,7 +97,6 @@ const CloudFireStoreUserHelper = {
                 });
                 return callback(newObjectData);
             }).catch(error => {
-                console.tron.log({ error: error });
             });
     },
     
