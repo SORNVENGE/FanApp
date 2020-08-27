@@ -29,7 +29,7 @@ class HeaderScreen extends Component {
             let { titleHeader, statusHeader, screenName } = data
             title = titleHeader;
             screen = screenName;
-            if (screen == "NewsScreen" || screen == "DetailScreen" || screen == "MainProgramScreen" || screen == "MyClassScreen" || screen == "MyClassDetailScreen" || screen == "MyDocumentScreen" || screen == "FeeScreen" || screen == "YoutubeScreen" || screen == "ContactScreen" || screen == "SettingScreen" || screen == "FacebookScreen" || screen == "ELearningScreen" || screen == "AdmissionScreen" || screen == "FeeDetailScreen" || screen == "MainProgramDetailScreen") {
+            if (screen == "NewsScreen" || screen == "DetailScreen" || screen == "MainProgramScreen" || screen == "MyClassScreen" || screen == "MyClassDetailScreen" || screen == "MyDocumentScreen" || screen == "FeeScreen" || screen == "YoutubeScreen" || screen == "ContactScreen" || screen == "SettingScreen" || screen == "FacebookScreen" || screen == "ELearningScreen" || screen == "AdmissionScreen" || screen == "FeeDetailScreen" || screen == "MainProgramDetailScreen"|| screen == "DocumentPreviewScreen" ) {
                 statusLogo = false
             }
             if (!statusHeader) {

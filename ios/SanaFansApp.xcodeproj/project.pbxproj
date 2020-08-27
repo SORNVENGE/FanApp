@@ -71,6 +71,12 @@
 		78C523CEEA67497995F333E7 /* libRNScreens-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FF546AC9E1460DA32E6229 /* libRNScreens-tvOS.a */; };
 		606384E723D748A28C1688C1 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E48E3EC6C094EC49419FC79 /* Fontisto.ttf */; };
 		D28A4C4F20164EC0AB8F51AB /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABC49B2AD0C49C9AE3FC15A /* libRNFirebase.a */; };
+		056D637423CD4928BA74A964 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB554150944D473FA33999E7 /* libRNFetchBlob.a */; };
+		ED94F5ED99A345B4BC4F018F /* libRCTPdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BCD7383C3F4A1CA698E00D /* libRCTPdf.a */; };
+		DE56C93D170E454FB3CE8F37 /* libRNCProgressBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564DF9D24F2C46EF9519C7BB /* libRNCProgressBar.a */; };
+		2627E6C2EF01476B81D04B51 /* libRNCProgressView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E128CD9A947A44089A57489E /* libRNCProgressView.a */; };
+		FE68894838CC42B0ABA5A759 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E145B57C02AB4D54BF57CE04 /* libRNFS.a */; };
+		E43769E30E864C21A21BF19A /* libRNCToolbarAndroid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A51CEA281F2482CB3CB3F88 /* libRNCToolbarAndroid.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -417,6 +423,18 @@
 		1E48E3EC6C094EC49419FC79 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		70D07BF9F2B84CD2AE8AA506 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		3ABC49B2AD0C49C9AE3FC15A /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		74849D156F6F42A7A4C5D34B /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		FB554150944D473FA33999E7 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		AFFAD0A5FDE04212887251D1 /* RCTPdf.xcodeproj */ = {isa = PBXFileReference; name = "RCTPdf.xcodeproj"; path = "../node_modules/react-native-pdf/ios/RCTPdf.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		84BCD7383C3F4A1CA698E00D /* libRCTPdf.a */ = {isa = PBXFileReference; name = "libRCTPdf.a"; path = "libRCTPdf.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C58623D61D904FBB9DDDB234 /* RNCProgressBar.xcodeproj */ = {isa = PBXFileReference; name = "RNCProgressBar.xcodeproj"; path = "../node_modules/@react-native-community/progress-bar-android/ios/RNCProgressBar.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		564DF9D24F2C46EF9519C7BB /* libRNCProgressBar.a */ = {isa = PBXFileReference; name = "libRNCProgressBar.a"; path = "libRNCProgressBar.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		740366791CB04C1C86777CA4 /* RNCProgressView.xcodeproj */ = {isa = PBXFileReference; name = "RNCProgressView.xcodeproj"; path = "../node_modules/@react-native-community/progress-view/ios/RNCProgressView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E128CD9A947A44089A57489E /* libRNCProgressView.a */ = {isa = PBXFileReference; name = "libRNCProgressView.a"; path = "libRNCProgressView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		DA79541211384D5D9672C665 /* RNFS.xcodeproj */ = {isa = PBXFileReference; name = "RNFS.xcodeproj"; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E145B57C02AB4D54BF57CE04 /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A8A4BBF12CC34FF490A2FA7E /* RNCToolbarAndroid.xcodeproj */ = {isa = PBXFileReference; name = "RNCToolbarAndroid.xcodeproj"; path = "../node_modules/@react-native-community/toolbar-android/ios/RNCToolbarAndroid.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		4A51CEA281F2482CB3CB3F88 /* libRNCToolbarAndroid.a */ = {isa = PBXFileReference; name = "libRNCToolbarAndroid.a"; path = "libRNCToolbarAndroid.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,6 +471,12 @@
 				C1884FBCC91141A28AF8791E /* libRNReanimated.a in Frameworks */,
 				653BBE7A26814B19850FDE14 /* libRNScreens.a in Frameworks */,
 				D28A4C4F20164EC0AB8F51AB /* libRNFirebase.a in Frameworks */,
+				056D637423CD4928BA74A964 /* libRNFetchBlob.a in Frameworks */,
+				ED94F5ED99A345B4BC4F018F /* libRCTPdf.a in Frameworks */,
+				DE56C93D170E454FB3CE8F37 /* libRNCProgressBar.a in Frameworks */,
+				2627E6C2EF01476B81D04B51 /* libRNCProgressView.a in Frameworks */,
+				FE68894838CC42B0ABA5A759 /* libRNFS.a in Frameworks */,
+				E43769E30E864C21A21BF19A /* libRNCToolbarAndroid.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +681,12 @@
 				56987D43047846EDBFD7308A /* RNReanimated.xcodeproj */,
 				EAB40F82D97B4C9E913C4336 /* RNScreens.xcodeproj */,
 				70D07BF9F2B84CD2AE8AA506 /* RNFirebase.xcodeproj */,
+				74849D156F6F42A7A4C5D34B /* RNFetchBlob.xcodeproj */,
+				AFFAD0A5FDE04212887251D1 /* RCTPdf.xcodeproj */,
+				C58623D61D904FBB9DDDB234 /* RNCProgressBar.xcodeproj */,
+				740366791CB04C1C86777CA4 /* RNCProgressView.xcodeproj */,
+				DA79541211384D5D9672C665 /* RNFS.xcodeproj */,
+				A8A4BBF12CC34FF490A2FA7E /* RNCToolbarAndroid.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1340,6 +1370,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1351,6 +1387,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Debug;
@@ -1387,6 +1429,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1398,6 +1446,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Release;
@@ -1428,6 +1482,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Debug;
@@ -1457,6 +1517,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Release;
@@ -1501,6 +1567,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1512,6 +1584,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Debug;
@@ -1556,6 +1634,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1567,6 +1651,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Release;
@@ -1610,6 +1700,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1621,6 +1717,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Debug;
@@ -1664,6 +1766,12 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1675,6 +1783,12 @@
 					"$(SRCROOT)/../node_modules/react-native-reanimated/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-screens/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-bar-android/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
 				);
 			};
 			name = Release;

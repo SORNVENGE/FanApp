@@ -9,6 +9,7 @@ const images = {
   freeDeliveryBg:require('../Images/freeDeliveryBg.jpg'),
   homeCard:require('../Images/homeCard.png'),
   profileIcon: require('../Images/Footer/profile_active.png'),
+  pdf_icon: require('../Images/Icons/pdf_icon.jpg'),
   //footer menu icon
   footer_home_icon: require('../Images/Footer/home.png'),
   footer_cart_icon: require('../Images/Footer/cart.png'),

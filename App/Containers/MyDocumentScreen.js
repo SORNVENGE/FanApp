@@ -68,6 +68,7 @@ class MyDocumentScreen extends Component {
             <View style={{ flex: 1, backgroundColor: Colors.white }}>
                 <View style={{ flex: 5.3 }}>
                     <View style={{ borderBottomColor: '#d9d9d9', borderBottomWidth: 1, width: '100%' }} />
+                    
                     <View style={{ padding: Metrics.marginVertical }}>
                         <FlatList
                             style={{ marginTop: Metrics.baseMargin }}
@@ -77,6 +78,7 @@ class MyDocumentScreen extends Component {
                             keyExtractor={(item, index) => index.toString()}
                         />
                     </View>
+                   
                     {this.type_clicked == "All Class" ?
                         <View style={{ padding: 10 }}>
                             {classData.map((eachData, inde) => {

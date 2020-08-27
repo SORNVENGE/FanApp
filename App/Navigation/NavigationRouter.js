@@ -19,6 +19,7 @@ import MyClassDetailScreen from '../Containers/MyClassDetailScreen';
 import MyDocumentScreen from '../Containers/MyDocumentScreen';
 import FeeDetailScreen from '../Containers/FeeDetailScreen';
 import MainProgramDetailScreen from '../Containers/MainProgramDetailScreen';
+import DocumentPreviewScreen from '../Containers/DocumentPreviewScreen';
 import VerificationScreen from '../Containers/Register/VerificationScreen';
 import LoginScreen from '../Containers/Register/LoginScreen';
 
@@ -56,6 +57,7 @@ class NavigationRouter extends Component {
 					{/* <Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} initial={true} /> */}
 					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'VerificationScreen', 'VerificationScreen')} key="VerificationScreen" component={VerificationScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, true, 'DocumentPreviewScreen', 'DocumentPreviewScreen')} key="DocumentPreviewScreen" component={DocumentPreviewScreen} hideNavBar={true} />
 				
 				</Scene>
 			</Router>

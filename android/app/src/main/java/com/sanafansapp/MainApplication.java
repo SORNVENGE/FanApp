@@ -3,6 +3,12 @@ package com.sanafansapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.toolbarandroid.ReactToolbarPackage;
+import com.rnfs.RNFSPackage;
+import com.reactnativecommunity.progressview.RNCProgressViewPackage;
+import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
+import org.wonday.pdf.RCTPdfView;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.filepicker.FilePickerPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -35,6 +41,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactToolbarPackage(),
+            new RNFSPackage(),
+            new RNCProgressViewPackage(),
+            new RNCProgressBarPackage(),
+            new RCTPdfView(),
+            new RNFetchBlobPackage(),
             new FilePickerPackage(),
             new RNScreensPackage(),
             new ReanimatedPackage(),
