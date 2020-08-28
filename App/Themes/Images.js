@@ -42,11 +42,13 @@ const images = {
   homeSlide6: require('../Images/homeSlide6.jpg'),
   //slider image
   one: require('../Images/1.jpg'),
-	two: require('../Images/2.jpg'),
-	three: require('../Images/3.jpg'),
-	four: require('../Images/4.jpg'),
+	two: require('../Images/2.png'),
+	three: require('../Images/3.jpg'),  
+  four: require('../Images/4.jpg'),
 	five: require('../Images/5.jpg'),
   six: require('../Images/6.jpg'),
+
+
 	img1: require('../Images/img1.jpg'),
 	img2: require('../Images/img2.jpg'),
 	img3: require('../Images/img3.jpg'),

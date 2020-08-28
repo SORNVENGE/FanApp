@@ -23,7 +23,7 @@ class HomeScreen extends Component {
 			imageSlide: [
 				{
 					image: Images.one,
-					location: '#169,Street 168, Toek Thla,Sen Sok'
+					location: '#169,Street 168, Toek Thla,Sen Sok',
 				},
 				{
 					image: Images.two,
@@ -41,29 +41,26 @@ class HomeScreen extends Component {
 					image: Images.five,
 					location: '#169,Street 168, Phnom Penh'
 				},
-				{
-					image: Images.six,
-					location: '#169,Street 168, BBK'
-				},
+				// {
+				// 	image: Images.six,
+				// 	location: '#169,Street 168, BBK'
+				// },
 			],
 			category: [
-				{ name: 'My Class', image: Images.glocery },
-				// { name: 'My Document', image: Images.glocery },
-				{ name: 'Main Program', image: Images.glocery },
-				{ name: 'Admission', image: Images.berverages },
-				{ name: 'Tuition Fee', image: Images.bakery },
-				{ name: 'Youtube', image: Images.bakery },
-				{ name: 'E-Learning', image: Images.stationary },
-				{ name: 'Setting', image: Images.flower },
-				{ name: 'Youtube', image: Images.bakery },
-				{ name: 'Tuition Fee', image: Images.bakery },
+				{ name: 'My Class', image: Images.glocery,iconName: "database", iconType: "FontAwesome5" },
+				{ name: 'Main Program', image: Images.glocery,  iconName: "graduation-cap", iconType: "FontAwesome" },
+				{ name: 'Admission', image: Images.berverages, iconName: "leaf", iconType: "FontAwesome" },
+				{ name: 'Youtube', image: Images.bakery, iconName: "youtube", iconType: "AntDesign" },
+				{ name: 'E-Learning', image: Images.stationary, iconName: "leaf", iconType: "FontAwesome" },
+				{ name: 'Setting', image: Images.flower, iconName: "setting", iconType: "AntDesign" },
+				{ name: 'Facebook', image: Images.bakery, iconName: "facebook-square", iconType: "AntDesign" },
+				{ name: 'Tuition Fee', image: Images.bakery, iconName: "graduation-cap", iconType: "FontAwesome" },
+				{ name: 'My Document', image: Images.glocery, iconName: "database", iconType: "FontAwesome5" },
+
 			],
 			activeIndex: 1,
 			locationShop: '',
 		}
-	}
-	componentWillMount = () => {
-		const { userData } = this.state
 	}
 	handleOnEachMenuClick = (item, index) => {
 		const { userData } = this.state
@@ -106,19 +103,21 @@ class HomeScreen extends Component {
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: '33.33%',
-				height: height < 731.4285714285714 ? width / 2.2 : width / 3,
+				height: height < 731.4285714285714 ? width / 2.8 : width / 3,
 				// borderWidth: 0.5,
-				borderTopWidth: index > 2 ? 0.5 : null,
-				borderLeftWidth: 0.3,
-				borderRightWidth: 0.3,
-				borderBottomWidth: 0.3,
-				borderColor: Colors.main_color
-
-				// backgroundColor: Colors.main_color,
+				borderTopWidth: index > 2 ? 0.2 : null,
+				borderLeftWidth: 0.2,
+				borderRightWidth: 0.2,
+				borderBottomWidth: 0.2,
+				borderColor: Colors.white,
+				backgroundColor:'#054368'
 			}}>
 				<View style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center', }}>
+					<TouchableOpacity style={{ alignItems: 'center', marginBottom: 7 }}>
+						<Icon name={item.iconName} type={item.iconType} style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }} />
+					</TouchableOpacity>
 					<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', height: '40%' }}>
-						<Text style={{ fontSize: Fonts.size.regular, fontFamily: Fonts.type.khmer_os, paddingTop: Metrics.mainMargin, textAlign: 'center', paddingBottom: 10, paddingHorizontal: 5, color: Colors.main_color }}>{item.name}</Text>
+						<Text style={{ fontSize: Fonts.size.medium,  paddingTop: Metrics.mainMargin, textAlign: 'center', paddingBottom: 10, paddingHorizontal: 5, color: "white" }}>{item.name}</Text>
 					</View>
 				</View>
 			</TouchableOpacity>
@@ -129,9 +128,12 @@ class HomeScreen extends Component {
 		const { imageSlide, statusLoading } = this.state
 		// if (statusLoading) return <Loading />
 		return (
-			<View style={{ flex: 1, backgroundColor: "white" }}>
+			<View style={{ flex: 1, backgroundColor:Colors.main_color }}>
 				<ScrollView>
 					<View style={{ backgroundColor: Colors.white }}>
+						
+						
+						
 						<View style={{}}>
 							<Swiper
 								loop={true}
@@ -151,6 +153,7 @@ class HomeScreen extends Component {
 							</Swiper>
 
 						</View>
+
 
 						<FlatList
 							data={this.state.category}
@@ -179,6 +182,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		resizeMode: 'cover'
+		// resizeMode: 'contain'
 	},
 })
 const mapStateToProps = (state) => {

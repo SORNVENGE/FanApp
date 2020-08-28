@@ -1,6 +1,7 @@
 const colors = {
   background: '#F9FAFC',
-  main_color:'#167EF9',
+  // main_color:'#167EF9',
+  main_color:'#0A5E7B',
   main_container: "#F0EFF5",
   red:'#FC4041',
   gray:"#6A6B6E",
