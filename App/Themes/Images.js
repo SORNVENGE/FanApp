@@ -51,7 +51,14 @@ const images = {
 
 	img1: require('../Images/img1.jpg'),
 	img2: require('../Images/img2.jpg'),
-	img3: require('../Images/img3.jpg'),
+  img3: require('../Images/img3.jpg'),
+  
+
+  eachimage1: require('../Images/img1.jpg'),
+	eachimage2: require('../Images/eachimage2.jpg'),
+  eachimage3: require('../Images/eachimage3.jpg'),
+	eachimage4: require('../Images/eachimage4.jpg'),
+	eachimage5: require('../Images/eachimage5.jpg'),
   
   
   //home menu

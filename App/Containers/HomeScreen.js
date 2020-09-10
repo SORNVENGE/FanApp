@@ -12,6 +12,7 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import { connect } from 'react-redux'
 import Loading from '../Components/Loading'
+import firebase from 'react-native-firebase';
 
 class HomeScreen extends Component {
 	constructor(props) {
@@ -31,7 +32,7 @@ class HomeScreen extends Component {
 				},
 				{
 					image: Images.three,
-					location: '#169,Street 168'
+					location: '169,Street 168'
 				},
 				{
 					image: Images.four,
@@ -47,8 +48,8 @@ class HomeScreen extends Component {
 				// },
 			],
 			category: [
-				{ name: 'My Class', image: Images.glocery,iconName: "database", iconType: "FontAwesome5" },
-				{ name: 'Main Program', image: Images.glocery,  iconName: "graduation-cap", iconType: "FontAwesome" },
+				{ name: 'My Class', image: Images.glocery, iconName: "database", iconType: "FontAwesome5" },
+				{ name: 'Main Program', image: Images.glocery, iconName: "graduation-cap", iconType: "FontAwesome" },
 				{ name: 'Admission', image: Images.berverages, iconName: "leaf", iconType: "FontAwesome" },
 				{ name: 'Youtube', image: Images.bakery, iconName: "youtube", iconType: "AntDesign" },
 				{ name: 'E-Learning', image: Images.stationary, iconName: "leaf", iconType: "FontAwesome" },
@@ -61,6 +62,8 @@ class HomeScreen extends Component {
 			activeIndex: 1,
 			locationShop: '',
 		}
+		this.ref = firebase.firestore().collection('main_program');
+
 	}
 	handleOnEachMenuClick = (item, index) => {
 		const { userData } = this.state
@@ -110,35 +113,62 @@ class HomeScreen extends Component {
 				borderRightWidth: 0.2,
 				borderBottomWidth: 0.2,
 				borderColor: Colors.white,
-				backgroundColor:'#054368'
+				backgroundColor: '#054368'
 			}}>
 				<View style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center', }}>
 					<TouchableOpacity style={{ alignItems: 'center', marginBottom: 7 }}>
 						<Icon name={item.iconName} type={item.iconType} style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }} />
 					</TouchableOpacity>
 					<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', height: '40%' }}>
-						<Text style={{ fontSize: Fonts.size.medium,  paddingTop: Metrics.mainMargin, textAlign: 'center', paddingBottom: 10, paddingHorizontal: 5, color: "white" }}>{item.name}</Text>
+						<Text style={{ fontSize: Fonts.size.medium, paddingTop: Metrics.mainMargin, textAlign: 'center', paddingBottom: 10, paddingHorizontal: 5, color: "white" }}>{item.name}</Text>
 					</View>
 				</View>
 			</TouchableOpacity>
 		)
+	}
+	componentWillMount = () => {
+		
+		var programList = [
+			{ ProgramTitle: 'I. ចំណេះទូទៅ(ថ្នាក់ទី​១​-១២)',des:"it is for sample data",color: "#00A99D",image:'Images.eachimage1' },
+			{ ProgramTitle: 'II. ភាសាអង់គ្លេសទូទៅ(​ថ្នាក់ត្រៀម​, កម្រិត១-១២)',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage2' },
+			{ ProgramTitle: 'III. កម្មវិធីគណនាលេខរហ័ស IMA',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage3' },
+			{ ProgramTitle: 'IV. វគ្គបណ្ដុះបណ្ដាលកុំព្យូទ័រ',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage4' },
+			{ ProgramTitle: 'V. ថ្នាក់ត្រៀមប្រឡងតេស្ដអន្តរជាតិ',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage5' },
+		];
+		programList.map((eachProgram,ind) => {
+			this.ref.add({
+				id:ind+1,
+				title: eachProgram.ProgramTitle,
+				color:eachProgram.color,
+				des:eachProgram.des,
+				image:eachProgram.image,
+
+			}).then((data) => {
+			}).catch((error) => {
+			});
+		})
+
+
+
+
+
+
 	}
 
 	render() {
 		const { imageSlide, statusLoading } = this.state
 		// if (statusLoading) return <Loading />
 		return (
-			<View style={{ flex: 1, backgroundColor:Colors.main_color }}>
+			<View style={{ flex: 1, backgroundColor: Colors.main_color }}>
 				<ScrollView>
 					<View style={{ backgroundColor: Colors.white }}>
-						
-						
-						
-						<View style={{}}>
+
+
+					<View style={{}}>
 							<Swiper
 								loop={true}
 								autoplay={true}
-								style={{ height: 200 }}
+								style={{ height: 300 }}
 								// style={{ height: Metrics.width / 1.6 }}
 								dot={<View />}
 								activeDot={<View />}
@@ -153,6 +183,7 @@ class HomeScreen extends Component {
 							</Swiper>
 
 						</View>
+						
 
 
 						<FlatList
@@ -161,6 +192,7 @@ class HomeScreen extends Component {
 							renderItem={this.renderMeunuOption}
 							keyExtractor={(item, index) => index.toString()}
 						/>
+						
 
 					</View>
 				</ScrollView>
@@ -172,7 +204,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
 	item: {
 		width: '100%',
-		height: width / 1.6,
+		height: '100%',
 		borderRadius: Metrics.buttonRadius
 	},
 	imageContainer: {

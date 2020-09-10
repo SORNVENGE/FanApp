@@ -99,6 +99,19 @@ const CloudFireStoreUserHelper = {
             }).catch(error => {
             });
     },
+    readMainProgram: function (callback) {
+        db.collection('main_program').orderBy('id').get()
+        .then(function (querySnapshot) {
+            let newObjectData = [];
+            querySnapshot.forEach(function(doc) {
+                if(doc){
+                    let concatObj = {...doc.data(),programId:doc.id}
+                    newObjectData.push(concatObj);
+                }
+            });
+            return callback(newObjectData);
+        });
+    },
     
 
 

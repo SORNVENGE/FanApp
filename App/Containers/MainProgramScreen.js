@@ -45,7 +45,6 @@ export default class MainProgramScreen extends Component {
                             </TouchableOpacity>
                         )
                     })}
-
                 </ScrollView>
 
             </View>
