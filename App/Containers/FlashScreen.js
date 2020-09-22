@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 	},
 	appBar: {
 	  backgroundColor: '#f7f7f7',
+	  
 	  height: APPBAR_HEIGHT,
 	  justifyContent: 'center'
 	},
