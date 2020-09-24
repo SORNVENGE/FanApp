@@ -37,7 +37,7 @@ class NavigationRouter extends Component {
 		return (
 			<Router>
 				<Scene>
-					<Scene onEnter={() => this.onEnter(false, true, 'Norton University', 'HomeScreen')} key="HomeScreen" component={HomeScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, true, 'Fan School Management', 'HomeScreen')} key="HomeScreen" component={HomeScreen} hideNavBar={true} initial={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'DetailScreen', 'DetailScreen')} key="DetailScreen" component={DetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'News', 'NewsScreen')} key="NewsScreen" component={NewsScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'MainProgram', 'MainProgramScreen')} key="MainProgramScreen" component={MainProgramScreen} hideNavBar={true} />
@@ -55,7 +55,7 @@ class NavigationRouter extends Component {
 					<Scene onEnter={() => this.onEnter(false, true, 'FeeDetail', 'FeeDetailScreen')} key="FeeDetailScreen" component={FeeDetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Main Program Detail', 'MainProgramDetailScreen')} key="MainProgramDetailScreen" component={MainProgramDetailScreen} hideNavBar={true} />
 					{/* <Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} initial={true} /> */}
-					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')} initial={true} key="FlashScreen" component={FlashScreen} hideNavBar={true}  initial={true}/>
+					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')} key="FlashScreen" component={FlashScreen} hideNavBar={true}  />
 				
 					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'VerificationScreen', 'VerificationScreen')} key="VerificationScreen" component={VerificationScreen} hideNavBar={true} />
