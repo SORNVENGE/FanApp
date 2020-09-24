@@ -220,7 +220,7 @@ class HomeScreen extends Component {
     // for create student_class
     // this.ref = firebase.firestore().collection('tbl_student_class');
     // var studentClassList=[
-    // 	{studentId:'',classId:'',joinedDate:'21-09-2020'},
+    // 	{studentId:'hE8Vijwly56IU5i1VVzp',classId:'88qRcy3iMG6d8XaCXYag',joinedDate:'21-09-2020'},
     // ]
     // studentClassList.map((eachStudentClass,ind) => {
     // 	this.ref.add({
@@ -235,13 +235,12 @@ class HomeScreen extends Component {
     // 	}).catch((error) => {
     // 	});
     // })
-
     // for create class
     // this.ref = firebase.firestore().collection('tbl_class');
     // var classList=[
-    // 	{classname:'K001',teacherId:'',subjectId:'',levelId:'',sessionId:'',status:"true",create_at:'21-09-2020'},
-    // 	{classname:'C002',teacherId:'',subjectId:'',levelId:'',sessionId:'',status:"true",create_at:'21-09-2020'},
-    // 	{classname:'T003',teacherId:'',subjectId:'',levelId:'',sessionId:'',status:"true",create_at:'21-09-2020'},
+    // 	{classname:'Bikay Training',teacherId:'MilSAE130YV6kybnoldH',subjectId:'9P7B0OIoNPDbnnQm34fi',levelId:'ROWLqhpfHpfo4IQS0VHi',sessionId:'jM9QP8jpC1uOq8N8D3GD',status:"true",create_at:'21-09-2020'},
+    // 	{classname:'Kosign Training',teacherId:'MilSAE130YV6kybnoldH',subjectId:'AjHlxFzKO0GqDfcJ3Aom',levelId:'eu8j1VJIxDSL1izugPtT',sessionId:'rUUFQORjGRSNbFsgnZPn',status:"true",create_at:'21-09-2020'},
+    // 	{classname:'Norton Training',teacherId:'MilSAE130YV6kybnoldH',subjectId:'TTAqgjowXgZ0hWMAfb5d',levelId:'eu8j1VJIxDSL1izugPtT',sessionId:'rUUFQORjGRSNbFsgnZPn',status:"true",create_at:'21-09-2020'},
     // ]
     // classList.map((eachUser,ind) => {
     // 	this.ref.add({
@@ -260,13 +259,15 @@ class HomeScreen extends Component {
     // 	}).catch((error) => {
     // 	});
     // })
-
     // for create user
     // this.ref = firebase.firestore().collection('tbl_user');
     // var userList=[
-    // 	{username:'venge',phone:'081363135',password:'123456',roleId:'',status:"true",create_at:'21-09-2020'},
-    // 	{username:'kimheang',phone:'081363135',password:'123456',roleId:'',status:"true",create_at:'21-09-2020'},
-    // 	{username:'sophal',phone:'081363135',password:'123456',roleId:'',status:"true",create_at:'21-09-2020'},
+    // 	{username:'kongsun',phone:'01234551',password:'123456',roleId:'fI9YghorPDaLRqIoTnVT',status:"true",create_at:'21-09-2020'},
+    // 	{username:'Chinhong',phone:'09877321',password:'123456',roleId:'fI9YghorPDaLRqIoTnVT',status:"true",create_at:'21-09-2020'},
+    // 	{username:'Makara',phone:'012546203',password:'123456',roleId:'fI9YghorPDaLRqIoTnVT',status:"true",create_at:'21-09-2020'},
+    // 	{username:'Sokchea',phone:'017949222',password:'123456',roleId:'fI9YghorPDaLRqIoTnVT',status:"true",create_at:'21-09-2020'},
+    // 	{username:'Kimthong',phone:'086732232',password:'123456',roleId:'fI9YghorPDaLRqIoTnVT',status:"true",create_at:'21-09-2020'},
+    // 	{username:'Veasna',phone:'09867833',password:'123456',roleId:'fI9YghorPDaLRqIoTnVT',status:"true",create_at:'21-09-2020'},
     // ]
     // userList.map((eachUser,ind) => {
     // 	this.ref.add({
@@ -284,7 +285,6 @@ class HomeScreen extends Component {
     // 	}).catch((error) => {
     // 	});
     // })
-
     // for create level
     // this.ref = firebase.firestore().collection('tbl_level');
     // var levelList=[
@@ -305,7 +305,6 @@ class HomeScreen extends Component {
     // 	}).catch((error) => {
     // 	});
     // })
-
     // for create session
     // this.ref = firebase.firestore().collection('tbl_session');
     // var sessionList=[
@@ -326,30 +325,29 @@ class HomeScreen extends Component {
     // 	}).catch((error) => {
     // 	});
     // })
-
     // for create subject
     // this.ref = firebase.firestore().collection("tbl_subject");
     // var subjectList = [
     //   {
-    //     subjctName: "Khmer",
-    //     description: "The subject is Khmer",
+    //     subjectName: "Korean writng",
+    //     description: "The subject is korean",
     //     create_at: "21-09-2020"
     //   },
     //   {
-    //     subjctName: "Thai",
-    //     description: "The subject is Thai",
+    //     subjectName: "Lao writing",
+    //     description: "The subject is Lao writing",
     //     create_at: "21-09-2020"
     //   },
     //   {
-    //     subjctName: "English",
-    //     description: "The subject is English",
+    //     subjectName: "japen writing",
+    //     description: "The subject is japen writing",
     //     create_at: "21-09-2020"
     //   }
     // ];
     // subjectList.map((eachSubject, ind) => {
     //   this.ref
     //     .add({
-    //       subjctName: eachSubject.subjctName,
+    //       subjectName: eachSubject.subjectName,
     //       description: eachSubject.description,
     //       create_at: eachSubject.create_at
     //     })
@@ -361,7 +359,6 @@ class HomeScreen extends Component {
     //     })
     //     .catch(error => {});
     // });
-
     // for create role
     // this.ref = firebase.firestore().collection('tbl_role');
     // var studentList=[
@@ -382,7 +379,6 @@ class HomeScreen extends Component {
     // 	}).catch((error) => {
     // 	});
     // })
-
     // create main program table
     // var programList = [
     // 	{ ProgramTitle: 'I. ចំណេះទូទៅ(ថ្នាក់ទី​១​-១២)',des:"it is for sample data",color: "#00A99D",image:'Images.eachimage1' },
@@ -398,7 +394,6 @@ class HomeScreen extends Component {
     // 		color:eachProgram.color,
     // 		des:eachProgram.des,
     // 		image:eachProgram.image,
-
     // 	}).then((data) => {
     // 	}).catch((error) => {
     // 	});
@@ -407,7 +402,7 @@ class HomeScreen extends Component {
 
   render() {
     const { imageSlide, statusLoading } = this.state;
-    // if (statusLoading) return <Loading />
+    if (statusLoading) return <Loading />;
     return (
       <View style={{ flex: 1, backgroundColor: Colors.main_color }}>
         <ScrollView>

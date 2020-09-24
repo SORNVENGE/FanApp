@@ -4,6 +4,8 @@ const images = {
   bgVerificationImage: require('../Images/bgVerification.jpg'),
   logo: require('../Images/Logo.png'),
   fansLogo: require('../Images/fans.png'),
+  english: require('../Images/english.png'),
+  khmer:require('../Images/khmer.jpg'),
   locationBg:require('../Images/locationBg.jpg'),
   promotionBG:require('../Images/promotionBg.jpg'),
   freeDeliveryBg:require('../Images/freeDeliveryBg.jpg'),

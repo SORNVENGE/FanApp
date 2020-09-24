@@ -38,7 +38,6 @@ class ELearningScreen extends Component {
             <View style={{ flex: 1 }}>
                 <ScrollView>
                     {data.map((eachData, index) => {
-                        console.tron.log({eachData:eachData})
                         return (
                             <TouchableOpacity onPress={() => Actions.MainProgramDetailScreen({ item: eachData })} style={{ padding: 10, flexDirection: 'column' }}>
                                 <View style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>

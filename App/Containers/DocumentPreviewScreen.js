@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20,
-        height: 450
+        height: 530
     },
     pdf: {
         flex: 1,
