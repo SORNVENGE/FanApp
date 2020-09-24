@@ -77,6 +77,8 @@
 		2627E6C2EF01476B81D04B51 /* libRNCProgressView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E128CD9A947A44089A57489E /* libRNCProgressView.a */; };
 		FE68894838CC42B0ABA5A759 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E145B57C02AB4D54BF57CE04 /* libRNFS.a */; };
 		E43769E30E864C21A21BF19A /* libRNCToolbarAndroid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A51CEA281F2482CB3CB3F88 /* libRNCToolbarAndroid.a */; };
+		DC2DB1CD1DB74D30949E3C9F /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 365392BDF92E425898858B99 /* libRCTVideo.a */; };
+		85C7F6160EBE4B378A7FDB88 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E09DFA902DEC424F8C0307D9 /* libRNCWebView.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -435,6 +437,10 @@
 		E145B57C02AB4D54BF57CE04 /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		A8A4BBF12CC34FF490A2FA7E /* RNCToolbarAndroid.xcodeproj */ = {isa = PBXFileReference; name = "RNCToolbarAndroid.xcodeproj"; path = "../node_modules/@react-native-community/toolbar-android/ios/RNCToolbarAndroid.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		4A51CEA281F2482CB3CB3F88 /* libRNCToolbarAndroid.a */ = {isa = PBXFileReference; name = "libRNCToolbarAndroid.a"; path = "libRNCToolbarAndroid.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		3EA750CBD278429BB98083B9 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; name = "RCTVideo.xcodeproj"; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		365392BDF92E425898858B99 /* libRCTVideo.a */ = {isa = PBXFileReference; name = "libRCTVideo.a"; path = "libRCTVideo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		967E32F981FA4AD49DE0E5FE /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; name = "RNCWebView.xcodeproj"; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E09DFA902DEC424F8C0307D9 /* libRNCWebView.a */ = {isa = PBXFileReference; name = "libRNCWebView.a"; path = "libRNCWebView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,6 +483,8 @@
 				2627E6C2EF01476B81D04B51 /* libRNCProgressView.a in Frameworks */,
 				FE68894838CC42B0ABA5A759 /* libRNFS.a in Frameworks */,
 				E43769E30E864C21A21BF19A /* libRNCToolbarAndroid.a in Frameworks */,
+				DC2DB1CD1DB74D30949E3C9F /* libRCTVideo.a in Frameworks */,
+				85C7F6160EBE4B378A7FDB88 /* libRNCWebView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +695,8 @@
 				740366791CB04C1C86777CA4 /* RNCProgressView.xcodeproj */,
 				DA79541211384D5D9672C665 /* RNFS.xcodeproj */,
 				A8A4BBF12CC34FF490A2FA7E /* RNCToolbarAndroid.xcodeproj */,
+				3EA750CBD278429BB98083B9 /* RCTVideo.xcodeproj */,
+				967E32F981FA4AD49DE0E5FE /* RNCWebView.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1376,6 +1386,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1393,6 +1405,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Debug;
@@ -1435,6 +1449,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1452,6 +1468,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Release;
@@ -1488,6 +1506,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Debug;
@@ -1523,6 +1543,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Release;
@@ -1573,6 +1595,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1590,6 +1614,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Debug;
@@ -1640,6 +1666,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1657,6 +1685,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Release;
@@ -1706,6 +1736,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1723,6 +1755,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Debug;
@@ -1772,6 +1806,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1789,6 +1825,8 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/progress-view/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/toolbar-android/ios",
+					"$(SRCROOT)\..\node_modules\react-native-video\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-webview\apple/**",
 				);
 			};
 			name = Release;

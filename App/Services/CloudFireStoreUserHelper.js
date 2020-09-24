@@ -166,5 +166,58 @@ const CloudFireStoreUserHelper = {
     //         return callback(newObjectData);
     //     });
     // },
+
+
+    readElearning: function (callback) {
+        db.collection("tbl_elearning").onSnapshot(function (querySnapshot) {
+            let newCollectionObj = [];
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data() }
+                    newCollectionObj.push(concatObj);
+                }
+            });
+            return callback(newCollectionObj);
+        });
+    },
+
+    readGradeElearning: function (uid, callback) {
+        db.collection("tbl_elearning_grade").where('mainElearning', '==', `${uid}`).onSnapshot(function (querySnapshot) {
+            let newCollectionObj = [];
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data() }
+                    newCollectionObj.push(concatObj);
+                }
+            });
+            return callback(newCollectionObj);
+        });
+    },
+
+    readSubjectElearning: function (uid, callback) {
+        db.collection("tbl_elearning_subject").where('mainGrade', '==', `${uid}`).onSnapshot(function (querySnapshot) {
+            let newCollectionObj = [];
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data() }
+                    newCollectionObj.push(concatObj);
+                }
+            });
+            return callback(newCollectionObj);
+        });
+    },
+
+    readVideoElearning: function (uid, callback) {
+        db.collection("tbl_elearning_video").where('mainSubject', '==', `${uid}`).onSnapshot(function (querySnapshot) {
+            let newCollectionObj = [];
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data() }
+                    newCollectionObj.push(concatObj);
+                }
+            });
+            return callback(newCollectionObj);
+        });
+    },
 }
 export default CloudFireStoreUserHelper;

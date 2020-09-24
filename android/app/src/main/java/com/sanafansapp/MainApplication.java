@@ -3,6 +3,7 @@ package com.sanafansapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.toolbarandroid.ReactToolbarPackage;
 import com.rnfs.RNFSPackage;
 import com.reactnativecommunity.progressview.RNCProgressViewPackage;
@@ -25,7 +26,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
-
+import com.brentvatne.react.ReactVideoPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactVideoPackage(),
             new ReactToolbarPackage(),
             new RNFSPackage(),
             new RNCProgressViewPackage(),
@@ -58,7 +61,9 @@ public class MainApplication extends Application implements ReactApplication {
             new RNI18nPackage(),
             new VectorIconsPackage(),
             new RNFirebaseStoragePackage(),
-            new RNGestureHandlerPackage()
+            new RNGestureHandlerPackage(),
+            new ReactVideoPackage(),
+            new RNCWebViewPackage() 
       );
     }
 

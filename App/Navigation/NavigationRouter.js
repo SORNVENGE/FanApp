@@ -14,6 +14,10 @@ import SettingScreen from '../Containers/SettingScreen';
 import FacebookScreen from '../Containers/FacebookScreen';
 import YoutubeScreen from '../Containers/YoutubeScreen';
 import ELearningScreen from '../Containers/ELearningScreen';
+import ELearningItemScreen from '../Containers/ELearningItemScreen';
+import ELearningSubjectScreen from '../Containers/ELearningSubjectScreen';
+import ELearningSubjectVideosScreen from '../Containers/ELearningSubjectVideosScreen';
+import ELearninVideoScreen from '../Containers/ELearninVideoScreen';
 import MyClassScreen from '../Containers/MyClassScreen';
 import MyClassDetailScreen from '../Containers/MyClassDetailScreen';
 import MyDocumentScreen from '../Containers/MyDocumentScreen';
@@ -47,7 +51,7 @@ class NavigationRouter extends Component {
 					<Scene onEnter={() => this.onEnter(false, true, 'Setting', 'SettingScreen')} key="SettingScreen" component={SettingScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Facebook', 'FacebookScreen')} key="FacebookScreen" component={FacebookScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Youtube', 'YoutubeScreen')} key="YoutubeScreen" component={YoutubeScreen} hideNavBar={true} />
-					<Scene onEnter={() => this.onEnter(false, true, 'ELearning', 'ELearningScreen')} key="ELearningScreen" component={ELearningScreen} hideNavBar={true} />
+					<Scene initial={true} onEnter={() => this.onEnter(false, true, 'ELearning', 'ELearningScreen')} key="ELearningScreen" component={ELearningScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'My Class', 'MyClassScreen')} key="MyClassScreen" component={MyClassScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'My Class Detail', 'MyClassDetailScreen')} key="MyClassDetailScreen" component={MyClassDetailScreen} hideNavBar={true} />
 
@@ -55,11 +59,15 @@ class NavigationRouter extends Component {
 					<Scene onEnter={() => this.onEnter(false, true, 'FeeDetail', 'FeeDetailScreen')} key="FeeDetailScreen" component={FeeDetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Main Program Detail', 'MainProgramDetailScreen')} key="MainProgramDetailScreen" component={MainProgramDetailScreen} hideNavBar={true} />
 					{/* <Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} initial={true} /> */}
-					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')} initial={true} key="FlashScreen" component={FlashScreen} hideNavBar={true}  initial={true}/>
+					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')}   key="FlashScreen" component={FlashScreen} hideNavBar={true} />
 				
 					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'VerificationScreen', 'VerificationScreen')} key="VerificationScreen" component={VerificationScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'DocumentPreviewScreen', 'DocumentPreviewScreen')} key="DocumentPreviewScreen" component={DocumentPreviewScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, false, 'ELearningItemScreen', 'ELearningItemScreen')} key="ELearningItemScreen" component={ELearningItemScreen} hideNavBar={true} />
+					<Scene  onEnter={() => this.onEnter(false, false, 'ELearningSubjectScreen', 'ELearningSubjectScreen')} key="ELearningSubjectScreen" component={ELearningSubjectScreen} hideNavBar={true} />
+					<Scene   onEnter={() => this.onEnter(false, false, 'ELearningSubjectVideosScreen', 'ELearningSubjectVideosScreen')} key="ELearningSubjectVideosScreen" component={ELearningSubjectVideosScreen} hideNavBar={true} />
+					<Scene   onEnter={() => this.onEnter(false, false, 'ELearninVideoScreen', 'ELearninVideoScreen')} key="ELearninVideoScreen" component={ELearninVideoScreen} hideNavBar={true} />
 
 				</Scene>
 			</Router>

@@ -158,6 +158,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
+    implementation project(':react-native-video')
     implementation project(':@react-native-community_toolbar-android')
     implementation project(':react-native-fs')
     implementation project(':@react-native-community_progress-view')
