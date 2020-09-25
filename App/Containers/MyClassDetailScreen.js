@@ -48,6 +48,10 @@ class MyClassDetailScreen extends Component {
 				{
 					key: "Document File",
 					title: "Document File"
+				},
+				{
+					key: "Lession",
+					title: "Lession"
 				}
 			],
 			key_tab: "Information"
@@ -59,12 +63,12 @@ class MyClassDetailScreen extends Component {
 		this.setState({ statusLoading: true });
 		var teacherId = userData.data.user_id;
 		var teacherName = userData.data.username;
-		var roleId =  userData.data.roleId;
+		var roleId = userData.data.roleId;
 		var subjectKey = classData.subjectId;
 		var levelKey = classData.levelId;
 		var sessionKey = classData.sessionId;
 		var classId = classData.key
-		
+
 		CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
 			if (response) {
 				this.setState({ subjectName: response[0].subjectName });
@@ -139,7 +143,7 @@ class MyClassDetailScreen extends Component {
 			let docUser = await db.collection('tbl_user').where('key', '==', `${items[index].studentId}`).get()
 			console.tron.log('dddddd', docUser._docs[0]._data)
 
-			let objectData = { ...docUser._docs[0]._data}
+			let objectData = { ...docUser._docs[0]._data }
 			console.tron.log('dddddd', objectData)
 
 			professionals.push(objectData)
@@ -160,7 +164,7 @@ class MyClassDetailScreen extends Component {
 				style={{
 					borderRadius: 5,
 					backgroundColor: IsTab ? Colors.main_color : Colors.white,
-					width: "48%",
+					width: "32%",
 					height: 40,
 					alignItems: "center",
 					justifyContent: "center",
@@ -317,7 +321,7 @@ class MyClassDetailScreen extends Component {
 						<FlatList
 							style={{ marginTop: Metrics.baseMargin }}
 							data={tap}
-							numColumns={2}
+							numColumns={3}
 							renderItem={this._renderTab}
 							keyExtractor={(item, index) => index.toString()}
 						/>
@@ -456,33 +460,38 @@ class MyClassDetailScreen extends Component {
 							<View style={{ height: "70%", marginTop: 10 }}>
 								<ScrollView>
 									{this.state.studentData.map((eachStudent, ind) => {
-                   return (
-                      <View style={{ marginBottom: 5, marginTop: 5 }}>
-                        <View
-                          style={{
-                            justifyContent: "space-between",
-                            flexDirection: "row"
-                          }}
-                        >
-                          <View style={{ width: "90%", paddingLeft: 10 }}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWight: "bold"
-                              }}
-                            >
-                              {eachStudent.username} ({" "}
-                              {eachStudent.student_phone} )
+										return (
+											<View style={{ marginBottom: 5, marginTop: 5 }}>
+												<View
+													style={{
+														justifyContent: "space-between",
+														flexDirection: "row"
+													}}
+												>
+													<View style={{ width: "90%", paddingLeft: 10 }}>
+														<Text
+															style={{
+																fontSize: 16,
+																color: Colors.black,
+																fontWight: "bold"
+															}}
+														>
+															{eachStudent.username} ({" "}
+															{eachStudent.student_phone} )
                             </Text>
-                          </View>
-                        </View>
-                      </View>
-                    ); })}
+													</View>
+												</View>
+											</View>
+										);
+									})}
 								</ScrollView>
 							</View>
 						</View>
-					) : (
+					) :this.type_clicked == "Lession"?(
+						<View style={{ padding: 10 }}>
+							<Text>Lession block</Text>
+						</View>
+					): (
 							<View style={{ padding: 10 }}>
 								<View style={{ width: "90%", alignSelf: "center" }}>
 									<FlatList
