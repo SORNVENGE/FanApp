@@ -36,39 +36,50 @@ class MyClassScreen extends Component {
   componentWillMount = () => {
     const { userData } = this.state;
     this.setState({ statusLoading: true });
-   
-      CloudFireStoreUserHelper.readClassByTeacherId(
-        userData.data.key,
-        response => {
-          if (response) {
-            this.setState({ classData: response, statusLoading: false });
-          } else {
-            this.setState({ statusLoading: false });
+    var roleName = ""
+    CloudFireStoreUserHelper.readUserRoleById(
+      userData.data.roleId,
+      response => {
+        if (response) {
+          if (response[0].roleName == "Student") {
+            CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
+              console.tron.log({ResponeStudent:response})
+              if (response) {
+                this.readAllProfessional(response)
+              } else {
+                this.setState({ statusLoading: false });
+              }
+            });
           }
+          if (response[0].roleName == "Teacher") {
+            CloudFireStoreUserHelper.readClassByTeacherId(
+              userData.data.key,
+              response => {
+              console.tron.log({ResponeTeacher:response})
+      
+                if (response) {
+                  this.setState({ classData: response, statusLoading: false });
+                } else {
+                  this.setState({ statusLoading: false });
+                }
+              });
+          }
+        } else {
+          this.setState({ statusLoading: false });
+        }
       });
-
-      // CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
-      //       if (response) {
-      //         this.readAllProfessional(response)
-      //       } else {
-      //         this.setState({ statusLoading: false });
-      //       }
-      //   });
-   
+  
   };
-
   readAllProfessional = async (items) => {
     let professionals = []
-		
-    
-		for (var index in items) {
-			let docUser = await db.collection('tbl_class').where('key', '==', `${items[index].classId}`).get()
-			let objectData = { ...docUser._docs[0]._data}
-			professionals.push(objectData)
-		}
-		console.tron.log(professionals)
-		return this.setState({ classData: professionals, statusLoading: false })
-	}
+    for (var index in items) {
+      let docUser = await db.collection('tbl_class').where('key', '==', `${items[index].classId}`).get()
+      let objectData = { ...docUser._docs[0]._data }
+      professionals.push(objectData)
+    }
+    console.tron.log(professionals)
+    return this.setState({ classData: professionals, statusLoading: false })
+  }
 
   clickOnEachClass = eachData => {
     Actions.MyClassDetailScreen({ classDetail: eachData });

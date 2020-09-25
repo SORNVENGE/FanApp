@@ -88,7 +88,6 @@ class LoginScreen extends Component {
 			CloudFireStoreUserHelper.readAllUser(username, password, (response) => {
 				if (response) {
 					this.setState({ statusLoading: false });
-					console.tron.log(response)
 					this.props.setAllUserInfoAfterLogin(response)
 					if (this.props.fromScreen == "MyClassScreen") {
 						Actions.MyClassScreen();
