@@ -22,6 +22,7 @@ import firebase from "react-native-firebase";
 import CloudFireStoreUserHelper from "../Services/CloudFireStoreUserHelper";
 import Loading from "../Components/Loading";
 
+const db = firebase.firestore();
 class MyClassScreen extends Component {
   constructor(props) {
     super(props);
@@ -35,19 +36,43 @@ class MyClassScreen extends Component {
   componentWillMount = () => {
     const { userData } = this.state;
     this.setState({ statusLoading: true });
-    userData.data.map((eachData, ind) => {
-      CloudFireStoreUserHelper.readClassByTeacherId(
-        eachData.user_id,
-        response => {
-          if (response) {
-            this.setState({ classData: response, statusLoading: false });
-          } else {
-            this.setState({ statusLoading: false });
-          }
-        }
-      );
-    });
+   
+      // CloudFireStoreUserHelper.readClassByTeacherId(
+      //   eachData.user_id,
+      //   response => {
+      //     if (response) {
+      //       this.setState({ classData: response, statusLoading: false });
+      //     } else {
+      //       this.setState({ statusLoading: false });
+      //     }
+      // });
+      CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
+            if (response) {
+              this.readAllProfessional(response)
+            } else {
+              this.setState({ statusLoading: false });
+            }
+        });
+   
   };
+
+  readAllProfessional = async (items) => {
+    let professionals = []
+		
+    
+		for (var index in items) {
+      console.tron.log('dddddd', items[index].classId)
+			let docUser = await db.collection('tbl_class').where('key', '==', `${items[index].classId}`).get()
+			console.tron.log('dddddd', docUser)
+
+			let objectData = { ...docUser._docs[0]._data}
+			console.tron.log('dddddd', objectData)
+
+			professionals.push(objectData)
+		}
+		console.tron.log(professionals)
+		return this.setState({ classData: professionals, statusLoading: false })
+	}
 
   clickOnEachClass = eachData => {
     Actions.MyClassDetailScreen({ classDetail: eachData });

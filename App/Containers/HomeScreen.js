@@ -220,7 +220,13 @@ class HomeScreen extends Component {
     // for create student_class
     // this.ref = firebase.firestore().collection('tbl_student_class');
     // var studentClassList=[
-    // 	{studentId:'hE8Vijwly56IU5i1VVzp',classId:'88qRcy3iMG6d8XaCXYag',joinedDate:'21-09-2020'},
+    //   {studentId:'2yfnMOwCWa7e2kJl3HAv',classId:'QhydONPA9nabFeAXWFmv',joinedDate:'21-09-2020'},
+    // 	{studentId:'2yfnMOwCWa7e2kJl3HAv',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
+    //   {studentId:'MilSAE130YV6kybnoldH',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
+    // 	{studentId:'N4ZsjNd9lwfCUgwzrvbD',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
+    // 	{studentId:'ZIYFV98aKCehMRyizr8f',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
+    // 	{studentId:'N4ZsjNd9lwfCUgwzrvbD',classId:'QhydONPA9nabFeAXWFmv',joinedDate:'21-09-2020'},
+      
     // ]
     // studentClassList.map((eachStudentClass,ind) => {
     // 	this.ref.add({
@@ -238,9 +244,9 @@ class HomeScreen extends Component {
     // for create class
     // this.ref = firebase.firestore().collection('tbl_class');
     // var classList=[
-    // 	{classname:'Bikay Training',teacherId:'MilSAE130YV6kybnoldH',subjectId:'9P7B0OIoNPDbnnQm34fi',levelId:'ROWLqhpfHpfo4IQS0VHi',sessionId:'jM9QP8jpC1uOq8N8D3GD',status:"true",create_at:'21-09-2020'},
-    // 	{classname:'Kosign Training',teacherId:'MilSAE130YV6kybnoldH',subjectId:'AjHlxFzKO0GqDfcJ3Aom',levelId:'eu8j1VJIxDSL1izugPtT',sessionId:'rUUFQORjGRSNbFsgnZPn',status:"true",create_at:'21-09-2020'},
-    // 	{classname:'Norton Training',teacherId:'MilSAE130YV6kybnoldH',subjectId:'TTAqgjowXgZ0hWMAfb5d',levelId:'eu8j1VJIxDSL1izugPtT',sessionId:'rUUFQORjGRSNbFsgnZPn',status:"true",create_at:'21-09-2020'},
+    // 	{classname:'Bikay Training 1',teacherId:' ',subjectId:'9P7B0OIoNPDbnnQm34fi',levelId:'ROWLqhpfHpfo4IQS0VHi',sessionId:'jM9QP8jpC1uOq8N8D3GD',status:"true",create_at:'21-09-2020'},
+    // 	{classname:'Kosign Training 2',teacherId:' ',subjectId:'AjHlxFzKO0GqDfcJ3Aom',levelId:'eu8j1VJIxDSL1izugPtT',sessionId:'rUUFQORjGRSNbFsgnZPn',status:"true",create_at:'21-09-2020'},
+    // 	{classname:'Norton Training 3',teacherId:' ',subjectId:'TTAqgjowXgZ0hWMAfb5d',levelId:'eu8j1VJIxDSL1izugPtT',sessionId:'rUUFQORjGRSNbFsgnZPn',status:"true",create_at:'21-09-2020'},
     // ]
     // classList.map((eachUser,ind) => {
     // 	this.ref.add({

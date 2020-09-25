@@ -33,11 +33,10 @@ const CloudFireStoreUserHelper = {
     readAllUser: function (username, password, callback) {
         db.collection('tbl_user').where('username', '==', `${username}`, 'password', '==', `${password}`).get()
             .then(function (querySnapshot) {
-                let newObjectData = [];
+                let newObjectData = {};
                 querySnapshot.forEach(function (doc) {
                     if (doc) {
-                        let concatObj = { ...doc.data(), ...{ user_id: doc.id } }
-                        newObjectData.push(concatObj);
+                        newObjectData = { ...doc.data(), ...{ user_id: doc.id } }
                     }
                 });
                 return callback(newObjectData);
@@ -61,7 +60,25 @@ const CloudFireStoreUserHelper = {
             });
     },
     readClassByTeacherId: function (teacherId, callback) {
+        console.tron.log(teacherId)
         db.collection('tbl_class').where('teacherId', '==', `${teacherId}`).get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+        console.tron.log(querySnapshot)
+
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        let concatObj = { ...doc.data(), ...{ class_id: doc.id } }
+                        newObjectData.push(concatObj);
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+            });
+    },
+
+    readClassByStudentId: function (studentId, callback) {
+        db.collection('tbl_student_class').where('studentId', '==', `${studentId}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];
                 querySnapshot.forEach(function (doc) {
@@ -140,7 +157,7 @@ const CloudFireStoreUserHelper = {
         });
     },
 
-    readStudentClass: function (classId,callback) {
+    readStudentClass: function (classId, callback) {
         db.collection('tbl_student_class').where('classId', '==', `${classId}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];

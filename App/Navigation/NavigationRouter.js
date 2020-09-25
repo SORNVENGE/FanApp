@@ -51,7 +51,7 @@ class NavigationRouter extends Component {
 					<Scene onEnter={() => this.onEnter(false, true, 'Setting', 'SettingScreen')} key="SettingScreen" component={SettingScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Facebook', 'FacebookScreen')} key="FacebookScreen" component={FacebookScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Youtube', 'YoutubeScreen')} key="YoutubeScreen" component={YoutubeScreen} hideNavBar={true} />
-					<Scene initial={true} onEnter={() => this.onEnter(false, true, 'ELearning', 'ELearningScreen')} key="ELearningScreen" component={ELearningScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, true, 'ELearning', 'ELearningScreen')} key="ELearningScreen" component={ELearningScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'My Class', 'MyClassScreen')} key="MyClassScreen" component={MyClassScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'My Class Detail', 'MyClassDetailScreen')} key="MyClassDetailScreen" component={MyClassDetailScreen} hideNavBar={true} />
 
@@ -59,7 +59,7 @@ class NavigationRouter extends Component {
 					<Scene onEnter={() => this.onEnter(false, true, 'FeeDetail', 'FeeDetailScreen')} key="FeeDetailScreen" component={FeeDetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'Main Program Detail', 'MainProgramDetailScreen')} key="MainProgramDetailScreen" component={MainProgramDetailScreen} hideNavBar={true} />
 					{/* <Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} initial={true} /> */}
-					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')}   key="FlashScreen" component={FlashScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, false, 'FlashScreen', 'FlashScreen')}  initial={true}   key="FlashScreen" component={FlashScreen} hideNavBar={true} />
 				
 					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'VerificationScreen', 'VerificationScreen')} key="VerificationScreen" component={VerificationScreen} hideNavBar={true} />
