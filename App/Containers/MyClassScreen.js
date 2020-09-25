@@ -37,22 +37,23 @@ class MyClassScreen extends Component {
     const { userData } = this.state;
     this.setState({ statusLoading: true });
    
-      // CloudFireStoreUserHelper.readClassByTeacherId(
-      //   eachData.user_id,
-      //   response => {
-      //     if (response) {
-      //       this.setState({ classData: response, statusLoading: false });
-      //     } else {
-      //       this.setState({ statusLoading: false });
-      //     }
-      // });
-      CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
-            if (response) {
-              this.readAllProfessional(response)
-            } else {
-              this.setState({ statusLoading: false });
-            }
-        });
+      CloudFireStoreUserHelper.readClassByTeacherId(
+        userData.data.key,
+        response => {
+          if (response) {
+            this.setState({ classData: response, statusLoading: false });
+          } else {
+            this.setState({ statusLoading: false });
+          }
+      });
+
+      // CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
+      //       if (response) {
+      //         this.readAllProfessional(response)
+      //       } else {
+      //         this.setState({ statusLoading: false });
+      //       }
+      //   });
    
   };
 
@@ -61,13 +62,8 @@ class MyClassScreen extends Component {
 		
     
 		for (var index in items) {
-      console.tron.log('dddddd', items[index].classId)
 			let docUser = await db.collection('tbl_class').where('key', '==', `${items[index].classId}`).get()
-			console.tron.log('dddddd', docUser)
-
 			let objectData = { ...docUser._docs[0]._data}
-			console.tron.log('dddddd', objectData)
-
 			professionals.push(objectData)
 		}
 		console.tron.log(professionals)

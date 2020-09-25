@@ -22,9 +22,10 @@ const GREEN = "rgba(141,196,63,1)";
 const PURPLE = "rgba(108,48,237,1)";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
-import { connect } from "react-redux";
 import Loading from "../Components/Loading";
 import firebase from "react-native-firebase";
+import { connect } from 'react-redux'
+import StoreUserInfoActions from '../Redux/StoreUserInfoRedux'
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -67,16 +68,10 @@ class HomeScreen extends Component {
           iconType: "FontAwesome5"
         },
         {
-          name: "Main Program",
-          image: Images.glocery,
-          iconName: "graduation-cap",
-          iconType: "FontAwesome"
-        },
-        {
-          name: "Admission",
-          image: Images.berverages,
-          iconName: "leaf",
-          iconType: "FontAwesome"
+          name: "Facebook",
+          image: Images.bakery,
+          iconName: "facebook-square",
+          iconType: "AntDesign"
         },
         {
           name: "Youtube",
@@ -85,22 +80,10 @@ class HomeScreen extends Component {
           iconType: "AntDesign"
         },
         {
-          name: "E-Learning",
-          image: Images.stationary,
+          name: "Admission",
+          image: Images.berverages,
           iconName: "leaf",
           iconType: "FontAwesome"
-        },
-        {
-          name: "Setting",
-          image: Images.flower,
-          iconName: "setting",
-          iconType: "AntDesign"
-        },
-        {
-          name: "Facebook",
-          image: Images.bakery,
-          iconName: "facebook-square",
-          iconType: "AntDesign"
         },
         {
           name: "Tuition Fee",
@@ -109,11 +92,29 @@ class HomeScreen extends Component {
           iconType: "FontAwesome"
         },
         {
-          name: "My Document",
+          name: "Main Program",
           image: Images.glocery,
-          iconName: "database",
-          iconType: "FontAwesome5"
-        }
+          iconName: "graduation-cap",
+          iconType: "FontAwesome"
+        },
+        {
+          name: "E-Learning",
+          image: Images.stationary,
+          iconName: "leaf",
+          iconType: "FontAwesome"
+        },
+        {
+          name: "Nothing ",
+          image: Images.glocery,
+          iconName: "logout",
+          iconType: "AntDesign"
+        },
+        {
+          name: "Setting",
+          image: Images.flower,
+          iconName: "setting",
+          iconType: "AntDesign"
+        },
       ],
       activeIndex: 1,
       locationShop: ""
@@ -121,42 +122,36 @@ class HomeScreen extends Component {
     // this.ref = firebase.firestore().collection('main_program');
   }
   handleOnEachMenuClick = (item, index) => {
-    const { userData } = this.state;
-    if (Actions.currentScene == "HomeScreen" && item.name == "Main Program") {
-      Actions.MainProgramScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "Admission"
-    ) {
-      Actions.AdmissionScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "Tuition Fee"
-    ) {
-      Actions.FeeScreen();
-    } else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
-      Actions.SettingScreen();
-    } else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
-      Actions.YoutubeScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "E-Learning"
-    ) {
-      Actions.ELearningScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "My Class"
-    ) {
+    const { userData, statusLoading } = this.state;
+    
+    if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
+      console.tron.log({ userDataMyClass: userData })
       if (userData.data == null) {
         Actions.LoginScreen({ fromScreen: "MyClassScreen" });
       } else {
         Actions.MyClassScreen();
       }
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "My Document"
-    ) {
-      Actions.MyDocumentScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Facebook") {
+      Actions.FacebookScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
+      Actions.YoutubeScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Admission") {
+      Actions.AdmissionScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Tuition Fee") {
+      Actions.FeeScreen();
+    } 
+    else if (Actions.currentScene == "HomeScreen" && item.name == "E-Learning") {
+      Actions.ELearningScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Main Program") {
+      Actions.MainProgramScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
+      Actions.SettingScreen();
     }
   };
   renderMeunuOption = ({ item, index }) => {
@@ -184,13 +179,13 @@ class HomeScreen extends Component {
             alignItems: "center"
           }}
         >
-          <TouchableOpacity style={{ alignItems: "center", marginBottom: 7 }}>
+          <View style={{ alignItems: "center", marginBottom: 7 }}>
             <Icon
               name={item.iconName}
               type={item.iconType}
               style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }}
             />
-          </TouchableOpacity>
+          </View>
           <View
             style={{
               width: "100%",
@@ -226,7 +221,7 @@ class HomeScreen extends Component {
     // 	{studentId:'N4ZsjNd9lwfCUgwzrvbD',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
     // 	{studentId:'ZIYFV98aKCehMRyizr8f',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
     // 	{studentId:'N4ZsjNd9lwfCUgwzrvbD',classId:'QhydONPA9nabFeAXWFmv',joinedDate:'21-09-2020'},
-      
+
     // ]
     // studentClassList.map((eachStudentClass,ind) => {
     // 	this.ref.add({
@@ -461,12 +456,16 @@ const styles = StyleSheet.create({
     // resizeMode: 'contain'
   }
 });
-const mapStateToProps = state => {
+
+const mapStateToProps = (state) => {
   return {
     tempUser: state.tempUser
-  };
-};
-export default connect(
-  mapStateToProps,
-  null
-)(HomeScreen);
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    requestClearUserStoreInfo: () => dispatch(StoreUserInfoActions.clearUserInfoRequest()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

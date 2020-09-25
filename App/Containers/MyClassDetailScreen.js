@@ -450,8 +450,10 @@ class MyClassDetailScreen extends Component {
 								style={{
 									marginTop: 25,
 									fontSize: 18,
-									color: "black",
-									fontWight: "bold"
+									fontWight: "bold",
+									backgroundColor:Colors.main_color,
+									padding:10,
+									color:Colors.white
 								}}
 							>
 								{" "}
@@ -462,47 +464,51 @@ class MyClassDetailScreen extends Component {
 									{this.state.studentData.map((eachStudent, ind) => {
 										return (
 											<View style={{ marginBottom: 5, marginTop: 5 }}>
-												<View
+												<TouchableOpacity
 													style={{
-														justifyContent: "space-between",
-														flexDirection: "row"
+														marginTop: 10,
+														shadowOpacity: 0.5,
+														borderWidth: 0.4,
+														borderColor: Colors.main_color,
+														borderRadius: 15
 													}}
 												>
-													<View style={{ width: "90%", paddingLeft: 10 }}>
-														<Text
-															style={{
-																fontSize: 16,
-																color: Colors.black,
-																fontWight: "bold"
-															}}
-														>
-															{eachStudent.username} ({" "}
-															{eachStudent.student_phone} )
-                            </Text>
+													<View style={{ padding: 10, justifyContent: "space-between", flexDirection: "row" }}>
+														<View style={{ width: "30%" }}>
+															<Text style={{ fontSize: 15, color: "black", fontWight: "bold" }}>
+																{" "}
+															Student  {ind+1} : {" "}
+															</Text>
+														</View>
+														<View style={{ width: "80%" }}>
+															<Text style={{ fontSize: 17, color: Colors.black, fontWight: "bold" }}>
+																{eachStudent.username}
+															</Text>
+														</View>
 													</View>
-												</View>
+												</TouchableOpacity>
 											</View>
 										);
 									})}
 								</ScrollView>
 							</View>
 						</View>
-					) :this.type_clicked == "Lession"?(
+					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
 							<Text>Lession block</Text>
 						</View>
-					): (
-							<View style={{ padding: 10 }}>
-								<View style={{ width: "90%", alignSelf: "center" }}>
-									<FlatList
-										data={documentData}
-										numColumns={3}
-										renderItem={this.renderItemList}
-										keyExtractor={(item, index) => index.toString}
-									/>
+					) : (
+								<View style={{ padding: 10 }}>
+									<View style={{ width: "90%", alignSelf: "center" }}>
+										<FlatList
+											data={documentData}
+											numColumns={3}
+											renderItem={this.renderItemList}
+											keyExtractor={(item, index) => index.toString}
+										/>
+									</View>
 								</View>
-							</View>
-						)}
+							)}
 				</View>
 				{this.type_clicked == "Information" ? null :
 					roleType == "Student" ? null :
