@@ -41,7 +41,7 @@ class NavigationRouter extends Component {
 		return (
 			<Router>
 				<Scene>
-					<Scene onEnter={() => this.onEnter(false, true, 'Norton University', 'HomeScreen')} key="HomeScreen" component={HomeScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, true, 'Fan School Management', 'HomeScreen')} key="HomeScreen" component={HomeScreen} hideNavBar={true} initial={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'DetailScreen', 'DetailScreen')} key="DetailScreen" component={DetailScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'News', 'NewsScreen')} key="NewsScreen" component={NewsScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, true, 'MainProgram', 'MainProgramScreen')} key="MainProgramScreen" component={MainProgramScreen} hideNavBar={true} />

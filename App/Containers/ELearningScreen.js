@@ -115,18 +115,29 @@ class ELearningScreen extends Component {
 		sortData = _.orderBy(data, [item => item.no], ['asc']);
         if (statusLoading) return <Loading />
         return (
-            <View style={styles.container}>
-                <Text style={{width: '100%', textAlign: 'center', fontWeight: 'bold', fontSize: 18, color: '#005DFF', paddingTop: 10, paddingBottom: 10, borderBottomWidth: 0.5, borderBottomColor: '#4D4646',}}>
-                    Please Select Program
-                </Text>
-                <View style={{ flex: 1, marginTop: 5}}>
-                    <FlatList
-                        style={{ width: '100%', backgroundColor: 'white' }}
-                        data={sortData}
-                        renderItem={this.renderItemView}
-                        keyExtractor={(item, index) => index.toString()} />
-                </View>
-
+            <View style={{ flex: 1 }}>
+                <ScrollView>
+                    {data.map((eachData, index) => {
+                        return (
+                            <TouchableOpacity onPress={() => Actions.MainProgramDetailScreen({ item: eachData })} style={{ padding: 10, flexDirection: 'column' }}>
+                                <View style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>
+                                    <View style={{ width: '30%', justifyContent: 'center' }}>
+                                        <Image source={eachData.image} style={{ width: '100%', height: '100%', alignSelf: 'center', resizeMode: 'cover' }} />
+                                    </View>
+                                    <View style={{ width: '70%', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <View style={{}}>
+                                            <Text style={{ fontSize: 15, color: 'black', fontWeight: 'bold' }}>{eachData.title}</Text>
+                                        </View>
+                                        <View style={{}}>
+                                            <Text style={{ fontSize: 14, color: 'black' }}>05/06/2020 11AM</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={{ borderBottomColor: 'grey', borderWidth: 0.2, marginLeft: "30%", marginTop: 5 }}></View>
+                            </TouchableOpacity>
+                        )
+                    })}
+                </ScrollView>
 
             </View>
         );

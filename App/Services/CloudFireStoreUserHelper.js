@@ -31,7 +31,7 @@ const CloudFireStoreUserHelper = {
     //         );
     // },
     readAllUser: function (username, password, callback) {
-        db.collection('users').where('username', '==', `${username}`, 'password', '==', `${password}`).get()
+        db.collection('tbl_user').where('username', '==', `${username}`, 'password', '==', `${password}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];
                 querySnapshot.forEach(function (doc) {
@@ -44,13 +44,15 @@ const CloudFireStoreUserHelper = {
             }).catch(err => {
             });
     },
-    readClassByTeacherId: function (teacherId, callback) {
-        db.collection('class').where('teacher_id', '==', `${teacherId}`).get()
+    readUserRoleById: function (roleId, callback) {
+        db.collection('tbl_role').where('key', '==', `${roleId}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];
+        console.tron.log({querySnapshot:querySnapshot})
+
                 querySnapshot.forEach(function (doc) {
                     if (doc) {
-                        let concatObj = { ...doc.data(), ...{ user_id: doc.id } }
+                        let concatObj = { ...doc.data(), ...{ role_id: doc.id } }
                         newObjectData.push(concatObj);
                     }
                 });
@@ -58,7 +60,21 @@ const CloudFireStoreUserHelper = {
             }).catch(error => {
             });
     },
-
+    readClassByTeacherId: function (teacherId, callback) {
+        db.collection('tbl_class').where('teacherId', '==', `${teacherId}`).get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        let concatObj = { ...doc.data(), ...{ class_id: doc.id } }
+                        newObjectData.push(concatObj);
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+            });
+    },
+    
     readStudentByClassId: function (classId, callback) {
         db.collection('users').where('role', '==', 'STUDENT').get()
             .then(function (querySnapshot) {
@@ -78,15 +94,91 @@ const CloudFireStoreUserHelper = {
             }).catch(error => {
             });
     },
+
+    readSubjectById: function (key, callback) {
+        db.collection('tbl_subject').where('key', '==', `${key}`).get()
+        .then(function (querySnapshot) {
+            let newObjectData = [];
+            
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data(), ...{ subjectId: doc.id } }
+                    newObjectData.push(concatObj);
+                }
+            });
+            return callback(newObjectData);
+        }).catch(error => {
+        });
+    },
+    readLevelById: function (key, callback) {
+        db.collection('tbl_level').where('key', '==', `${key}`).get()
+        .then(function (querySnapshot) {
+            let newObjectData = [];
+            
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data(), ...{ levelId: doc.id } }
+                    newObjectData.push(concatObj);
+                }
+            });
+            return callback(newObjectData);
+        }).catch(error => {
+        });
+    },
+    readSessionById: function (key, callback) {
+        db.collection('tbl_session').where('key', '==', `${key}`).get()
+        .then(function (querySnapshot) {
+            let newObjectData = [];
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    let concatObj = { ...doc.data(), ...{ sessionId: doc.id } }
+                    newObjectData.push(concatObj);
+                }
+            });
+            return callback(newObjectData);
+        }).catch(error => {
+        });
+    },
+
+    readStudentClass: function (classId,callback) {
+        db.collection('tbl_student_class').where('classId', '==', `${classId}`).get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        let concatObj = { ...doc.data(), ...{ document_id: doc.id } }
+                        newObjectData.push(concatObj);
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+            });
+    },
+
+    readStudentById: function (studentId,callback) {
+        db.collection('tbl_user').where('key', '==', `${studentId}`).get()
+            .then(function (querySnapshot) {
+                let newObjectData = [];
+                querySnapshot.forEach(function (doc) {
+                    if (doc) {
+                        let concatObj = { ...doc.data() }
+                        newObjectData.push(concatObj);
+                    }
+                });
+                return callback(newObjectData);
+            }).catch(error => {
+            });
+    },
+
     addDocumentByUser: function (data, callback) {
-        var documentRef = db.collection("Documents")
+        var documentRef = db.collection("tbl_documents")
         documentRef.add(data).then(function (querySnapshot) {
             var status = true
             return callback(status);
         })
     },
     readDocument: function (classId,teacherId,callback) {
-        db.collection('Documents').where('classId', '==', `${classId}`, 'teacherId', '==', `${teacherId}`).get()
+        db.collection('tbl_documents').where('classId', '==', `${classId}`, 'teacherId', '==', `${teacherId}`).get()
             .then(function (querySnapshot) {
                 let newObjectData = [];
                 querySnapshot.forEach(function (doc) {
