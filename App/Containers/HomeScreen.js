@@ -10,7 +10,8 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Platform
+  Platform,
+  Linking
 } from "react-native";
 import { Icon } from "native-base";
 import { Images, Colors, Metrics, Fonts } from "../Themes";
@@ -24,6 +25,7 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 import Loading from "../Components/Loading";
 import firebase from "react-native-firebase";
+import I18n from './I18n';
 import { connect } from 'react-redux'
 import StoreUserInfoActions from '../Redux/StoreUserInfoRedux'
 
@@ -62,54 +64,64 @@ class HomeScreen extends Component {
       ],
       category: [
         {
+          title: 'my_class',
           name: "My Class",
           image: Images.glocery,
           iconName: "database",
           iconType: "FontAwesome5"
         },
         {
+          title: 'facebook',
           name: "Facebook",
           image: Images.bakery,
           iconName: "facebook-square",
           iconType: "AntDesign"
         },
         {
+          title: 'youtube',
           name: "Youtube",
           image: Images.bakery,
           iconName: "youtube",
           iconType: "AntDesign"
         },
         {
+          title: 'admission',
           name: "Admission",
           image: Images.berverages,
           iconName: "leaf",
           iconType: "FontAwesome"
         },
         {
+          title: 'tuition_fee',
           name: "Tuition Fee",
           image: Images.bakery,
           iconName: "graduation-cap",
           iconType: "FontAwesome"
         },
         {
+          title: 'main_program',
           name: "Main Program",
           image: Images.glocery,
           iconName: "graduation-cap",
           iconType: "FontAwesome"
         },
         {
+
+          title: "elearning",
           name: "E-Learning",
           image: Images.stationary,
           iconName: "leaf",
           iconType: "FontAwesome"
         },
         {
+          title: 'nothing',
           name: "Nothing ",
           image: Images.glocery,
           iconName: "logout",
           iconType: "AntDesign"
         },
         {
+          title: 'setting',
           name: "Setting",
           image: Images.flower,
           iconName: "setting",
@@ -133,10 +145,10 @@ class HomeScreen extends Component {
       }
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Facebook") {
-      Actions.FacebookScreen();
+      Linking.openURL('https://www.facebook.com/n/?OppiGamingg');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
-      Actions.YoutubeScreen();
+      Linking.openURL( 'https://www.youtube.com/c/shroud' );
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Admission") {
       Actions.AdmissionScreen();
@@ -204,7 +216,7 @@ class HomeScreen extends Component {
                 color: "white"
               }}
             >
-              {item.name}
+              {I18n.t(item.title)}
             </Text>
           </View>
         </View>
@@ -402,6 +414,11 @@ class HomeScreen extends Component {
   };
 
   render() {
+    if (this.props.getLanguage.value) {
+			I18n.locale = this.props.getLanguage.value;
+		} else {
+			I18n.locale = "en"
+		}
     const { imageSlide, statusLoading } = this.state;
     if (statusLoading) return <Loading />;
     return (
@@ -459,9 +476,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    tempUser: state.tempUser
-  }
-}
+    tempUser: state.tempUser,
+		getLanguage: state.language,
+
+  };
+};
+ 
 const mapDispatchToProps = (dispatch) => {
   return {
     requestClearUserStoreInfo: () => dispatch(StoreUserInfoActions.clearUserInfoRequest()),
