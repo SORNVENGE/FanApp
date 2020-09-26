@@ -441,7 +441,7 @@ class HomeScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.main_color }}>
         <ScrollView>
-          <View style={{ backgroundColor: Colors.red }}>
+          <View>
             <View>
               <Swiper
                 loop={true}
