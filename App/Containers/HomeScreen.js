@@ -177,7 +177,8 @@ class HomeScreen extends Component {
           borderRightWidth: 0.2,
           borderBottomWidth: 0.2,
           borderColor: Colors.white,
-          backgroundColor: "#054368"
+          // backgroundColor: "#054368"
+          backgroundColor: Colors.main_color
         }}
       >
         <View
