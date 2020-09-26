@@ -38,24 +38,20 @@ class HomeScreen extends Component {
 
       imageSlide: [
         {
-          image: Images.one,
+          url:"https://lh3.googleusercontent.com/proxy/twFirtglGfjBsuAa7kibJtVZG0WYwIi8uPkfnBjb7TYJDLGBC9vM9FIJwpxLsVRHpVcQFVOCNsbf2E5zBi2a9gCN1iJaRH-CzdSNTUSrYRxFNKZPHgZMq2fz8JbVv2A7LAKcdKe9Fg",
           location: "#169,Street 168, Toek Thla,Sen Sok"
         },
         {
-          image: Images.two,
+          url:"https://e.swufe.edu.cn/images/7.png",
+          location: "#169,Street 168, Toek Thla,Sen Sok"
+        },
+        {
+          url:"https://isac.oss-accelerate.aliyuncs.com/wordpress/wp-content/uploads/2019/11/%E8%A5%BF%E5%8D%97%E8%B4%A2%E7%BB%8F%E5%A4%A7%E5%AD%A6banner.jpg",
           location: "#169,Street 168, Toek Thla"
         },
         {
-          image: Images.three,
-          location: "169,Street 168"
-        },
-        {
-          image: Images.four,
-          location: "#169,Street 168,  Toul Kork"
-        },
-        {
-          image: Images.five,
-          location: "#169,Street 168, Phnom Penh"
+          url:"https://smapse.com/storage/2019/02/southwestern-university-of-finance-economics-1.jpg",
+          location: "#169,Street 168, Toek Thla"
         }
       ],
       category: [
@@ -131,7 +127,7 @@ class HomeScreen extends Component {
   }
   handleOnEachMenuClick = (item, index) => {
     const { userData, statusLoading } = this.state;
-    
+
     if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
       console.tron.log({ userDataMyClass: userData })
       if (userData.data == null) {
@@ -144,14 +140,14 @@ class HomeScreen extends Component {
       Linking.openURL('https://www.facebook.com/n/?OppiGamingg');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
-      Linking.openURL( 'https://www.youtube.com/c/shroud' );
+      Linking.openURL('https://www.youtube.com/c/shroud');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Admission") {
       Actions.AdmissionScreen();
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Tuition Fee") {
       Actions.FeeScreen();
-    } 
+    }
     else if (Actions.currentScene == "HomeScreen" && item.name == "E-Learning") {
       Actions.ELearningScreen();
     }
@@ -436,29 +432,28 @@ class HomeScreen extends Component {
 
   render() {
     if (this.props.getLanguage.value) {
-			I18n.locale = this.props.getLanguage.value;
-		} else {
-			I18n.locale = "en"
-		}
+      I18n.locale = this.props.getLanguage.value;
+    } else {
+      I18n.locale = "en"
+    }
     const { imageSlide, statusLoading } = this.state;
     if (statusLoading) return <Loading />;
     return (
       <View style={{ flex: 1, backgroundColor: Colors.main_color }}>
         <ScrollView>
-          <View style={{ backgroundColor: Colors.white }}>
-            <View style={{}}>
+          <View style={{ backgroundColor: Colors.red }}>
+            <View>
               <Swiper
                 loop={true}
                 autoplay={true}
-                style={{ height: 300 }}
-                // style={{ height: Metrics.width / 1.6 }}
+                style={{ height: 190 }}
                 dot={<View />}
                 activeDot={<View />}
               >
                 {imageSlide.map((eachImage, index) => {
                   return (
-                    <View style={styles.item}>
-                      <Image source={eachImage.image} style={styles.item} />
+                    <View>
+                      <Image source={{ uri: eachImage.url }} width="100%" style={{height:190,resizeMode:'cover',marginTop:0}} />
                     </View>
                   );
                 })}
@@ -490,19 +485,19 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   image: {
-    resizeMode: "cover"
-    // resizeMode: 'contain'
+    // resizeMode: "cover"
+    resizeMode: 'contain'
   }
 });
 
 const mapStateToProps = (state) => {
   return {
     tempUser: state.tempUser,
-		getLanguage: state.language,
+    getLanguage: state.language,
 
   };
 };
- 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     requestClearUserStoreInfo: () => dispatch(StoreUserInfoActions.clearUserInfoRequest()),
