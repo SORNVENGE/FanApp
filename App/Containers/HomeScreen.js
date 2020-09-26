@@ -10,7 +10,8 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  Platform
+  Platform,
+  Linking
 } from "react-native";
 import { Icon } from "native-base";
 import { Images, Colors, Metrics, Fonts } from "../Themes";
@@ -25,6 +26,7 @@ const height = Dimensions.get("window").height;
 import { connect } from "react-redux";
 import Loading from "../Components/Loading";
 import firebase from "react-native-firebase";
+import I18n from './I18n';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -61,54 +63,63 @@ class HomeScreen extends Component {
       ],
       category: [
         {
+          title: 'my_class',
           name: "My Class",
           image: Images.glocery,
           iconName: "database",
           iconType: "FontAwesome5"
         },
         {
+          title: 'main_program',
           name: "Main Program",
           image: Images.glocery,
           iconName: "graduation-cap",
           iconType: "FontAwesome"
         },
         {
+          title: 'admission',
           name: "Admission",
           image: Images.berverages,
           iconName: "leaf",
           iconType: "FontAwesome"
         },
         {
+          title: "youtube",
           name: "Youtube",
           image: Images.bakery,
           iconName: "youtube",
           iconType: "AntDesign"
         },
         {
+          title: "elearning",
           name: "E-Learning",
           image: Images.stationary,
           iconName: "leaf",
           iconType: "FontAwesome"
         },
         {
+          title: 'setting',
           name: "Setting",
           image: Images.flower,
           iconName: "setting",
           iconType: "AntDesign"
         },
         {
+          title: "facebook",
           name: "Facebook",
           image: Images.bakery,
           iconName: "facebook-square",
           iconType: "AntDesign"
         },
         {
+          title: 'tuition_fee', 
           name: "Tuition Fee",
           image: Images.bakery,
           iconName: "graduation-cap",
           iconType: "FontAwesome"
         },
         {
+          title: 'my_document',
           name: "My Document",
           image: Images.glocery,
           iconName: "database",
@@ -137,7 +148,11 @@ class HomeScreen extends Component {
     } else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
       Actions.SettingScreen();
     } else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
-      Actions.YoutubeScreen();
+    
+      Linking.openURL( 'https://www.youtube.com/c/shroud' );
+
+        
+      // Actions.YoutubeScreen();
     } else if (
       Actions.currentScene == "HomeScreen" &&
       item.name == "E-Learning"
@@ -209,7 +224,7 @@ class HomeScreen extends Component {
                 color: "white"
               }}
             >
-              {item.name}
+              {I18n.t(item.title)}
             </Text>
           </View>
         </View>
@@ -407,6 +422,11 @@ class HomeScreen extends Component {
   };
 
   render() {
+    if (this.props.getLanguage.value) {
+			I18n.locale = this.props.getLanguage.value;
+		} else {
+			I18n.locale = "en"
+		}
     const { imageSlide, statusLoading } = this.state;
     if (statusLoading) return <Loading />;
     return (
@@ -463,7 +483,9 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => {
   return {
-    tempUser: state.tempUser
+    tempUser: state.tempUser,
+		getLanguage: state.language,
+
   };
 };
 export default connect(

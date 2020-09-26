@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import { Text, View, ImageBackground, StyleSheet,StatusBar,Image } from 'react-native'
 import { Images, Colors, Fonts, Metrics} from '../Themes'
+import { connect } from 'react-redux'
+import I18n from './I18n';
 
-export default class WelcomeScreen extends Component {
+class WelcomeScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 		};
 	}
 	render() {
+		if (this.props.getLanguage.value) {
+			I18n.locale = this.props.getLanguage.value;
+		} else {
+			I18n.locale = "en"
+		}
 		return (
 			<View style={{height:'100%',width:'100%',backgroundColor: Colors.main_color,justifyContent:'center',alignItems:'center' }}>
                 <Image source={Images.fansLogo} style={{ width: 200, height:200}} />
@@ -49,3 +56,13 @@ const styles = StyleSheet.create({
         height:Metrics.screenWidth/2 + 40
     }
 })
+
+
+
+const mapStateToProps = (state) => {
+	return {
+		getLanguage: state.language,
+	}
+}
+
+export default connect(mapStateToProps, null)(WelcomeScreen)
