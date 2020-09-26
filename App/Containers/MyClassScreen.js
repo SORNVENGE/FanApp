@@ -43,7 +43,7 @@ class MyClassScreen extends Component {
         if (response) {
           if (response[0].roleName == "Student") {
             CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
-              console.tron.log({ResponeStudent:response})
+              console.tron.log({ ResponeStudent: response })
               if (response) {
                 this.readAllProfessional(response)
               } else {
@@ -55,8 +55,8 @@ class MyClassScreen extends Component {
             CloudFireStoreUserHelper.readClassByTeacherId(
               userData.data.key,
               response => {
-              console.tron.log({ResponeTeacher:response})
-      
+                console.tron.log({ ResponeTeacher: response })
+
                 if (response) {
                   this.setState({ classData: response, statusLoading: false });
                 } else {
@@ -68,7 +68,7 @@ class MyClassScreen extends Component {
           this.setState({ statusLoading: false });
         }
       });
-  
+
   };
   readAllProfessional = async (items) => {
     let professionals = []
@@ -85,20 +85,16 @@ class MyClassScreen extends Component {
     Actions.MyClassDetailScreen({ classDetail: eachData });
   };
   render() {
-    const { statusLoading, classData } = this.state;
+    const { statusLoading, classData, userData } = this.state;
     if (statusLoading) return <Loading />;
     return (
       <View style={{ flex: 1, backgroundColor: Colors.white }}>
-        <View
-          style={{
-            marginTop: 20,
-            marginBottom: 10,
-            alignItems: "center",
-            paddingTop: 10
-          }}
-        >
-          <Text style={{ fontSize: 18, color: "black", fontWight: "bold" }}>
-            List All Class
+        <View style={{margin: 10,alignItems:'center'}}>
+          <Text style={{ fontSize: 24, color: "black", fontWight: "bold",color:Colors.main_color }}>
+            {userData.data.username}
+          </Text>
+          <Text style={{ fontSize: 18, color: "black", fontWight: "bold",color:Colors.main_color }}>
+            {userData.data.phone}
           </Text>
         </View>
         <View style={{ padding: 10 }}>
@@ -107,7 +103,6 @@ class MyClassScreen extends Component {
               <TouchableOpacity
                 onPress={() => this.clickOnEachClass(eachData)}
                 style={{
-                  marginTop: 10,
                   flexDirection: "row",
                   backgroundColor: Colors.main_color,
                   padding: 3,
@@ -116,7 +111,8 @@ class MyClassScreen extends Component {
                   shadowOpacity: 0.5,
                   shadowRadius: 2,
                   elevation: 0.5,
-                  borderRadius: 5
+                  borderRadius: 5,
+                  marginBottom: 15,
                 }}
               >
                 <View style={{ justifyContent: "center", width: "20%" }}>

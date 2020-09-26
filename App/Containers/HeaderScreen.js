@@ -92,7 +92,7 @@ class HeaderScreen extends Component {
                     :
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56 }}>
                         {statusLogoHomeScreen ?
-                            <TouchableOpacity style={{ width: '25%', alignItems: 'flex-end' }}>
+                            <View style={{ width: '25%', alignItems: 'flex-end' }}>
                                 <View style={{}}>
                                     <Image source={Images.fansLogo} style={{
                                         width: 40,
@@ -100,7 +100,7 @@ class HeaderScreen extends Component {
                                         resizeMode: 'cover'
                                     }} />
                                 </View>
-                            </TouchableOpacity>
+                            </View>
                             :
                             <TouchableOpacity onPress={this.handlePressBack} style={{ width: '20%', alignItems: 'flex-end' }}>
                                 <Icon name='arrowleft' type="AntDesign" style={{ color: Colors.white, fontSize: 26, fontWeight: "bold" }} />

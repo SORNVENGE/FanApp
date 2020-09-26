@@ -38,29 +38,21 @@ class HomeScreen extends Component {
 
       imageSlide: [
         {
-          image: Images.one,
+          url:"https://lh3.googleusercontent.com/proxy/twFirtglGfjBsuAa7kibJtVZG0WYwIi8uPkfnBjb7TYJDLGBC9vM9FIJwpxLsVRHpVcQFVOCNsbf2E5zBi2a9gCN1iJaRH-CzdSNTUSrYRxFNKZPHgZMq2fz8JbVv2A7LAKcdKe9Fg",
           location: "#169,Street 168, Toek Thla,Sen Sok"
         },
         {
-          image: Images.two,
+          url:"https://e.swufe.edu.cn/images/7.png",
+          location: "#169,Street 168, Toek Thla,Sen Sok"
+        },
+        {
+          url:"https://isac.oss-accelerate.aliyuncs.com/wordpress/wp-content/uploads/2019/11/%E8%A5%BF%E5%8D%97%E8%B4%A2%E7%BB%8F%E5%A4%A7%E5%AD%A6banner.jpg",
           location: "#169,Street 168, Toek Thla"
         },
         {
-          image: Images.three,
-          location: "169,Street 168"
-        },
-        {
-          image: Images.four,
-          location: "#169,Street 168,  Toul Kork"
-        },
-        {
-          image: Images.five,
-          location: "#169,Street 168, Phnom Penh"
+          url:"https://smapse.com/storage/2019/02/southwestern-university-of-finance-economics-1.jpg",
+          location: "#169,Street 168, Toek Thla"
         }
-        // {
-        // 	image: Images.six,
-        // 	location: '#169,Street 168, BBK'
-        // },
       ],
       category: [
         {
@@ -135,7 +127,7 @@ class HomeScreen extends Component {
   }
   handleOnEachMenuClick = (item, index) => {
     const { userData, statusLoading } = this.state;
-    
+
     if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
       console.tron.log({ userDataMyClass: userData })
       if (userData.data == null) {
@@ -148,14 +140,14 @@ class HomeScreen extends Component {
       Linking.openURL('https://www.facebook.com/n/?OppiGamingg');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
-      Linking.openURL( 'https://www.youtube.com/c/shroud' );
+      Linking.openURL('https://www.youtube.com/c/shroud');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Admission") {
       Actions.AdmissionScreen();
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Tuition Fee") {
       Actions.FeeScreen();
-    } 
+    }
     else if (Actions.currentScene == "HomeScreen" && item.name == "E-Learning") {
       Actions.ELearningScreen();
     }
@@ -181,7 +173,8 @@ class HomeScreen extends Component {
           borderRightWidth: 0.2,
           borderBottomWidth: 0.2,
           borderColor: Colors.white,
-          backgroundColor: "#054368"
+          // backgroundColor: "#054368"
+          backgroundColor: Colors.main_color
         }}
       >
         <View
@@ -393,20 +386,44 @@ class HomeScreen extends Component {
     // 	});
     // })
     // create main program table
+    // this.ref = firebase.firestore().collection('tbl_main_program');
     // var programList = [
-    // 	{ ProgramTitle: 'I. ចំណេះទូទៅ(ថ្នាក់ទី​១​-១២)',des:"it is for sample data",color: "#00A99D",image:'Images.eachimage1' },
-    // 	{ ProgramTitle: 'II. ភាសាអង់គ្លេសទូទៅ(​ថ្នាក់ត្រៀម​, កម្រិត១-១២)',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage2' },
-    // 	{ ProgramTitle: 'III. កម្មវិធីគណនាលេខរហ័ស IMA',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage3' },
-    // 	{ ProgramTitle: 'IV. វគ្គបណ្ដុះបណ្ដាលកុំព្យូទ័រ',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage4' },
-    // 	{ ProgramTitle: 'V. ថ្នាក់ត្រៀមប្រឡងតេស្ដអន្តរជាតិ',des:"it is for sample data" ,color: "#00A99D",image:'Images.eachimage5' },
+    // 	{ ProgramTitle: 'I. ចំណេះទូទៅ(ថ្នាក់ទី​១​-១២)',image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcStIVmje-5YIdLKCsMGiwBmphMVvqDWsDjiLRVm6nELHesjU0-u&usqp=CAU",description:"There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training.However,not all have completed the two years of academic training in Khmer required for Advance Study in Khmer (ASK).There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training.",color: "#00A99D"},
+    // 	{ ProgramTitle: 'II. ភាសាអង់គ្លេសទូទៅ(​ថ្នាក់ត្រៀម​, កម្រិត១-១២)',image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcStIVmje-5YIdLKCsMGiwBmphMVvqDWsDjiLRVm6nELHesjU0-u&usqp=CAU",description:"There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training.However,not all have completed the two years of academic training in Khmer required for Advance Study in Khmer (ASK).There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training." ,color: "#00A99D"},
+    // 	{ ProgramTitle: 'III. កម្មវិធីគណនាលេខរហ័ស IMA',image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcStIVmje-5YIdLKCsMGiwBmphMVvqDWsDjiLRVm6nELHesjU0-u&usqp=CAU",description:"There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training.However,not all have completed the two years of academic training in Khmer required for Advance Study in Khmer (ASK).There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training." ,color: "#00A99D"},
+    // 	{ ProgramTitle: 'IV. វគ្គបណ្ដុះបណ្ដាលកុំព្យូទ័រ',image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcStIVmje-5YIdLKCsMGiwBmphMVvqDWsDjiLRVm6nELHesjU0-u&usqp=CAU",description:"There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training.However,not all have completed the two years of academic training in Khmer required for Advance Study in Khmer (ASK).There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training." ,color: "#00A99D"},
+    // 	{ ProgramTitle: 'V. ថ្នាក់ត្រៀមប្រឡងតេស្ដអន្តរជាតិ',image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcStIVmje-5YIdLKCsMGiwBmphMVvqDWsDjiLRVm6nELHesjU0-u&usqp=CAU",description:"There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training.However,not all have completed the two years of academic training in Khmer required for Advance Study in Khmer (ASK).There is a demand among academic researchers for appropriate high quality in-country immersive Khmer language training." ,color: "#00A99D"},
     // ];
     // programList.map((eachProgram,ind) => {
     // 	this.ref.add({
     // 		id:ind+1,
     // 		title: eachProgram.ProgramTitle,
     // 		color:eachProgram.color,
-    // 		des:eachProgram.des,
+    // 		description:eachProgram.description,
     // 		image:eachProgram.image,
+    // 	}).then((data) => {
+    // 	}).catch((error) => {
+    // 	});
+    // })
+
+
+    // Create Fee Table
+    // this.ref = firebase.firestore().collection('tbl_fee');
+    // var feeList = [
+    //   { title: "I. General Education (Grade 1-12)", image: "https://images.ctfassets.net/fevtq3bap7tj/4rsL8Wiv2EuyaOKgwC0OOU/93dc05128009c2ec38cd34e35dd46fb2/Home_illustration.png", image1: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg1.jpg?alt=media&token=59937f0f-a5b0-4cff-af73-9f6c06a9055a", image2: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg2.jpg?alt=media&token=35620921-0a93-4c73-a3ee-bd7b0049ff59", image3: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg3.jpg?alt=media&token=67911f79-e828-4bf7-8c84-cbaaef0fc8d0" },
+    //   { title: "II. ESL Program (Level 1-12)", image: "https://images.ctfassets.net/fevtq3bap7tj/4rsL8Wiv2EuyaOKgwC0OOU/93dc05128009c2ec38cd34e35dd46fb2/Home_illustration.png", image1: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg1.jpg?alt=media&token=59937f0f-a5b0-4cff-af73-9f6c06a9055a", image2: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg2.jpg?alt=media&token=35620921-0a93-4c73-a3ee-bd7b0049ff59", image3: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg3.jpg?alt=media&token=67911f79-e828-4bf7-8c84-cbaaef0fc8d0" },
+    //   { title: "III. Intelligent Mental-Arimethic IMA ", image: "https://images.ctfassets.net/fevtq3bap7tj/4rsL8Wiv2EuyaOKgwC0OOU/93dc05128009c2ec38cd34e35dd46fb2/Home_illustration.png", image1: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg1.jpg?alt=media&token=59937f0f-a5b0-4cff-af73-9f6c06a9055a", image2: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg2.jpg?alt=media&token=35620921-0a93-4c73-a3ee-bd7b0049ff59", image3: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg3.jpg?alt=media&token=67911f79-e828-4bf7-8c84-cbaaef0fc8d0" },
+    //   { title: "IV. Computer Training Course ", image: "https://images.ctfassets.net/fevtq3bap7tj/4rsL8Wiv2EuyaOKgwC0OOU/93dc05128009c2ec38cd34e35dd46fb2/Home_illustration.png", image1: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg1.jpg?alt=media&token=59937f0f-a5b0-4cff-af73-9f6c06a9055a", image2: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg2.jpg?alt=media&token=35620921-0a93-4c73-a3ee-bd7b0049ff59", image3: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg3.jpg?alt=media&token=67911f79-e828-4bf7-8c84-cbaaef0fc8d0" },
+    //   { title: "V. Intelligent Test Program Course", image: "https://images.ctfassets.net/fevtq3bap7tj/4rsL8Wiv2EuyaOKgwC0OOU/93dc05128009c2ec38cd34e35dd46fb2/Home_illustration.png", image1: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg1.jpg?alt=media&token=59937f0f-a5b0-4cff-af73-9f6c06a9055a", image2: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg2.jpg?alt=media&token=35620921-0a93-4c73-a3ee-bd7b0049ff59", image3: "https://firebasestorage.googleapis.com/v0/b/fans-e66a4.appspot.com/o/image%2Fimg3.jpg?alt=media&token=67911f79-e828-4bf7-8c84-cbaaef0fc8d0" },
+    // ];
+    // feeList.map((eachFee,ind) => {
+    // 	this.ref.add({
+    // 		id:ind+1,
+    // 		title: eachFee.title,
+    //     image:eachFee.image,
+    //     image1:eachFee.image1,
+    //     image2:eachFee.image2,
+    //     image3:eachFee.image3,
     // 	}).then((data) => {
     // 	}).catch((error) => {
     // 	});
@@ -415,29 +432,28 @@ class HomeScreen extends Component {
 
   render() {
     if (this.props.getLanguage.value) {
-			I18n.locale = this.props.getLanguage.value;
-		} else {
-			I18n.locale = "en"
-		}
+      I18n.locale = this.props.getLanguage.value;
+    } else {
+      I18n.locale = "en"
+    }
     const { imageSlide, statusLoading } = this.state;
     if (statusLoading) return <Loading />;
     return (
       <View style={{ flex: 1, backgroundColor: Colors.main_color }}>
         <ScrollView>
-          <View style={{ backgroundColor: Colors.white }}>
-            <View style={{}}>
+          <View>
+            <View>
               <Swiper
                 loop={true}
                 autoplay={true}
                 style={{ height: 300 }}
-                // style={{ height: Metrics.width / 1.6 }}
                 dot={<View />}
                 activeDot={<View />}
               >
                 {imageSlide.map((eachImage, index) => {
                   return (
-                    <View style={styles.item}>
-                      <Image source={eachImage.image} style={styles.item} />
+                    <View>
+                      <Image source={{ uri: eachImage.url }} width="100%" style={{height:300,resizeMode:'cover',marginTop:0}} />
                     </View>
                   );
                 })}
@@ -469,19 +485,19 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   image: {
-    resizeMode: "cover"
-    // resizeMode: 'contain'
+    // resizeMode: "cover"
+    resizeMode: 'contain'
   }
 });
 
 const mapStateToProps = (state) => {
   return {
     tempUser: state.tempUser,
-		getLanguage: state.language,
+    getLanguage: state.language,
 
   };
 };
- 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     requestClearUserStoreInfo: () => dispatch(StoreUserInfoActions.clearUserInfoRequest()),

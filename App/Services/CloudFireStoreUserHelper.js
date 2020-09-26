@@ -242,22 +242,6 @@ const CloudFireStoreUserHelper = {
       })
       .catch((error) => { });
   },
-  readMainProgram: function (callback) {
-    db.collection("main_program")
-      .orderBy("id")
-      .get()
-      .then(function (querySnapshot) {
-        let newObjectData = [];
-        querySnapshot.forEach(function (doc) {
-          if (doc) {
-            let concatObj = { ...doc.data(), programId: doc.id };
-            newObjectData.push(concatObj);
-          }
-        });
-        return callback(newObjectData);
-      });
-  },
-
   // readUserRold: function (callback) {
   //     db.collection("role").get()
   //         .then(function (querySnapshot) {
@@ -384,6 +368,36 @@ const CloudFireStoreUserHelper = {
 
   deleteVideo: function (child_key) {
     db.collection('tbl_elearning_video').doc(child_key).delete()
+  },
+  readMainProgram: function (callback) {
+    db.collection("tbl_main_program")
+      .orderBy("id")
+      .get()
+      .then(function (querySnapshot) {
+        let newObjectData = [];
+        querySnapshot.forEach(function (doc) {
+          if (doc) {
+            let concatObj = { ...doc.data(), programId: doc.id };
+            newObjectData.push(concatObj);
+          }
+        });
+        return callback(newObjectData);
+      });
+  },
+  readFee: function (callback) {
+    db.collection("tbl_fee")
+      .orderBy("id")
+      .get()
+      .then(function (querySnapshot) {
+        let newObjectData = [];
+        querySnapshot.forEach(function (doc) {
+          if (doc) {
+            let concatObj = { ...doc.data(), feeId: doc.id };
+            newObjectData.push(concatObj);
+          }
+        });
+        return callback(newObjectData);
+      });
   },
 };
 export default CloudFireStoreUserHelper;
