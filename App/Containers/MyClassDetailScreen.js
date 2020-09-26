@@ -12,7 +12,7 @@ import {
 	ScrollView,
 	Platform
 } from "react-native";
-import { Container, Header, Content, List, ListItem } from "native-base";
+import { Icon } from 'native-base';
 import { Actions } from "react-native-router-flux";
 import { Images, Colors, Metrics, Fonts } from "../Themes";
 import FilePickerManager from "react-native-file-picker";
@@ -32,6 +32,7 @@ class MyClassDetailScreen extends Component {
 			classId: props.classDetail.user_id,
 			studentData: [],
 			documentData: [],
+			videoData: [],
 			subjectData: [],
 			levelData: [],
 			sessionData: [],
@@ -155,6 +156,15 @@ class MyClassDetailScreen extends Component {
 	handlePresstap = tab => {
 		this.type_clicked = tab.key;
 		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
+		console.tron.log(tab.key)
+		if (tab.key == 'Lession') {
+			this.setState({statusLoading: true})
+			CloudFireStoreUserHelper.readElearningVideo(this.state.classData.key, response => {
+				if (response) {
+					this.setState({ videoData: response, statusLoading: false });
+				}
+			});
+		}
 	};
 	_renderTab = ({ item, index }) => {
 		IsTab = this.state.key_tab == item.key ? true : false;
@@ -296,11 +306,44 @@ class MyClassDetailScreen extends Component {
 			</TouchableOpacity>
 		);
 	};
+	
+	_handleNextScreen = (item, index) => {
+        console.tron.log(item)
+        if (Actions.currentScene == 'MyClassDetailScreen') {
+            Actions.ELearninVideoScreen({ item: item })
+        }
+	}
+	
+	renderItemView = ({ item, index }) => {
+        var res = item.link.replace("https://www.youtube.com/watch?v=", "");
+        return (
+            <TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
+                <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
+                    <ImageBackground
+                        style={{ width: 100, height: 60, resizeMode: 'stretch', justifyContent: 'center', alignItems: 'center' }}
+                        source={{ uri: 'https://img.youtube.com/vi/' + res + '/default.jpg', }}
+                    >
+                        <Icon type="FontAwesome5" name="play" style={{ fontSize: 30, color: 'white', opacity: 0.7, }} />
+                    </ImageBackground>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '70%', }}>
+                        <Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 14, }}>{item.title}</Text>
+                        <Text style={{ width: '15%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
+                        <Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
+                    </View>
+                </View>
+
+
+            </TouchableOpacity>
+        )
+    }
+
+
 	render() {
 		const {
 			tap,
 			statusLoading,
 			documentData,
+			videoData,
 			subjectName,
 			levelName,
 			sessionName,
@@ -495,7 +538,11 @@ class MyClassDetailScreen extends Component {
 						</View>
 					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
-							<Text>Lession block</Text>
+							<FlatList
+                            style={{ width: '100%', backgroundColor: 'white' }}
+                            data={videoData}
+                            renderItem={this.renderItemView}
+                            keyExtractor={(item, index) => index.toString()} />
 						</View>
 					) : (
 								<View style={{ padding: 10 }}>
