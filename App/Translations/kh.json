@@ -10,7 +10,9 @@
     "youtube": "Youtube",
     "facebook": "Facebook",
     "elearning": "E-Learning",
-    "nothing": "Nothing"
+    "nothing": "Nothing",
 
-
+    "are_you_sure": "តើ​អ្នក​ប្រាកដដែល​ឬទេ?",
+    "no": "ទេ",
+    "yes": "បាទ / ចាស",
 }

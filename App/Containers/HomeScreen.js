@@ -24,10 +24,10 @@ const PURPLE = "rgba(108,48,237,1)";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 import Loading from "../Components/Loading";
-import firebase from "react-native-firebase";
 import I18n from './I18n';
 import { connect } from 'react-redux'
 import StoreUserInfoActions from '../Redux/StoreUserInfoRedux'
+import firebase from "react-native-firebase";
 
 class HomeScreen extends Component {
   constructor(props) {

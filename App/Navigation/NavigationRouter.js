@@ -27,6 +27,7 @@ import DocumentPreviewScreen from '../Containers/DocumentPreviewScreen';
 import VerificationScreen from '../Containers/Register/VerificationScreen';
 import LoginScreen from '../Containers/Register/LoginScreen';
 import FlashScreen from '../Containers/FlashScreen'
+import AddVideoScreen from '../Containers/AddVideoScreen'
 
 class NavigationRouter extends Component {
 	constructor(props) {
@@ -68,6 +69,7 @@ class NavigationRouter extends Component {
 					<Scene  onEnter={() => this.onEnter(false, false, 'ELearningSubjectScreen', 'ELearningSubjectScreen')} key="ELearningSubjectScreen" component={ELearningSubjectScreen} hideNavBar={true} />
 					<Scene   onEnter={() => this.onEnter(false, false, 'ELearningSubjectVideosScreen', 'ELearningSubjectVideosScreen')} key="ELearningSubjectVideosScreen" component={ELearningSubjectVideosScreen} hideNavBar={true} />
 					<Scene   onEnter={() => this.onEnter(false, false, 'ELearninVideoScreen', 'ELearninVideoScreen')} key="ELearninVideoScreen" component={ELearninVideoScreen} hideNavBar={true} />
+					<Scene   onEnter={() => this.onEnter(false, false, 'AddVideoScreen', 'AddVideoScreen')} key="AddVideoScreen" component={AddVideoScreen} hideNavBar={true} />
 
 				</Scene>
 			</Router>

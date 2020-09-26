@@ -10,6 +10,7 @@ import {
 	StyleSheet,
 	TextInput,
 	ScrollView,
+	Alert,
 	Platform
 } from "react-native";
 import { Icon } from 'native-base';
@@ -21,6 +22,7 @@ import firebase from "react-native-firebase";
 import CloudFireStoreUserHelper from "../Services/CloudFireStoreUserHelper";
 import Loading from "../Components/Loading";
 import Pdf from "react-native-pdf";
+import I18n from './I18n';
 
 const db = firebase.firestore();
 class MyClassDetailScreen extends Component {
@@ -41,6 +43,7 @@ class MyClassDetailScreen extends Component {
 			levelName: "",
 			roleType: "",
 			statusLoading: false,
+			statusLoadingVideo: false,
 			tap: [
 				{
 					key: "Information",
@@ -158,10 +161,10 @@ class MyClassDetailScreen extends Component {
 		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
 		console.tron.log(tab.key)
 		if (tab.key == 'Lession') {
-			this.setState({statusLoading: true})
+			this.setState({ statusLoadingVideo: true })
 			CloudFireStoreUserHelper.readElearningVideo(this.state.classData.key, response => {
 				if (response) {
-					this.setState({ videoData: response, statusLoading: false });
+					this.setState({ videoData: response, statusLoadingVideo: false });
 				}
 			});
 		}
@@ -200,63 +203,69 @@ class MyClassDetailScreen extends Component {
 		const { classData } = this.state;
 		var teacherId = classData.teacherId;
 		var classId = classData.key
-		FilePickerManager.showFilePicker(null, response => {
-			if (response.didCancel) {
-			} else if (response.error) {
-			} else {
-				this.setState({ statusLoading: true });
-				firebase
-					.storage()
-					.ref("/document/" + response.fileName)
-					.putFile(response.path)
-					.then(snapshot => {
-						var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf(".") + 1);
-						var type = "";
-						if (ext == "jpeg" || ext == "jpg" || ext == "png") {
-							type = "image";
-						} else if (ext == "pdf") {
-							type = "pdf";
-						} else if (ext == "pptx") {
-							type = "pptx";
-						}
-
-						let mergeObj = {
-							created_date: firebase.firestore.FieldValue.serverTimestamp(),
-							file: snapshot.downloadURL,
-							fileName: response.fileName,
-							teacherId: teacherId,
-							title: "upload without title",
-							classId: classId,
-							type: type,
-							file_size: response.size
-						};
-						CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
-							if (response) {
-								CloudFireStoreUserHelper.readDocument(
-									classId,
-									teacherId,
-									response => {
-										if (response) {
-											this.setState({
-												documentData: response,
-												statusLoading: false
-											});
-										} else {
-										}
-									}
-								);
-							} else {
-								alert(" Please Check file before upload!!! ");
-							}
-						});
-						// this.setState({ statusIsProgress: false, progress_bar: 0 })
-						// if (Actions.currentScene == 'DocumentScreen') {
-						//     Actions.DocumentPreview({ selectedFile: mergeObj })
-						// }
-					})
-					.catch();
+		if (this.type_clicked == 'Lession') {
+			if (Actions.currentScene == 'MyClassDetailScreen') {
+				Actions.AddVideoScreen({ classId: classId })
 			}
-		});
+		} else {
+			FilePickerManager.showFilePicker(null, response => {
+				if (response.didCancel) {
+				} else if (response.error) {
+				} else {
+					this.setState({ statusLoading: true });
+					firebase
+						.storage()
+						.ref("/document/" + response.fileName)
+						.putFile(response.path)
+						.then(snapshot => {
+							var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf(".") + 1);
+							var type = "";
+							if (ext == "jpeg" || ext == "jpg" || ext == "png") {
+								type = "image";
+							} else if (ext == "pdf") {
+								type = "pdf";
+							} else if (ext == "pptx") {
+								type = "pptx";
+							}
+
+							let mergeObj = {
+								created_date: firebase.firestore.FieldValue.serverTimestamp(),
+								file: snapshot.downloadURL,
+								fileName: response.fileName,
+								teacherId: teacherId,
+								title: "upload without title",
+								classId: classId,
+								type: type,
+								file_size: response.size
+							};
+							CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
+								if (response) {
+									CloudFireStoreUserHelper.readDocument(
+										classId,
+										teacherId,
+										response => {
+											if (response) {
+												this.setState({
+													documentData: response,
+													statusLoading: false
+												});
+											} else {
+											}
+										}
+									);
+								} else {
+									alert(" Please Check file before upload!!! ");
+								}
+							});
+							// this.setState({ statusIsProgress: false, progress_bar: 0 })
+							// if (Actions.currentScene == 'DocumentScreen') {
+							//     Actions.DocumentPreview({ selectedFile: mergeObj })
+							// }
+						})
+						.catch();
+				}
+			});
+		}
 	};
 	_handlePress = item => {
 		Actions.DocumentPreviewScreen({ selectedFile: item });
@@ -306,36 +315,62 @@ class MyClassDetailScreen extends Component {
 			</TouchableOpacity>
 		);
 	};
-	
+
 	_handleNextScreen = (item, index) => {
-        console.tron.log(item)
-        if (Actions.currentScene == 'MyClassDetailScreen') {
-            Actions.ELearninVideoScreen({ item: item })
-        }
+		console.tron.log(item)
+		if (Actions.currentScene == 'MyClassDetailScreen') {
+			Actions.ELearninVideoScreen({ item: item })
+		}
 	}
-	
+	onDeleteVideo = (item) => {
+		CloudFireStoreUserHelper.deleteVideo(item.id)
+	}
+	_handleDeteleVideo = (item) => {
+		console.tron.log(item)
+		Alert.alert(
+            "Delete Video!",
+            I18n.t('are_you_sure'),
+            [
+                {
+                    text:  I18n.t('no'),
+                    style: "cancel"
+                },
+                { text:  I18n.t('yes'), onPress: () => this.onDeleteVideo(item) }
+            ],
+            { cancelable: false }
+        );
+	}
+
 	renderItemView = ({ item, index }) => {
-        var res = item.link.replace("https://www.youtube.com/watch?v=", "");
-        return (
-            <TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
-                <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
-                    <ImageBackground
-                        style={{ width: 100, height: 60, resizeMode: 'stretch', justifyContent: 'center', alignItems: 'center' }}
-                        source={{ uri: 'https://img.youtube.com/vi/' + res + '/default.jpg', }}
-                    >
-                        <Icon type="FontAwesome5" name="play" style={{ fontSize: 30, color: 'white', opacity: 0.7, }} />
-                    </ImageBackground>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '70%', }}>
-                        <Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 14, }}>{item.title}</Text>
-                        <Text style={{ width: '15%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
-                        <Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
-                    </View>
-                </View>
-
-
-            </TouchableOpacity>
-        )
-    }
+		const { roleType } = this.state
+		var res = item.link.replace("https://www.youtube.com/watch?v=", "");
+		return (
+			<TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
+				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
+					<ImageBackground
+						style={{ width: 100, height: 60, resizeMode: 'stretch', justifyContent: 'center', alignItems: 'center' }}
+						source={{ uri: 'https://img.youtube.com/vi/' + res + '/default.jpg', }}
+					>
+						<Icon type="FontAwesome5" name="play" style={{ fontSize: 30, color: 'white', opacity: 0.7, }} />
+					</ImageBackground>
+					<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '70%', }}>
+						<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 14, }}>{item.title}</Text>
+						{roleType == "Student" ?
+							<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10,}}>
+								<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
+								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
+							</View>
+							:
+							<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
+								<Text style={{ width: '100%', textAlign: 'right', color: '#ff0000', fontSize: 12, }}>Delete</Text>
+								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
+							</TouchableOpacity>
+						}
+					</View>
+				</View>
+			</TouchableOpacity>
+		)
+	}
 
 
 	render() {
@@ -347,7 +382,8 @@ class MyClassDetailScreen extends Component {
 			subjectName,
 			levelName,
 			sessionName,
-			roleType
+			roleType,
+			statusLoadingVideo
 		} = this.state;
 		if (statusLoading) return <Loading />;
 		return (
@@ -494,9 +530,9 @@ class MyClassDetailScreen extends Component {
 									marginTop: 25,
 									fontSize: 18,
 									fontWight: "bold",
-									backgroundColor:Colors.main_color,
-									padding:10,
-									color:Colors.white
+									backgroundColor: Colors.main_color,
+									padding: 10,
+									color: Colors.white
 								}}
 							>
 								{" "}
@@ -520,7 +556,7 @@ class MyClassDetailScreen extends Component {
 														<View style={{ width: "30%" }}>
 															<Text style={{ fontSize: 15, color: "black", fontWight: "bold" }}>
 																{" "}
-															Student  {ind+1} : {" "}
+																Student  {ind + 1} : {" "}
 															</Text>
 														</View>
 														<View style={{ width: "80%" }}>
@@ -538,11 +574,14 @@ class MyClassDetailScreen extends Component {
 						</View>
 					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
-							<FlatList
-                            style={{ width: '100%', backgroundColor: 'white' }}
-                            data={videoData}
-                            renderItem={this.renderItemView}
-                            keyExtractor={(item, index) => index.toString()} />
+							{statusLoadingVideo ?
+								<Loading /> :
+								<FlatList
+									style={{ width: '100%', backgroundColor: 'white' }}
+									data={videoData}
+									renderItem={this.renderItemView}
+									keyExtractor={(item, index) => index.toString()} />
+							}
 						</View>
 					) : (
 								<View style={{ padding: 10 }}>
@@ -579,8 +618,8 @@ class MyClassDetailScreen extends Component {
 										fontWeight: "bold"
 									}}
 								>
-									UPLOAD DOCUMENT
-            </Text>
+									{this.type_clicked == 'Lession' ? 'UPLOAD VIDEO' : 'UPLOAD DOCUMENT'}
+								</Text>
 							</TouchableOpacity>
 						)}
 			</View>
