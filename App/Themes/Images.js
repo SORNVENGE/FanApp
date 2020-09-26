@@ -1,14 +1,9 @@
 // leave off @2x/@3x
 const images = {
   backGroundImage: require('../Images/background.jpg'),
-  bgVerificationImage: require('../Images/bgVerification.jpg'),
-  logo: require('../Images/Logo.png'),
   fansLogo: require('../Images/fans.png'),
   english: require('../Images/english.png'),
   khmer:require('../Images/khmer.jpg'),
-  locationBg:require('../Images/locationBg.jpg'),
-  promotionBG:require('../Images/promotionBg.jpg'),
-  freeDeliveryBg:require('../Images/freeDeliveryBg.jpg'),
   homeCard:require('../Images/homeCard.png'),
   profileIcon: require('../Images/Footer/profile_active.png'),
   pdf_icon: require('../Images/Icons/pdf_icon.jpg'),
@@ -54,14 +49,6 @@ const images = {
 	img1: require('../Images/img1.jpg'),
 	img2: require('../Images/img2.jpg'),
   img3: require('../Images/img3.jpg'),
-  
-
-  eachimage1: require('../Images/img1.jpg'),
-	eachimage2: require('../Images/eachimage2.jpg'),
-  eachimage3: require('../Images/eachimage3.jpg'),
-	eachimage4: require('../Images/eachimage4.jpg'),
-	eachimage5: require('../Images/eachimage5.jpg'),
-  
   
   //home menu
   food: require('../Images/MenuIcons/food.png'),
