@@ -3,10 +3,14 @@ import { View, Image, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Images, Colors, Metrics, Fonts } from '../Themes'
 import { Actions } from 'react-native-router-flux';
 
+import CloudFireStoreUserHelper from '../Services/CloudFireStoreUserHelper';
+import Loading from '../Components/Loading'
 export default class FeeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            feeData:[],
+            statusLoading:false,
             data: [
                 { title: "I. General Education (Grade 1-12)", lefeICon: "https://i7.pngflow.com/pngimage/877/789/png-student-group-education-college-university-student-tshirt-blue-people-university-clipart-thumb.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
                 { title: "II. ESL Program (Level 1-12)", lefeICon: "https://w7.pngwing.com/pngs/343/187/png-transparent-student-university-institute-school-education-student-class-people-public-relations.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
@@ -16,20 +20,32 @@ export default class FeeScreen extends Component {
             ]
         }
     }
-
+    componentWillMount=()=>{
+        this.setState({  statusLoading: true });
+        CloudFireStoreUserHelper.readFee((response) => {
+            if (response) {
+                this.setState({ feeData: response, statusLoading: false });
+            }
+            else {
+                this.setState({ statusLoading: false });
+            }
+        })
+    }
     render() {
-        const { data } = this.state
+
+        const {statusLoading,feeData } = this.state
+        if (statusLoading) return <Loading />
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView>
-                    {data.map((eachData, index) => {
+                    {feeData.map((eachData, index) => {
                         return (
                             <TouchableOpacity onPress={() =>Actions.FeeDetailScreen({ item: eachData })} style={{ padding: 10, flexDirection: 'column' }}>
                                 <View style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>
                                     <View style={{ width: '30%', justifyContent: 'center' }}>
                                         <Image
                                             style={{ width: 85, height: 75, alignSelf: 'center', resizeMode: 'center' }}
-                                            source={{ uri: eachData.lefeICon }}
+                                            source={{ uri: eachData.image }}
                                         />
                                     </View>
                                     <View style={{ width: '70%', flexDirection: 'column', justifyContent: 'center' }}>
