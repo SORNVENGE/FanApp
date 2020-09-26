@@ -24,10 +24,10 @@ const PURPLE = "rgba(108,48,237,1)";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 import Loading from "../Components/Loading";
-import firebase from "react-native-firebase";
 import I18n from './I18n';
 import { connect } from 'react-redux'
 import StoreUserInfoActions from '../Redux/StoreUserInfoRedux'
+import firebase from "react-native-firebase";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -446,14 +446,14 @@ class HomeScreen extends Component {
               <Swiper
                 loop={true}
                 autoplay={true}
-                style={{ height: 190 }}
+                style={{ height: 300 }}
                 dot={<View />}
                 activeDot={<View />}
               >
                 {imageSlide.map((eachImage, index) => {
                   return (
                     <View>
-                      <Image source={{ uri: eachImage.url }} width="100%" style={{height:190,resizeMode:'cover',marginTop:0}} />
+                      <Image source={{ uri: eachImage.url }} width="100%" style={{height:300,resizeMode:'cover',marginTop:0}} />
                     </View>
                   );
                 })}

@@ -111,7 +111,8 @@ class MyClassScreen extends Component {
                   shadowOpacity: 0.5,
                   shadowRadius: 2,
                   elevation: 0.5,
-                  borderRadius: 5
+                  borderRadius: 5,
+                  marginBottom: 15,
                 }}
               >
                 <View style={{ justifyContent: "center", width: "20%" }}>

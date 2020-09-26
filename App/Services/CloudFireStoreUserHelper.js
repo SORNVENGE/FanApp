@@ -101,8 +101,7 @@ const CloudFireStoreUserHelper = {
   },
   
   readElearningVideo: function (classId, callback) {
-    db.collection('tbl_elearning_video').where('classId', '==', `${classId}`).get()
-      .then(function (querySnapshot) {
+    db.collection('tbl_elearning_video').where('classId', '==', `${classId}`).onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -111,7 +110,6 @@ const CloudFireStoreUserHelper = {
           }
         });
         return callback(newObjectData);
-      }).catch(error => {
       });
   },
 
@@ -343,6 +341,34 @@ const CloudFireStoreUserHelper = {
       });
   },
 
+  addVideo: function (data, callback) {
+    var addChannelBetting = db.collection("tbl_elearning_video")
+    addChannelBetting.add(data).then(function (querySnapshot) {
+        var id = querySnapshot._documentPath._parts[1]
+        db.collection("tbl_elearning_video").doc(id).update({
+            id: id
+        });
+        var status = true
+        return callback(status);
+    })
+  },
+
+  readAdmission: function (callback) {
+    db.collection("tbl_admission").onSnapshot(function (querySnapshot) {
+      let newCollectionObj = [];
+      querySnapshot.forEach(function (doc) {
+        if (doc) {
+          let concatObj = { ...doc.data(), status: false };
+          newCollectionObj.push(concatObj);
+        }
+      });
+      return callback(newCollectionObj);
+    });
+  },
+
+  deleteVideo: function (child_key) {
+    db.collection('tbl_elearning_video').doc(child_key).delete()
+  },
   readMainProgram: function (callback) {
     db.collection("tbl_main_program")
       .orderBy("id")
