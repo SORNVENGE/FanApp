@@ -23,10 +23,11 @@ const GREEN = "rgba(141,196,63,1)";
 const PURPLE = "rgba(108,48,237,1)";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
-import { connect } from "react-redux";
 import Loading from "../Components/Loading";
 import firebase from "react-native-firebase";
 import I18n from './I18n';
+import { connect } from 'react-redux'
+import StoreUserInfoActions from '../Redux/StoreUserInfoRedux'
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -70,11 +71,18 @@ class HomeScreen extends Component {
           iconType: "FontAwesome5"
         },
         {
-          title: 'main_program',
-          name: "Main Program",
-          image: Images.glocery,
-          iconName: "graduation-cap",
-          iconType: "FontAwesome"
+          title: 'facebook',
+          name: "Facebook",
+          image: Images.bakery,
+          iconName: "facebook-square",
+          iconType: "AntDesign"
+        },
+        {
+          title: 'youtube',
+          name: "Youtube",
+          image: Images.bakery,
+          iconName: "youtube",
+          iconType: "AntDesign"
         },
         {
           title: 'admission',
@@ -84,18 +92,33 @@ class HomeScreen extends Component {
           iconType: "FontAwesome"
         },
         {
-          title: "youtube",
-          name: "Youtube",
+          title: 'tuition_fee',
+          name: "Tuition Fee",
           image: Images.bakery,
-          iconName: "youtube",
-          iconType: "AntDesign"
+          iconName: "graduation-cap",
+          iconType: "FontAwesome"
         },
         {
+          title: 'main_program',
+          name: "Main Program",
+          image: Images.glocery,
+          iconName: "graduation-cap",
+          iconType: "FontAwesome"
+        },
+        {
+
           title: "elearning",
           name: "E-Learning",
           image: Images.stationary,
           iconName: "leaf",
           iconType: "FontAwesome"
+        },
+        {
+          title: 'nothing',
+          name: "Nothing ",
+          image: Images.glocery,
+          iconName: "logout",
+          iconType: "AntDesign"
         },
         {
           title: 'setting',
@@ -104,27 +127,6 @@ class HomeScreen extends Component {
           iconName: "setting",
           iconType: "AntDesign"
         },
-        {
-          title: "facebook",
-          name: "Facebook",
-          image: Images.bakery,
-          iconName: "facebook-square",
-          iconType: "AntDesign"
-        },
-        {
-          title: 'tuition_fee', 
-          name: "Tuition Fee",
-          image: Images.bakery,
-          iconName: "graduation-cap",
-          iconType: "FontAwesome"
-        },
-        {
-          title: 'my_document',
-          name: "My Document",
-          image: Images.glocery,
-          iconName: "database",
-          iconType: "FontAwesome5"
-        }
       ],
       activeIndex: 1,
       locationShop: ""
@@ -132,46 +134,36 @@ class HomeScreen extends Component {
     // this.ref = firebase.firestore().collection('main_program');
   }
   handleOnEachMenuClick = (item, index) => {
-    const { userData } = this.state;
-    if (Actions.currentScene == "HomeScreen" && item.name == "Main Program") {
-      Actions.MainProgramScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "Admission"
-    ) {
-      Actions.AdmissionScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "Tuition Fee"
-    ) {
-      Actions.FeeScreen();
-    } else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
-      Actions.SettingScreen();
-    } else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
+    const { userData, statusLoading } = this.state;
     
-      Linking.openURL( 'https://www.youtube.com/c/shroud' );
-
-        
-      // Actions.YoutubeScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "E-Learning"
-    ) {
-      Actions.ELearningScreen();
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "My Class"
-    ) {
+    if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
+      console.tron.log({ userDataMyClass: userData })
       if (userData.data == null) {
         Actions.LoginScreen({ fromScreen: "MyClassScreen" });
       } else {
         Actions.MyClassScreen();
       }
-    } else if (
-      Actions.currentScene == "HomeScreen" &&
-      item.name == "My Document"
-    ) {
-      Actions.MyDocumentScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Facebook") {
+      Linking.openURL('https://www.facebook.com/n/?OppiGamingg');
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
+      Linking.openURL( 'https://www.youtube.com/c/shroud' );
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Admission") {
+      Actions.AdmissionScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Tuition Fee") {
+      Actions.FeeScreen();
+    } 
+    else if (Actions.currentScene == "HomeScreen" && item.name == "E-Learning") {
+      Actions.ELearningScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Main Program") {
+      Actions.MainProgramScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
+      Actions.SettingScreen();
     }
   };
   renderMeunuOption = ({ item, index }) => {
@@ -199,13 +191,13 @@ class HomeScreen extends Component {
             alignItems: "center"
           }}
         >
-          <TouchableOpacity style={{ alignItems: "center", marginBottom: 7 }}>
+          <View style={{ alignItems: "center", marginBottom: 7 }}>
             <Icon
               name={item.iconName}
               type={item.iconType}
               style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }}
             />
-          </TouchableOpacity>
+          </View>
           <View
             style={{
               width: "100%",
@@ -241,7 +233,7 @@ class HomeScreen extends Component {
     // 	{studentId:'N4ZsjNd9lwfCUgwzrvbD',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
     // 	{studentId:'ZIYFV98aKCehMRyizr8f',classId:'IgQIGVFoJYYj53f6PH1G',joinedDate:'21-09-2020'},
     // 	{studentId:'N4ZsjNd9lwfCUgwzrvbD',classId:'QhydONPA9nabFeAXWFmv',joinedDate:'21-09-2020'},
-      
+
     // ]
     // studentClassList.map((eachStudentClass,ind) => {
     // 	this.ref.add({
@@ -481,14 +473,19 @@ const styles = StyleSheet.create({
     // resizeMode: 'contain'
   }
 });
-const mapStateToProps = state => {
+
+const mapStateToProps = (state) => {
   return {
     tempUser: state.tempUser,
 		getLanguage: state.language,
 
   };
 };
-export default connect(
-  mapStateToProps,
-  null
-)(HomeScreen);
+ 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    requestClearUserStoreInfo: () => dispatch(StoreUserInfoActions.clearUserInfoRequest()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
