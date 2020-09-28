@@ -101,7 +101,20 @@ const CloudFireStoreUserHelper = {
   },
   
   readElearningVideo: function (classId, callback) {
-    db.collection('tbl_elearning_video').where('classId', '==', `${classId}`).onSnapshot(function (querySnapshot) {
+    db.collection('tbl_elearning_video').where('lessionId', '==', `${classId}`).onSnapshot(function (querySnapshot) {
+        let newObjectData = [];
+        querySnapshot.forEach(function (doc) {
+          if (doc) {
+            let concatObj = { ...doc.data(), ...{ document_id: doc.id } }
+            newObjectData.push(concatObj);
+          }
+        });
+        return callback(newObjectData);
+      });
+  },
+
+  readLession: function (classId, callback) {
+    db.collection('tbl_lession').where('classId', '==', `${classId}`).onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -226,21 +239,19 @@ const CloudFireStoreUserHelper = {
       return callback(status);
     });
   },
-  readDocument: function (classId, teacherId, callback) {
+  readDocument: function (lessionId, callback) {
     db.collection("tbl_documents")
-      .where("classId", "==", `${classId}`, "teacherId", "==", `${teacherId}`)
-      .get()
-      .then(function (querySnapshot) {
-        let newObjectData = [];
-        querySnapshot.forEach(function (doc) {
-          if (doc) {
-            let concatObj = { ...doc.data(), ...{ document_id: doc.id } };
-            newObjectData.push(concatObj);
-          }
-        });
-        return callback(newObjectData);
-      })
-      .catch((error) => { });
+    .where("lessionId", "==", `${lessionId}`)
+    .onSnapshot(function (querySnapshot) {
+      let newCollectionObj = [];
+      querySnapshot.forEach(function (doc) {
+        if (doc) {
+          let concatObj = { ...doc.data() };
+          newCollectionObj.push(concatObj);
+        }
+      });
+      return callback(newCollectionObj);
+    });
   },
   // readUserRold: function (callback) {
   //     db.collection("role").get()
@@ -311,6 +322,21 @@ const CloudFireStoreUserHelper = {
       });
   },
 
+  readDocByLessionId: function (id, callback) {
+    db.collection("tbl_documents")
+      .where("lessionId", "==", `${id}`)
+      .onSnapshot(function (querySnapshot) {
+        let newCollectionObj = [];
+        querySnapshot.forEach(function (doc) {
+          if (doc) {
+            let concatObj = { ...doc.data() };
+            newCollectionObj.push(concatObj);
+          }
+        });
+        return callback(newCollectionObj);
+      });
+  },
+
   readSubjectElearning: function (uid, callback) {
     db.collection("tbl_elearning_subject")
       .where("mainGrade", "==", `${uid}`)
@@ -353,6 +379,18 @@ const CloudFireStoreUserHelper = {
     })
   },
 
+  addLession: function (data, callback) {
+    var addChannelBetting = db.collection("tbl_lession")
+    addChannelBetting.add(data).then(function (querySnapshot) {
+        var id = querySnapshot._documentPath._parts[1]
+        db.collection("tbl_lession").doc(id).update({
+            id: id
+        });
+        var status = true
+        return callback(status);
+    })
+  },
+
   readAdmission: function (callback) {
     db.collection("tbl_admission").onSnapshot(function (querySnapshot) {
       let newCollectionObj = [];
@@ -368,6 +406,9 @@ const CloudFireStoreUserHelper = {
 
   deleteVideo: function (child_key) {
     db.collection('tbl_elearning_video').doc(child_key).delete()
+  },
+  deleteLession: function (child_key) {
+    db.collection('tbl_lession').doc(child_key).delete()
   },
   readMainProgram: function (callback) {
     db.collection("tbl_main_program")
