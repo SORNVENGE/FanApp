@@ -24,7 +24,6 @@ class ELearningScreen extends Component {
     }
 
     _handleNextScreen = (item, index) => {
-        console.tron.log(item)
         if (Actions.currentScene == 'ELearningScreen') {
             Actions.ELearningItemScreen({item: item})
         }
@@ -70,7 +69,6 @@ class ELearningScreen extends Component {
     }
 
     renderItemView = ({ item, index }) => {
-        console.tron.log(item)
         return (
             <TouchableOpacity onPress={() => this._handleNextScreen(item, index)}style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
                 <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: index%2==0 ? '#4747d1' : '#4d79ff', borderRadius: 5, }}>

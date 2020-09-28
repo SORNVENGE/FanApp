@@ -115,22 +115,6 @@ class MyClassDetailScreen extends Component {
 		CloudFireStoreUserHelper.readStudentClass(classId, response => {
 			if (response) {
 				this.readAllProfessional(response)
-				console.tron.log('bbbbb')
-
-				// var tempRes = []
-				// console.tron.log(response)
-				// response.map((eachRes, ind) => {
-				// 	CloudFireStoreUserHelper.readStudentById(eachRes.studentId, nestedResponse => {
-				// 		if (nestedResponse) {
-				// 			var result = []
-				// 			nestedResponse.map((eachData, ind) => {
-				// 				let concatObj = { ...eachData }
-				// 				result.push(concatObj);
-				// 			})
-				// 		}
-				// 		tempRes.push(result)
-				// 	});
-				// })
 			} else {
 				this.setState({ statusLoading: false });
 			}
@@ -141,21 +125,15 @@ class MyClassDetailScreen extends Component {
 		let professionals = []
 		for (var index in items) {
 			let docUser = await db.collection('tbl_user').where('key', '==', `${items[index].studentId}`).get()
-			console.tron.log('dddddd', docUser._docs[0]._data)
-
 			let objectData = { ...docUser._docs[0]._data }
-			console.tron.log('dddddd', objectData)
-
 			professionals.push(objectData)
 		}
-		console.tron.log(professionals)
 		return this.setState({ studentData: professionals })
 	}
 
 	handlePresstap = tab => {
 		this.type_clicked = tab.key;
 		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
-		console.tron.log(tab.key)
 		if (tab.key == 'Lession') {
 			this.setState({ statusLoadingLession: true })
 			CloudFireStoreUserHelper.readLession(this.state.classData.key, response => {
@@ -313,7 +291,6 @@ class MyClassDetailScreen extends Component {
 	};
 
 	_handleNextScreen = (item, index) => {
-		console.tron.log(item)
 		if (Actions.currentScene == 'MyClassDetailScreen') {
 			Actions.LessionScreen({ item: item, classDetail: this.state.classData, roleType: this.state.roleType })
 		}
@@ -322,7 +299,6 @@ class MyClassDetailScreen extends Component {
 		CloudFireStoreUserHelper.deleteLession(item.id)
 	}
 	_handleDeteleVideo = (item) => {
-		console.tron.log(item)
 		Alert.alert(
             "Delete This Lession!",
             I18n.t('are_you_sure'),

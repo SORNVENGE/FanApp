@@ -86,7 +86,11 @@ class LoginScreen extends Component {
 		else {
 			this.setState({ statusLoading: true });
 			CloudFireStoreUserHelper.readAllUser(username, password, (response) => {
-				if (response) {
+				if (Object.keys(response).length === 0) {
+					this.setState({ statusLoading: false });
+					alert("Your username and password is incorrect!")
+				}
+				else {
 					this.setState({ statusLoading: false });
 					this.props.setAllUserInfoAfterLogin(response)
 					if (this.props.fromScreen == "MyClassScreen") {
@@ -95,9 +99,7 @@ class LoginScreen extends Component {
 					else {
 						Actions.HomeScreen();
 					}
-				}
-				else {
-					this.setState({ statusLoading: false });
+					
 				}
 			})
 		}
@@ -113,7 +115,7 @@ class LoginScreen extends Component {
 					</View>
 					<View style={{ height: '50%', padding: 10, justifyContent: 'center' }}>
 						<View style={styles.searchSection}>
-							<TouchableOpacity style={{ width: '10%', alignItems: 'center',marginBottom:7 }}>
+							<TouchableOpacity style={{ width: '10%', alignItems: 'center', marginBottom: 7 }}>
 								<Icon name='user-plus' type="FontAwesome" style={{ color: Colors.main_color, fontSize: 26, fontWeight: "bold" }} />
 							</TouchableOpacity>
 							<TextInput

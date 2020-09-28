@@ -24,7 +24,6 @@ class ELearningSubjectScreen extends Component {
     }
 
     _handleNextScreen = (item, index) => {
-        console.tron.log(item)
         if (Actions.currentScene == 'ELearningSubjectScreen') {
             Actions.ELearningSubjectVideosScreen({ item: item })
         }

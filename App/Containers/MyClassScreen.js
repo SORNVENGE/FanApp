@@ -43,7 +43,7 @@ class MyClassScreen extends Component {
         if (response) {
           if (response[0].roleName == "Student") {
             CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
-              console.tron.log({ ResponeStudent: response })
+              ({ ResponeStudent: response })
               if (response) {
                 this.readAllProfessional(response)
               } else {
@@ -55,8 +55,6 @@ class MyClassScreen extends Component {
             CloudFireStoreUserHelper.readClassByTeacherId(
               userData.data.key,
               response => {
-                console.tron.log({ ResponeTeacher: response })
-
                 if (response) {
                   this.setState({ classData: response, statusLoading: false });
                 } else {
@@ -77,7 +75,6 @@ class MyClassScreen extends Component {
       let objectData = { ...docUser._docs[0]._data }
       professionals.push(objectData)
     }
-    console.tron.log(professionals)
     return this.setState({ classData: professionals, statusLoading: false })
   }
 

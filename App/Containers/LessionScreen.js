@@ -74,7 +74,6 @@ class LessionScreen extends Component {
 	handlePresstap = tab => {
 		this.type_clicked = tab.key;
 		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
-		console.tron.log(tab.key)
 		if (tab.key == 'Video') {
 			this.setState({ statusLoadingLession: true })
 			CloudFireStoreUserHelper.readElearningVideo(this.state.item.id, response => {
@@ -233,7 +232,6 @@ class LessionScreen extends Component {
 	};
 
 	_handleNextScreen = (item, index) => {
-		console.tron.log(item)
 		if (Actions.currentScene == 'LessionScreen') {
 			Actions.ELearninVideoScreen({ item: item })
 		}
@@ -247,7 +245,6 @@ class LessionScreen extends Component {
 		CloudFireStoreUserHelper.deleteVideo(item.id)
 	}
 	_handleDeteleVideo = (item) => {
-		console.tron.log(item)
 		Alert.alert(
 			"Delete Video!",
 			I18n.t('are_you_sure'),

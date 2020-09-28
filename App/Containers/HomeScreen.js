@@ -38,19 +38,19 @@ class HomeScreen extends Component {
 
       imageSlide: [
         {
-          url:"https://lh3.googleusercontent.com/proxy/twFirtglGfjBsuAa7kibJtVZG0WYwIi8uPkfnBjb7TYJDLGBC9vM9FIJwpxLsVRHpVcQFVOCNsbf2E5zBi2a9gCN1iJaRH-CzdSNTUSrYRxFNKZPHgZMq2fz8JbVv2A7LAKcdKe9Fg",
+          url: "https://scholarship-positions.com/wp-content/uploads/2019/06/Swansea-University-Medical-School-Postgraduate-Taught-Masters-Scholarships-2019.jpg",
           location: "#169,Street 168, Toek Thla,Sen Sok"
         },
         {
-          url:"https://e.swufe.edu.cn/images/7.png",
+          url: "https://e.swufe.edu.cn/images/7.png",
           location: "#169,Street 168, Toek Thla,Sen Sok"
         },
         {
-          url:"https://isac.oss-accelerate.aliyuncs.com/wordpress/wp-content/uploads/2019/11/%E8%A5%BF%E5%8D%97%E8%B4%A2%E7%BB%8F%E5%A4%A7%E5%AD%A6banner.jpg",
+          url: "https://isac.oss-accelerate.aliyuncs.com/wordpress/wp-content/uploads/2019/11/%E8%A5%BF%E5%8D%97%E8%B4%A2%E7%BB%8F%E5%A4%A7%E5%AD%A6banner.jpg",
           location: "#169,Street 168, Toek Thla"
         },
         {
-          url:"https://smapse.com/storage/2019/02/southwestern-university-of-finance-economics-1.jpg",
+          url: "https://smapse.com/storage/2019/02/southwestern-university-of-finance-economics-1.jpg",
           location: "#169,Street 168, Toek Thla"
         }
       ],
@@ -129,7 +129,6 @@ class HomeScreen extends Component {
     const { userData, statusLoading } = this.state;
 
     if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
-      console.tron.log({ userDataMyClass: userData })
       if (userData.data == null) {
         Actions.LoginScreen({ fromScreen: "MyClassScreen" });
       } else {
@@ -166,49 +165,19 @@ class HomeScreen extends Component {
           justifyContent: "center",
           alignItems: "center",
           width: "33.33%",
+          marginRight: 3,
+          marginTop: 3,
           height: height < 731.4285714285714 ? width / 2.8 : width / 3,
-          // borderWidth: 0.5,
-          borderTopWidth: index > 2 ? 0.2 : null,
-          borderLeftWidth: 0.2,
-          borderRightWidth: 0.2,
-          borderBottomWidth: 0.2,
-          borderColor: Colors.white,
-          // backgroundColor: "#054368"
-          backgroundColor: Colors.main_color
+          
         }}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center"
-          }}
-        >
-          <View style={{ alignItems: "center", marginBottom: 7 }}>
-            <Icon
-              name={item.iconName}
-              type={item.iconType}
-              style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }}
-            />
+        <View style={{ width: '100%', height: '100%', justifyContent: "center", flexDirection: "column", alignItems: "center", backgroundColor: Colors.main_color }}>
+          <View style={{ alignItems: "center",paddingTop:35,paddingBottom:10 }}>
+            <Icon name={item.iconName} type={item.iconType} style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }} />
           </View>
           <View
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              height: "40%"
-            }}
-          >
-            <Text
-              style={{
-                fontSize: Fonts.size.medium,
-                paddingTop: Metrics.mainMargin,
-                textAlign: "center",
-                paddingBottom: 10,
-                paddingHorizontal: 5,
-                color: "white"
-              }}
-            >
+            style={{ width: "100%", justifyContent: "flex-start", alignItems: "center", height: "40%" }}>
+            <Text style={{ fontSize: Fonts.size.medium, paddingTop: Metrics.mainMargin, textAlign: "center", color: "white" }}>
               {I18n.t(item.title)}
             </Text>
           </View>
@@ -439,7 +408,7 @@ class HomeScreen extends Component {
     const { imageSlide, statusLoading } = this.state;
     if (statusLoading) return <Loading />;
     return (
-      <View style={{ flex: 1, backgroundColor: Colors.main_color }}>
+      <View style={{ flex: 1, backgroundColor: '#F9F5F4' }}>
         <ScrollView>
           <View>
             <View>
@@ -453,13 +422,12 @@ class HomeScreen extends Component {
                 {imageSlide.map((eachImage, index) => {
                   return (
                     <View>
-                      <Image source={{ uri: eachImage.url }} width="100%" style={{height:300,resizeMode:'cover',marginTop:0}} />
+                      <Image source={{ uri: eachImage.url }} width="100%" style={{ height: 300, resizeMode: 'cover', marginTop: 0 }} />
                     </View>
                   );
                 })}
               </Swiper>
             </View>
-
             <FlatList
               data={this.state.category}
               numColumns={3}

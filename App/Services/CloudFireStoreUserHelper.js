@@ -32,9 +32,10 @@ const CloudFireStoreUserHelper = {
   // },
   readAllUser: function (username, password, callback) {
     db.collection("tbl_user")
-      .where("username", "==", `${username}`, "password", "==", `${password}`)
-      .get()
-      .then(function (querySnapshot) {
+      // .where("username", "==", `${username}` , "password", "==", `${password}`)
+      .where("username", "==", `${username}` )
+      .where("password", "==", `${password}`)
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = {};
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -43,16 +44,12 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((err) => { });
   },
   readUserRoleById: function (roleId, callback) {
     db.collection("tbl_role")
       .where("key", "==", `${roleId}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
-        console.tron.log({ querySnapshot: querySnapshot });
-
         querySnapshot.forEach(function (doc) {
           if (doc) {
             let concatObj = { ...doc.data(), ...{ role_id: doc.id } };
@@ -61,17 +58,12 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
   },
   readClassByTeacherId: function (teacherId, callback) {
-    console.tron.log(teacherId);
     db.collection("tbl_class")
       .where("teacherId", "==", `${teacherId}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
-        console.tron.log(querySnapshot);
-
         querySnapshot.forEach(function (doc) {
           if (doc) {
             let concatObj = { ...doc.data(), ...{ class_id: doc.id } };
@@ -80,14 +72,12 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
   },
 
   readClassByStudentId: function (studentId, callback) {
     db.collection("tbl_student_class")
       .where("studentId", "==", `${studentId}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -97,7 +87,7 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
   
   readElearningVideo: function (classId, callback) {
@@ -129,8 +119,7 @@ const CloudFireStoreUserHelper = {
   readStudentByClassId: function (classId, callback) {
     db.collection("users")
       .where("role", "==", "STUDENT")
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -144,14 +133,13 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
 
   readSubjectById: function (key, callback) {
     db.collection("tbl_subject")
       .where("key", "==", `${key}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
 
         querySnapshot.forEach(function (doc) {
@@ -162,13 +150,12 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
   readLevelById: function (key, callback) {
     db.collection("tbl_level")
       .where("key", "==", `${key}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
 
         querySnapshot.forEach(function (doc) {
@@ -179,13 +166,12 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
   readSessionById: function (key, callback) {
     db.collection("tbl_session")
       .where("key", "==", `${key}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -195,14 +181,13 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
 
   readStudentClass: function (classId, callback) {
     db.collection("tbl_student_class")
       .where("classId", "==", `${classId}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -212,14 +197,13 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
 
   readStudentById: function (studentId, callback) {
     db.collection("tbl_user")
       .where("key", "==", `${studentId}`)
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -229,7 +213,7 @@ const CloudFireStoreUserHelper = {
         });
         return callback(newObjectData);
       })
-      .catch((error) => { });
+      
   },
 
   addDocumentByUser: function (data, callback) {
@@ -413,8 +397,7 @@ const CloudFireStoreUserHelper = {
   readMainProgram: function (callback) {
     db.collection("tbl_main_program")
       .orderBy("id")
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
@@ -428,8 +411,7 @@ const CloudFireStoreUserHelper = {
   readFee: function (callback) {
     db.collection("tbl_fee")
       .orderBy("id")
-      .get()
-      .then(function (querySnapshot) {
+      .onSnapshot(function (querySnapshot) {
         let newObjectData = [];
         querySnapshot.forEach(function (doc) {
           if (doc) {
