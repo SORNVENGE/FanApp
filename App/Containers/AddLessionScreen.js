@@ -11,58 +11,65 @@ import CloudFireStoreUserHelper from '../Services/CloudFireStoreUserHelper';
 
 //component
 import Loading from '../Components/Loading'
-class AddVideoScreen extends Component {
+class AddLessionScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			phoneNum: '',
 			classId: this.props.classId,
-			item: this.props.item,
 			confirmResult: null,
 			statusLoading: false,
 			statusPassword: true,
 			statusBorder: false,
 			title_kh: '',
 			title: '',
-			videoId: '',
-			messageVideo: false
+			description: '',
+			messageTitle: false,
+			messageTitleKh: false,
+			messageDes: false,
+
 		};
 	}
 
 	_handleBackScreen = () => {
-        if (Actions.currentScene == 'AddVideoScreen') {
+        if (Actions.currentScene == 'AddLessionScreen') {
             Actions.pop()
         }
     }
 
 	_handlChangeTitle = (text) => {
-		this.setState({ title: text });
+		this.setState({ title: text, messageTitle: false });
 	}
 
 	_handlChangeTitleKh = (text) => {
-		this.setState({ title_kh: text });
+		this.setState({ title_kh: text, messageTitleKh: false });
 	}
 
-	_handleChangeVideoId = (text) => {
-		this.setState({ videoId: text, messageVideo: false });
+	_handleChangedescription = (text) => {
+		this.setState({ description: text, messageDes: false });
 	}
 
 	_handleAddVideo = () => {
-		const { title, videoId, title_kh, classId, item } = this.state
-		var res = videoId.replace("https://youtu.be/", "");
-		if (videoId == '') {
-			this.setState({messageVideo: true})
-		} else {
+		const { title, description, title_kh, classId } = this.state 
+		var date = firebase.firestore.FieldValue.serverTimestamp()
+
+		if (description == '') {
+			this.setState({messageDes: true})
+		} else if (title == '') {
+			this.setState({messageTitle: true})
+		} else if (title_kh == '') {
+			this.setState({messageTitleKh: true})
+		}else {
 			let mergeObj = {
-				lessionId: item.id,
 				classId: classId,
-				link: 'https://www.youtube.com/watch?v=' + res,
+				description: description,
 				title: title,
 				title_kh: title_kh,
+				createdDate: date
 			}
-			CloudFireStoreUserHelper.addVideo(mergeObj, (response) => {
+			CloudFireStoreUserHelper.addLession(mergeObj, (response) => {
 				if (response) {
-					if (Actions.currentScene == 'AddVideoScreen') {
+					if (Actions.currentScene == 'AddLessionScreen') {
 						Actions.pop()
 					}
 				}
@@ -71,7 +78,7 @@ class AddVideoScreen extends Component {
 	}
 
 	render() {
-		const { title, title_kh, videoId } = this.state
+		const { title, title_kh, description } = this.state
 		return (
 			<View style={styles.container}>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56, backgroundColor: Colors.main_color }}>
@@ -80,42 +87,44 @@ class AddVideoScreen extends Component {
 					</TouchableOpacity>
 
 					<View style={{ width: '80%' }}>
-						<Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: 'center', }}>Upload Video</Text>
+						<Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: 'center', }}>Add Lession</Text>
 					</View>
 					<View style={{ width: '10%' }} />
 				</View>
 				<View style={{ width: '90%', justifyContent: 'center', alignItems: 'center', marginTop: 20, }}>
 					<View style={styles.searchSection}>
-						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Title</Text>
+						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Title {this.state.messageTitle ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
 						<TextInput
-							style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
+							style={[styles.input, { borderColor: this.state.messageTitle ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
 							placeholder="Title"
 							value={title}
 							onChangeText={(text) => { this._handlChangeTitle(text) }}
 						/>
 					</View>
 					<View style={styles.searchSection}>
-						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Title Khmer</Text>
+						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Title Khmer {this.state.messageTitleKh ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
 						<TextInput
-							style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
+							style={[styles.input, { borderColor: this.state.messageTitleKh ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
 							placeholder="Title khmer"
 							value={title_kh}
 							onChangeText={(text) => { this._handlChangeTitleKh(text) }}
 						/>
 					</View>
 					<View style={styles.searchSection}>
-						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Video Link or Video Id {this.state.messageVideo ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
+						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Description {this.state.messageDes ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
 						<TextInput
-							style={[styles.input, { borderColor: this.state.messageVideo ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
-							placeholder="Video Link or Id"
-							value={videoId}
-							onChangeText={(text) => { this._handleChangeVideoId(text) }}
+							style={[styles.input, { borderColor: this.state.messageDes ? 'red' : Colors.main_color, textAlignVertical: 'top',  height: 150}]}
+							placeholder="Description"
+							textAlign={'left'}
+                        	multiline={true}
+							value={description}
+							onChangeText={(text) => { this._handleChangedescription(text) }}
 						/>
 					</View>
 				</View>
-				<View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', paddingHorizontal: 20, marginVertical: 20, position: 'absolute', left: 0, bottom: 0, right: 0, }}>
+				<View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', paddingHorizontal: 20, marginVertical: 20, width: '100%' }}>
 					<TouchableOpacity onPress={() => this._handleAddVideo()} style={{ width: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.main_color, padding: 13, borderRadius: 10, marginHorizontal: 20, }}>
-						<Text style={{ fontSize: 15, color: Colors.white }}>Add Video</Text>
+						<Text style={{ fontSize: 15, color: Colors.white }}>Add Lession</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -163,5 +172,5 @@ const mapDispatchToProps = (dispatch) => {
 		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
 	}
 }
-export default connect(null, mapDispatchToProps)(AddVideoScreen)
+export default connect(null, mapDispatchToProps)(AddLessionScreen)
 

@@ -34,7 +34,7 @@ class MyClassDetailScreen extends Component {
 			classId: props.classDetail.user_id,
 			studentData: [],
 			documentData: [],
-			videoData: [],
+			lessionData: [],
 			subjectData: [],
 			levelData: [],
 			sessionData: [],
@@ -43,16 +43,16 @@ class MyClassDetailScreen extends Component {
 			levelName: "",
 			roleType: "",
 			statusLoading: false,
-			statusLoadingVideo: false,
+			statusLoadingLession: false,
 			tap: [
 				{
 					key: "Information",
 					title: "Information"
 				},
-				{
-					key: "Document File",
-					title: "Document File"
-				},
+				// {
+				// 	key: "Document File",
+				// 	title: "Document File"
+				// },
 				{
 					key: "Lession",
 					title: "Lession"
@@ -104,11 +104,7 @@ class MyClassDetailScreen extends Component {
 			}
 		});
 
-		CloudFireStoreUserHelper.readDocument(classId, teacherId, response => {
-			if (response) {
-				this.setState({ documentData: response });
-			}
-		});
+		
 		CloudFireStoreUserHelper.readStudentByClassId(classId, response => {
 			if (response) {
 				this.setState({ studentData: response, statusLoading: false });
@@ -161,15 +157,15 @@ class MyClassDetailScreen extends Component {
 		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
 		console.tron.log(tab.key)
 		if (tab.key == 'Lession') {
-			this.setState({ statusLoadingVideo: true })
-			CloudFireStoreUserHelper.readElearningVideo(this.state.classData.key, response => {
+			this.setState({ statusLoadingLession: true })
+			CloudFireStoreUserHelper.readLession(this.state.classData.key, response => {
 				if (response) {
-					this.setState({ videoData: response, statusLoadingVideo: false });
+					this.setState({ lessionData: response, statusLoadingLession: false });
 				}
 			});
 		}
 	};
-	_renderTab = ({ item, index }) => {
+	_renderTab = (item, index) => {
 		IsTab = this.state.key_tab == item.key ? true : false;
 		return (
 			<TouchableOpacity
@@ -177,7 +173,7 @@ class MyClassDetailScreen extends Component {
 				style={{
 					borderRadius: 5,
 					backgroundColor: IsTab ? Colors.main_color : Colors.white,
-					width: "32%",
+					width: "45%",
 					height: 40,
 					alignItems: "center",
 					justifyContent: "center",
@@ -205,7 +201,7 @@ class MyClassDetailScreen extends Component {
 		var classId = classData.key
 		if (this.type_clicked == 'Lession') {
 			if (Actions.currentScene == 'MyClassDetailScreen') {
-				Actions.AddVideoScreen({ classId: classId })
+				Actions.AddLessionScreen({ classId: classId })
 			}
 		} else {
 			FilePickerManager.showFilePicker(null, response => {
@@ -319,23 +315,23 @@ class MyClassDetailScreen extends Component {
 	_handleNextScreen = (item, index) => {
 		console.tron.log(item)
 		if (Actions.currentScene == 'MyClassDetailScreen') {
-			Actions.ELearninVideoScreen({ item: item })
+			Actions.LessionScreen({ item: item, classDetail: this.state.classData, roleType: this.state.roleType })
 		}
 	}
-	onDeleteVideo = (item) => {
-		CloudFireStoreUserHelper.deleteVideo(item.id)
+	onDeleteLession = (item) => {
+		CloudFireStoreUserHelper.deleteLession(item.id)
 	}
 	_handleDeteleVideo = (item) => {
 		console.tron.log(item)
 		Alert.alert(
-            "Delete Video!",
+            "Delete This Lession!",
             I18n.t('are_you_sure'),
             [
                 {
                     text:  I18n.t('no'),
                     style: "cancel"
                 },
-                { text:  I18n.t('yes'), onPress: () => this.onDeleteVideo(item) }
+                { text:  I18n.t('yes'), onPress: () => this.onDeleteLession(item) }
             ],
             { cancelable: false }
         );
@@ -343,18 +339,10 @@ class MyClassDetailScreen extends Component {
 
 	renderItemView = ({ item, index }) => {
 		const { roleType } = this.state
-		var res = item.link.replace("https://www.youtube.com/watch?v=", "");
 		return (
 			<TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
 				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
-					<ImageBackground
-						style={{ width: 100, height: 60, resizeMode: 'stretch', justifyContent: 'center', alignItems: 'center' }}
-						source={{ uri: 'https://img.youtube.com/vi/' + res + '/default.jpg', }}
-					>
-						<Icon type="FontAwesome5" name="play" style={{ fontSize: 30, color: 'white', opacity: 0.7, }} />
-					</ImageBackground>
-					<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '70%', }}>
-						<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 14, }}>{item.title}</Text>
+						<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 16, }}>{item.title}</Text>
 						{roleType == "Student" ?
 							<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10,}}>
 								<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
@@ -366,7 +354,6 @@ class MyClassDetailScreen extends Component {
 								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
 							</TouchableOpacity>
 						}
-					</View>
 				</View>
 			</TouchableOpacity>
 		)
@@ -378,12 +365,12 @@ class MyClassDetailScreen extends Component {
 			tap,
 			statusLoading,
 			documentData,
-			videoData,
+			lessionData,
 			subjectName,
 			levelName,
 			sessionName,
 			roleType,
-			statusLoadingVideo
+			statusLoadingLession
 		} = this.state;
 		if (statusLoading) return <Loading />;
 		return (
@@ -396,18 +383,24 @@ class MyClassDetailScreen extends Component {
 							width: "100%"
 						}}
 					/>
-					<View style={{ padding: Metrics.marginVertical }}>
-						<FlatList
+					<View style={{flexDirection: 'row', paddingBottom: 10, paddingTop: Metrics.marginVertical + 10, justifyContent: 'space-around',  alignItems: 'center', width: '100%' }}>
+						{/* <FlatList
 							style={{ marginTop: Metrics.baseMargin }}
 							data={tap}
-							numColumns={3}
+							numColumns={2}
 							renderItem={this._renderTab}
 							keyExtractor={(item, index) => index.toString()}
-						/>
+						/> */}
+						{this.state.tap.map((item, index) => {
+							return (
+									this._renderTab(item, index)
+								)
+							})
+						}
 					</View>
 
 					{this.type_clicked == "Information" ? (
-						<View style={{ padding: 10 }}>
+						<View style={{ paddingBottom: 10, paddingHorizontal: 10 }}>
 							<TouchableOpacity
 								style={{
 									marginTop: 10,
@@ -574,11 +567,11 @@ class MyClassDetailScreen extends Component {
 						</View>
 					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
-							{statusLoadingVideo ?
+							{statusLoadingLession ?
 								<Loading /> :
 								<FlatList
 									style={{ width: '100%', backgroundColor: 'white' }}
-									data={videoData}
+									data={lessionData}
 									renderItem={this.renderItemView}
 									keyExtractor={(item, index) => index.toString()} />
 							}
@@ -618,7 +611,7 @@ class MyClassDetailScreen extends Component {
 										fontWeight: "bold"
 									}}
 								>
-									{this.type_clicked == 'Lession' ? 'UPLOAD VIDEO' : 'UPLOAD DOCUMENT'}
+									Upload Lession
 								</Text>
 							</TouchableOpacity>
 						)}
