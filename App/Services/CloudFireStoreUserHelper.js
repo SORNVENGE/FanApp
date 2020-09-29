@@ -422,5 +422,19 @@ const CloudFireStoreUserHelper = {
         return callback(newObjectData);
       });
   },
+
+
+  readNews: function (callback) {
+    db.collection("tbl_news").onSnapshot(function (querySnapshot) {
+      let newCollectionObj = [];
+      querySnapshot.forEach(function (doc) {
+        if (doc) {
+          let concatObj = { ...doc.data() };
+          newCollectionObj.push(concatObj);
+        }
+      });
+      return callback(newCollectionObj);
+    });
+  },
 };
 export default CloudFireStoreUserHelper;
