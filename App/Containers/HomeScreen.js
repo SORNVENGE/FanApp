@@ -58,49 +58,33 @@ class HomeScreen extends Component {
         {
           title: 'my_class',
           name: "My Class",
-          image: Images.glocery,
           url:"https://www.iconfinder.com/data/icons/education-flat-icon-1/130/135-512.png",
-          iconName: "database",
-          iconType: "FontAwesome5"
-        },
+             },
         {
           title: 'facebook',
           name: "Facebook",
-          image: Images.bakery,
-          iconName: "facebook-square",
-          iconType: "AntDesign",
-          url:"https://cdn.icon-icons.com/icons2/1826/PNG/512/4202110facebooklogosocialsocialmedia-115707_115594.png"
+                    url:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTvKZpYOpBeLFlco79gpt9So4r3lEp-YdhkkQ&usqp=CAU"
         },
         {
           title: 'youtube',
           name: "Youtube",
-          image: Images.bakery,
-          iconName: "youtube",
-          iconType: "AntDesign",
-          url:'https://img1.pnghut.com/11/6/21/ucFZMBV0E1/4k-resolution-post-apple-icon-image-format-symbol-red.jpg'
+            url:'https://img1.pnghut.com/11/6/21/ucFZMBV0E1/4k-resolution-post-apple-icon-image-format-symbol-red.jpg'
         },
         {
           title: 'admission',
           name: "Admission",
-          image: Images.berverages,
-          iconName: "leaf",
-          iconType: "FontAwesome",
-          url:"https://www.pngkit.com/png/detail/99-998068_free-admission-icon-william-sheller-master-serie.png"
+           url:"https://www.pngkit.com/png/detail/99-998068_free-admission-icon-william-sheller-master-serie.png"
         },
         {
           title: 'tuition_fee',
           name: "Tuition Fee",
-          image: Images.bakery,
-          iconName: "graduation-cap",
-          iconType: "FontAwesome",
+          
           url:"https://www.avonumc.net/wp-content/uploads/2015/08/financial-literacy.gif"
         },
         {
           title: 'main_program',
           name: "Main Program",
-          image: Images.glocery,
-          iconName: "graduation-cap",
-          iconType: "FontAwesome",
+          
           url:"https://thumbs.dreamstime.com/b/back-to-school-flat-icons-design-set-distance-education-corse-program-online-course-universities-colleges-proposes-77868065.jpg"
 
         },
@@ -108,26 +92,17 @@ class HomeScreen extends Component {
 
           title: "elearning",
           name: "E-Learning",
-          image: Images.stationary,
-          iconName: "leaf",
-          iconType: "FontAwesome",
-          url:"https://www.iconfinder.com/data/icons/e-learning-flat-education-technology/512/Distance_education-512.png"
+           url:"https://www.iconfinder.com/data/icons/e-learning-flat-education-technology/512/Distance_education-512.png"
 
         },
         {
           title: 'News',
-          name: "News ",
-          image: Images.glocery,
-          iconName: "logout",
-          iconType: "AntDesign",
-          url:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTwzo0YsMaFc8UJRrkrTrN39X7zQ6zDY7a-9g&usqp=CAU"
+          name: "News",
+           url:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTwzo0YsMaFc8UJRrkrTrN39X7zQ6zDY7a-9g&usqp=CAU"
         },
         {
           title: 'setting',
           name: "Setting",
-          image: Images.flower,
-          iconName: "setting",
-          iconType: "AntDesign",
           url:"https://www.pngfind.com/pngs/m/427-4275693_tuerca-png-settings-icon-transparent-png-download.png"
 
         },
@@ -167,6 +142,9 @@ class HomeScreen extends Component {
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Setting") {
       Actions.SettingScreen();
+    }
+    else if (Actions.currentScene == "HomeScreen" && item.name == "News") {
+      Actions.NewsScreen();
     }
   };
   renderMeunuOption = ({ item, index }) => {
@@ -384,6 +362,27 @@ class HomeScreen extends Component {
     // 		color:eachProgram.color,
     // 		description:eachProgram.description,
     // 		image:eachProgram.image,
+    // 	}).then((data) => {
+    // 	}).catch((error) => {
+    // 	});
+    // })
+
+
+    // create News table
+    // this.ref = firebase.firestore().collection('tbl_news');
+    // var newsList = [
+    // 	{ title: 'Fan school has open new with good promotion',image:"https://www.iconfinder.com/data/icons/ballicons-reloaded-free/512/icon-70-512.png",description:"",date:"29/09/2020"},
+    // 	{ title: 'Time to promotion with Fan school ',image:"https://www.iconfinder.com/data/icons/gradient-5/50/436-512.png",description:"",date:"29/09/2020"},
+    // 	{ title: 'Study with Fan School will imrpove your english skill',image:"https://comps.canstockphoto.com/circle-icon-newspaper-illustration_csp47039028.jpg",description:"",date:"29/09/2020"},
+    // 	{ title: 'OutStanding student from Fan School will display next week',image:"https://www.bsa-cuesports.com/wp-content/uploads/2014/07/news-icon.jpg",description:"",date:"29/09/2020"},
+    // ];
+    // newsList.map((eachNews,ind) => {
+    // 	this.ref.add({
+    // 		id:ind+1,
+    // 		title: eachNews.title,
+    // 		description:eachNews.description,
+    //     image:eachNews.image,
+    //     date:eachNews.date
     // 	}).then((data) => {
     // 	}).catch((error) => {
     // 	});
