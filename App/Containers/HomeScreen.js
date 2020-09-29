@@ -59,6 +59,7 @@ class HomeScreen extends Component {
           title: 'my_class',
           name: "My Class",
           image: Images.glocery,
+          url:"https://www.iconfinder.com/data/icons/education-flat-icon-1/130/135-512.png",
           iconName: "database",
           iconType: "FontAwesome5"
         },
@@ -67,35 +68,41 @@ class HomeScreen extends Component {
           name: "Facebook",
           image: Images.bakery,
           iconName: "facebook-square",
-          iconType: "AntDesign"
+          iconType: "AntDesign",
+          url:"https://cdn.icon-icons.com/icons2/1826/PNG/512/4202110facebooklogosocialsocialmedia-115707_115594.png"
         },
         {
           title: 'youtube',
           name: "Youtube",
           image: Images.bakery,
           iconName: "youtube",
-          iconType: "AntDesign"
+          iconType: "AntDesign",
+          url:'https://img1.pnghut.com/11/6/21/ucFZMBV0E1/4k-resolution-post-apple-icon-image-format-symbol-red.jpg'
         },
         {
           title: 'admission',
           name: "Admission",
           image: Images.berverages,
           iconName: "leaf",
-          iconType: "FontAwesome"
+          iconType: "FontAwesome",
+          url:"https://www.pngkit.com/png/detail/99-998068_free-admission-icon-william-sheller-master-serie.png"
         },
         {
           title: 'tuition_fee',
           name: "Tuition Fee",
           image: Images.bakery,
           iconName: "graduation-cap",
-          iconType: "FontAwesome"
+          iconType: "FontAwesome",
+          url:"https://www.avonumc.net/wp-content/uploads/2015/08/financial-literacy.gif"
         },
         {
           title: 'main_program',
           name: "Main Program",
           image: Images.glocery,
           iconName: "graduation-cap",
-          iconType: "FontAwesome"
+          iconType: "FontAwesome",
+          url:"https://thumbs.dreamstime.com/b/back-to-school-flat-icons-design-set-distance-education-corse-program-online-course-universities-colleges-proposes-77868065.jpg"
+
         },
         {
 
@@ -103,21 +110,26 @@ class HomeScreen extends Component {
           name: "E-Learning",
           image: Images.stationary,
           iconName: "leaf",
-          iconType: "FontAwesome"
+          iconType: "FontAwesome",
+          url:"https://www.iconfinder.com/data/icons/e-learning-flat-education-technology/512/Distance_education-512.png"
+
         },
         {
-          title: 'nothing',
-          name: "Nothing ",
+          title: 'News',
+          name: "News ",
           image: Images.glocery,
           iconName: "logout",
-          iconType: "AntDesign"
+          iconType: "AntDesign",
+          url:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTwzo0YsMaFc8UJRrkrTrN39X7zQ6zDY7a-9g&usqp=CAU"
         },
         {
           title: 'setting',
           name: "Setting",
           image: Images.flower,
           iconName: "setting",
-          iconType: "AntDesign"
+          iconType: "AntDesign",
+          url:"https://www.pngfind.com/pngs/m/427-4275693_tuerca-png-settings-icon-transparent-png-download.png"
+
         },
       ],
       activeIndex: 1,
@@ -165,19 +177,21 @@ class HomeScreen extends Component {
           justifyContent: "center",
           alignItems: "center",
           width: "33.33%",
-          marginRight: 3,
+          marginRight:4,
           marginTop: 3,
           height: height < 731.4285714285714 ? width / 2.8 : width / 3,
+          backgroundColor:'black'
           
         }}
       >
-        <View style={{ width: '100%', height: '100%', justifyContent: "center", flexDirection: "column", alignItems: "center", backgroundColor: Colors.main_color }}>
-          <View style={{ alignItems: "center",paddingTop:35,paddingBottom:10 }}>
-            <Icon name={item.iconName} type={item.iconType} style={{ color: Colors.white, fontSize: 30, fontWeight: "bold" }} />
+        <View style={{ width: '100%', height: '100%', justifyContent: "center", flexDirection: "column", alignItems: "center", backgroundColor: Colors.white }}>
+          <View style={{ alignItems: "center",paddingTop:40,paddingBottom:10 }}>
+          <Image source={{ uri: item.url }} style={{ width:50,height:50,borderRadius:50 }} />
+            {/* <Icon name={item.iconName} type={item.iconType} style={{ color: Colors.black, fontSize: 30, fontWeight: "bold" }} /> */}
           </View>
           <View
             style={{ width: "100%", justifyContent: "flex-start", alignItems: "center", height: "40%" }}>
-            <Text style={{ fontSize: Fonts.size.medium, paddingTop: Metrics.mainMargin, textAlign: "center", color: "white" }}>
+            <Text style={{ fontSize: Fonts.size.medium, paddingTop: Metrics.mainMargin, textAlign: "center", color: "black" }}>
               {I18n.t(item.title)}
             </Text>
           </View>
@@ -413,6 +427,7 @@ class HomeScreen extends Component {
           <View>
             <View>
               <Swiper
+              showsButtons={true}
                 loop={true}
                 autoplay={true}
                 style={{ height: 300 }}

@@ -116,7 +116,7 @@ class MyClassScreen extends Component {
                   <Image
                     source={{
                       uri:
-                        "https://previews.123rf.com/images/ionutparvu/ionutparvu1612/ionutparvu161200906/67601856-business-class-stamp-sign-text-word-logo-blue-.jpg"
+                        "https://www.iconfinder.com/data/icons/education-flat-icon-1/130/135-512.png"
                     }}
                     style={{ width: 45, height: 45, borderRadius: 50 }}
                   />
