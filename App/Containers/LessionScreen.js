@@ -89,27 +89,57 @@ class LessionScreen extends Component {
 			<TouchableOpacity
 				onPress={() => this.handlePresstap(item)}
 				style={{
-					borderRadius: 5,
-					backgroundColor: IsTab ? Colors.main_color : Colors.white,
-					width: "45%",
-					height: 40,
+					backgroundColor: Colors.main_color,
+					width: "50%",
 					alignItems: "center",
 					justifyContent: "center",
-					marginRight: index == 2 ? 0 : 5,
-					borderWidth: 1,
-					borderColor: IsTab ? Colors.main_color : Colors.black,
-					marginBottom: 5
+					// marginRight: index == 2 ? 0 : 5,
+					// borderBottomWidth: IsTab ? 5 : 0,
+					// borderBottomColor: 'white',
+					marginBottom: 5,
+					shadowColor: "#000",
+					shadowOffset: {
+						width: 0,
+						height: 4,
+					},
+					shadowOpacity: 0.30,
+					shadowRadius: 4.65,
+					elevation: 8,
 				}}
 			>
+					<Icon type="FontAwesome" name={index == 0 ? "file-pdf-o" : "file-video-o"} style={{ fontSize: 25, color: IsTab ? Colors.white : '#b3b3b3', padding: 5 }} />
 				<Text
 					style={{
 						textAlign: "center",
+						fontWeight: 'bold',
 						fontSize: 15,
-						color: IsTab ? Colors.white : Colors.black
+						color: IsTab ? Colors.white : '#b3b3b3'
 					}}
 				>
 					{item.title}
 				</Text>
+				<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+					<View style={{
+						width: '100%', height: 3, backgroundColor: IsTab ? 'white' : Colors.main_color, shadowColor: "#000",
+						shadowOffset: {
+							width: 0,
+							height: 4,
+						},
+						shadowOpacity: 0.30,
+						shadowRadius: 4.65,
+						elevation: 8,
+					}} />
+					<View style={{
+						width: '100%', height: 3, backgroundColor: IsTab ? 'white' : Colors.main_color, shadowColor: "#000",
+						shadowOffset: {
+							width: 0,
+							height: 4,
+						},
+						shadowOpacity: 0.30,
+						shadowRadius: 4.65,
+						elevation: 8,
+					}} />
+				</View>
 			</TouchableOpacity>
 		);
 	};
@@ -319,13 +349,11 @@ class LessionScreen extends Component {
 				</View>
 				<View style={{ flex: 5.3 }}>
 					<View
-						style={{
-							borderBottomColor: "#d9d9d9",
-							borderBottomWidth: 1,
+						style={{ 
 							width: "100%"
 						}}
 					/>
-					<View style={{ flexDirection: 'row', paddingBottom: 10, paddingTop: Metrics.marginVertical + 10, justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
+					<View style={{ flexDirection: 'row', paddingBottom: 10, justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
 						{/* <FlatList
 							style={{ marginTop: Metrics.baseMargin }}
 							data={tap}

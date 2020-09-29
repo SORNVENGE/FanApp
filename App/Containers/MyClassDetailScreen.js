@@ -23,6 +23,10 @@ import CloudFireStoreUserHelper from "../Services/CloudFireStoreUserHelper";
 import Loading from "../Components/Loading";
 import Pdf from "react-native-pdf";
 import I18n from './I18n';
+import { UIActivityIndicator , BallIndicator} from 'react-native-indicators';
+import * as Progress from 'react-native-progress';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const db = firebase.firestore();
 class MyClassDetailScreen extends Component {
@@ -42,8 +46,11 @@ class MyClassDetailScreen extends Component {
 			sessionName: "",
 			levelName: "",
 			roleType: "",
+			index: props.index,
 			statusLoading: false,
 			statusLoadingLession: false,
+			statusLoadingStudent: true,
+
 			tap: [
 				{
 					key: "Information",
@@ -72,6 +79,7 @@ class MyClassDetailScreen extends Component {
 		var levelKey = classData.levelId;
 		var sessionKey = classData.sessionId;
 		var classId = classData.key
+		console.tron.log(classData)
 
 		CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
 			if (response) {
@@ -104,7 +112,7 @@ class MyClassDetailScreen extends Component {
 			}
 		});
 
-		
+
 		CloudFireStoreUserHelper.readStudentByClassId(classId, response => {
 			if (response) {
 				this.setState({ studentData: response, statusLoading: false });
@@ -128,7 +136,7 @@ class MyClassDetailScreen extends Component {
 			let objectData = { ...docUser._docs[0]._data }
 			professionals.push(objectData)
 		}
-		return this.setState({ studentData: professionals })
+		return this.setState({ studentData: professionals, statusLoadingStudent: false })
 	}
 
 	handlePresstap = tab => {
@@ -149,27 +157,59 @@ class MyClassDetailScreen extends Component {
 			<TouchableOpacity
 				onPress={() => this.handlePresstap(item)}
 				style={{
-					borderRadius: 5,
-					backgroundColor: IsTab ? Colors.main_color : Colors.white,
-					width: "45%",
-					height: 40,
+					backgroundColor: Colors.main_color,
+					width: "50%",
 					alignItems: "center",
 					justifyContent: "center",
-					marginRight: index == 2 ? 0 : 5,
-					borderWidth: 1,
-					borderColor: IsTab ? Colors.main_color : Colors.black,
-					marginBottom: 5
+					// marginRight: index == 2 ? 0 : 5,
+					// borderBottomWidth: IsTab ? 5 : 0,
+					// borderBottomColor: 'white',
+					marginBottom: 5,
+					shadowColor: "#000",
+					shadowOffset: {
+						width: 0,
+						height: 4,
+					},
+					shadowOpacity: 0.30,
+					shadowRadius: 4.65,
+					elevation: 8,
 				}}
 			>
+				<Icon type="FontAwesome" name={index == 0 ? "info" : "book"} style={{ fontSize: 25, color: IsTab ? Colors.white : '#b3b3b3', padding: 5 }} />
 				<Text
 					style={{
 						textAlign: "center",
+						fontWeight: 'bold',
 						fontSize: 15,
-						color: IsTab ? Colors.white : Colors.black
+						paddingVertical: 5,
+
+						color: IsTab ? Colors.white : '#b3b3b3'
 					}}
 				>
 					{item.title}
 				</Text>
+				<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+					<View style={{
+						width: '100%', height: 3, backgroundColor: IsTab ? 'white' : Colors.main_color, shadowColor: "#000",
+						shadowOffset: {
+							width: 0,
+							height: 4,
+						},
+						shadowOpacity: 0.30,
+						shadowRadius: 4.65,
+						elevation: 8,
+					}} />
+					<View style={{
+						width: '100%', height: 3, backgroundColor: IsTab ? 'white' : Colors.main_color, shadowColor: "#000",
+						shadowOffset: {
+							width: 0,
+							height: 4,
+						},
+						shadowOpacity: 0.30,
+						shadowRadius: 4.65,
+						elevation: 8,
+					}} />
+				</View>
 			</TouchableOpacity>
 		);
 	};
@@ -292,7 +332,7 @@ class MyClassDetailScreen extends Component {
 
 	_handleNextScreen = (item, index) => {
 		if (Actions.currentScene == 'MyClassDetailScreen') {
-			Actions.LessionScreen({ item: item, classDetail: this.state.classData, roleType: this.state.roleType })
+			Actions.LessionScreen({ item: item, classDetail: this.state.classData, roleType: this.state.roleType, index: index })
 		}
 	}
 	onDeleteLession = (item) => {
@@ -300,17 +340,17 @@ class MyClassDetailScreen extends Component {
 	}
 	_handleDeteleVideo = (item) => {
 		Alert.alert(
-            "Delete This Lession!",
-            I18n.t('are_you_sure'),
-            [
-                {
-                    text:  I18n.t('no'),
-                    style: "cancel"
-                },
-                { text:  I18n.t('yes'), onPress: () => this.onDeleteLession(item) }
-            ],
-            { cancelable: false }
-        );
+			"Delete This Lession!",
+			I18n.t('are_you_sure'),
+			[
+				{
+					text: I18n.t('no'),
+					style: "cancel"
+				},
+				{ text: I18n.t('yes'), onPress: () => this.onDeleteLession(item) }
+			],
+			{ cancelable: false }
+		);
 	}
 
 	renderItemView = ({ item, index }) => {
@@ -318,18 +358,18 @@ class MyClassDetailScreen extends Component {
 		return (
 			<TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
 				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
-						<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 16, }}>{item.title}</Text>
-						{roleType == "Student" ?
-							<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10,}}>
-								<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
-								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
-							</View>
-							:
-							<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
-								<Text style={{ width: '100%', textAlign: 'right', color: '#ff0000', fontSize: 12, }}>Delete</Text>
-								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
-							</TouchableOpacity>
-						}
+					<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 16, }}>{item.title}</Text>
+					{roleType == "Student" ?
+						<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
+							<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
+							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
+						</View>
+						:
+						<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
+							<Text style={{ width: '100%', textAlign: 'right', color: '#ff0000', fontSize: 12, }}>Delete</Text>
+							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
+						</TouchableOpacity>
+					}
 				</View>
 			</TouchableOpacity>
 		)
@@ -342,24 +382,20 @@ class MyClassDetailScreen extends Component {
 			statusLoading,
 			documentData,
 			lessionData,
+			statusLoadingStudent,
 			subjectName,
 			levelName,
 			sessionName,
 			roleType,
+			classData,
 			statusLoadingLession
 		} = this.state;
 		if (statusLoading) return <Loading />;
 		return (
 			<View style={{ flex: 1, backgroundColor: Colors.white }}>
 				<View style={{ flex: 5.3 }}>
-					<View
-						style={{
-							borderBottomColor: "#d9d9d9",
-							borderBottomWidth: 1,
-							width: "100%"
-						}}
-					/>
-					<View style={{flexDirection: 'row', paddingBottom: 10, paddingTop: Metrics.marginVertical + 10, justifyContent: 'space-around',  alignItems: 'center', width: '100%' }}>
+
+					<View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', backgroundColor: 'white' }}>
 						{/* <FlatList
 							style={{ marginTop: Metrics.baseMargin }}
 							data={tap}
@@ -369,15 +405,44 @@ class MyClassDetailScreen extends Component {
 						/> */}
 						{this.state.tap.map((item, index) => {
 							return (
-									this._renderTab(item, index)
-								)
-							})
+								this._renderTab(item, index)
+							)
+						})
 						}
 					</View>
 
 					{this.type_clicked == "Information" ? (
-						<View style={{ paddingBottom: 10, paddingHorizontal: 10 }}>
-							<TouchableOpacity
+						<ScrollView style={{ paddingBottom: 5, }}>
+							<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 10, }}>
+								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center',  marginBottom: 10}}>
+									<Text style={{fontSize: 30, fontWeight: 'bold', color: Colors.main_color}}>C {this.state.index}</Text>
+									<Text style={{fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5}}>{classData.classname}</Text>
+								</View>
+								<View style={{borderRadius: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 20 , backgroundColor: 'white', shadowColor: "#000",
+						shadowOffset: {
+							width: 0,
+							height: 4,
+						},
+						shadowOpacity: 0.30,
+						shadowRadius: 4.65,
+						elevation: 8, }}>
+									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
+										<Icon type="AntDesign" name="book" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15}} />
+										<Text style={{fontSize: 16, fontWeight: 'bold', color:Colors.main_color}}>{subjectName}</Text>
+									</View>
+									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
+										<Icon type="FontAwesome" name="signal" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15}} />
+										<Text style={{fontSize: 16, fontWeight: 'bold', color: Colors.main_color}}>{levelName}</Text>
+									</View>
+									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
+										<Icon type="Entypo" name="back-in-time" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15}} />
+										<Text style={{fontSize: 16, fontWeight: 'bold', color: Colors.main_color}}>{sessionName}</Text>
+									</View>
+								</View>
+
+							</View>
+
+							{/* <TouchableOpacity
 								style={{
 									marginTop: 10,
 									shadowOpacity: 0.5,
@@ -493,54 +558,56 @@ class MyClassDetailScreen extends Component {
 										</Text>
 									</View>
 								</View>
-							</TouchableOpacity>
-							<Text
-								style={{
-									marginTop: 25,
-									fontSize: 18,
-									fontWight: "bold",
-									backgroundColor: Colors.main_color,
-									padding: 10,
-									color: Colors.white
-								}}
-							>
-								{" "}
-								List Student in class{" "}
-							</Text>
-							<View style={{ height: "70%", marginTop: 10 }}>
-								<ScrollView>
-									{this.state.studentData.map((eachStudent, ind) => {
-										return (
-											<View style={{ marginBottom: 5, marginTop: 5 }}>
+							</TouchableOpacity> */}
+							{/* <Text style={{
+								fontSize: 18,
+								fontWeight: "bold",
+								width: '100%',
+								textAlign: 'center',
+								paddingVertical: 15,
+								color: Colors.main_color,
+							}} >
+								List Student in class
+							</Text> */}
+							<View style={{ height: "70%", justifyContent: 'flex-start', alignItems: 'center' }}>
+								{statusLoadingStudent ?
+								 
+									<View>
+									</View>
+									 
+									 :
+									<ScrollView>
+										{this.state.studentData.map((eachStudent, ind) => {
+											return (
 												<TouchableOpacity
 													style={{
-														marginTop: 10,
-														shadowOpacity: 0.5,
-														borderWidth: 0.4,
-														borderColor: Colors.main_color,
-														borderRadius: 15
+														flexDirection: 'row',
+														backgroundColor: ind % 2 == 0 ? '#cccccc' : '#f2f2f2',
+														justifyContent: 'flex-start',
+														alignItems: 'center',
 													}}
 												>
-													<View style={{ padding: 10, justifyContent: "space-between", flexDirection: "row" }}>
-														<View style={{ width: "30%" }}>
-															<Text style={{ fontSize: 15, color: "black", fontWight: "bold" }}>
-																{" "}
-																Student  {ind + 1} : {" "}
-															</Text>
-														</View>
-														<View style={{ width: "80%" }}>
-															<Text style={{ fontSize: 17, color: Colors.black, fontWight: "bold" }}>
+													<View style={{ width: '100%', padding: 10, justifyContent: "space-between", flexDirection: "row", alignItems: 'center' }}>
+														<Image
+															source={{ uri: "https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_640.png" }}
+															style={{ width: 60, height: 60, borderRadius: 60 / 2, }}
+														/>
+														<View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
+															<Text style={{ width: "100%", fontSize: 18, color: Colors.black, fontWeight: "bold", textAlign: 'left' }}>
 																{eachStudent.username}
+															</Text>
+															<Text style={{ width: "100%", fontSize: 14, color: Colors.black, textAlign: 'left', marginTop: 5 }}>
+																{eachStudent.phone}
 															</Text>
 														</View>
 													</View>
 												</TouchableOpacity>
-											</View>
-										);
-									})}
-								</ScrollView>
+											);
+										})}
+									</ScrollView>
+								}
 							</View>
-						</View>
+						</ScrollView>
 					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
 							{statusLoadingLession ?
