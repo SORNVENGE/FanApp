@@ -17,6 +17,7 @@ export const reducers = combineReducers({
   getListClass:require('./ListClassRedux').reducer,
 
 
+  login: require('./LoginRedux').reducer,
 
 })
 

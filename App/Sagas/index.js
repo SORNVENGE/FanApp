@@ -11,12 +11,18 @@ import { ClassByStudentTypes } from '../Redux/ClassByStudentRedux'
 import { ListClassTypes } from '../Redux/ListClassRedux'
 
 
+import { LoginTypes } from './../Redux/LoginRedux'
+
+
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { getClassByStudent } from './ClassByStudentSagas'
 import { getListClass} from './ListClassSagas'
+
+
+import { getLogin } from './LoginSagas'
 
 
 /* ------------- API ------------- */
@@ -35,8 +41,9 @@ export default function * root () {
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
     takeLatest(ClassByStudentTypes.CLASS_BY_STUDENT_REQUEST, getClassByStudent, api),
-    takeLatest(ListClassTypes.LIST_CLASS_REQUEST, getListClass, api)
+    takeLatest(ListClassTypes.LIST_CLASS_REQUEST, getListClass, api),
 
+    takeLatest(LoginTypes.LOGIN_REQUEST, getLogin, api),
 
   ])
 }

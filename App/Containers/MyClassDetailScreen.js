@@ -79,8 +79,6 @@ class MyClassDetailScreen extends Component {
 		var levelKey = classData.levelId;
 		var sessionKey = classData.sessionId;
 		var classId = classData.key
-		console.tron.log(classData)
-
 		CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
 			if (response) {
 				this.setState({ subjectName: response[0].subjectName });

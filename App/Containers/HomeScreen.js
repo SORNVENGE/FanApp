@@ -114,7 +114,6 @@ class HomeScreen extends Component {
   }
   handleOnEachMenuClick = (item, index) => {
     const { userData, statusLoading } = this.state;
-
     if (Actions.currentScene == "HomeScreen" && item.name == "My Class") {
       if (userData.data == null) {
         Actions.LoginScreen({ fromScreen: "MyClassScreen" });

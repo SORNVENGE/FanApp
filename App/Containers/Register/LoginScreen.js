@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity, ScrollView,ToastAndroid } from 'react-native'
 import { Images, Metrics, Colors, Fonts } from '../../Themes'
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
@@ -8,6 +8,7 @@ import { Icon } from 'native-base';
 
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
+import LoginActions from '../../Redux/LoginRedux'
 
 //component
 import Loading from '../../Components/Loading'
@@ -20,17 +21,29 @@ class LoginScreen extends Component {
 			statusLoading: false,
 			statusPassword: true,
 			statusBorder: false,
-			username: '',
-			password: '',
+			username: 'venge',
+			password: '123456',
 			userData: [],
 		};
+	}
+	componentWillReceiveProps(newProps) {
+		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
+			if (newProps.login.payload) {
+				console.tron.log(newProps.login.payload)
+				this.setState({ statusLoading: false });
+				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
+				Actions.MyClassScreen();
+			}
+		} else if (newProps.login.message == '404') {
+			ToastAndroid.showWithGravityAndOffset("Please check username and password again!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
+			this.setState({ statusLoading: false });
+		}
 	}
 	_handleOnUsernameChange = (username) => {
 		this.setState({ username: username });
 	}
 	_handleOnPasswordChange = (password) => {
 		this.setState({ password: password });
-
 	}
 	_handleSignInWithPhoneNumber = () => {
 		const { phoneNum } = this.state;
@@ -59,49 +72,18 @@ class LoginScreen extends Component {
 		}
 	};
 
-
-	// CloudFireStoreUserHelper.readAllUser(response => {
-	// 	if (response) {
-	// 		response.map((eachData, index) => {
-	// 			if (eachData.username == username && eachData.password == password) {
-	// 				this.setState({ userData: eachData, statusLoading: false, statusBorder: false });
-	// 				Actions.HomeScreen()
-	// 			}
-	// 			else {
-	// 				this.setState({ statusLoading: false, statusBorder: true });
-	// 			}
-	// 		})
-	// 	} else {
-	// 		this.setState({ statusLoading: false });
-	// 	}
-	// });
-
-
-
 	handleOnLoginButton = () => {
 		const { username, password } = this.state
 		if (username == "" || password == "") {
 			alert("Please input username and password!!")
 		}
 		else {
-			this.setState({ statusLoading: true });
-			CloudFireStoreUserHelper.readAllUser(username, password, (response) => {
-				if (Object.keys(response).length === 0) {
-					this.setState({ statusLoading: false });
-					alert("Your username and password is incorrect!")
-				}
-				else {
-					this.setState({ statusLoading: false });
-					this.props.setAllUserInfoAfterLogin(response)
-					if (this.props.fromScreen == "MyClassScreen") {
-						Actions.MyClassScreen();
-					}
-					else {
-						Actions.HomeScreen();
-					}
-					
-				}
-			})
+			// this.setState({ statusLoading: true });
+			let data = {
+				username: username,
+				password: password
+			}
+			this.props.requestLogin(data)
 		}
 	}
 	render() {
@@ -182,10 +164,16 @@ const styles = StyleSheet.create({
 })
 
 
+const props = (state) => {
+	return {
+		login: state.login
+	}
+}
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
+		requestLogin: (data) => dispatch(LoginActions.loginRequest(data))
 	}
 }
-export default connect(null, mapDispatchToProps)(LoginScreen)
+export default connect(props, mapDispatchToProps)(LoginScreen)
 
