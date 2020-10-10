@@ -12,6 +12,8 @@ import {
 	ScrollView,
 	Platform
 } from "react-native";
+import ClassByStudentAction from '../Redux/ClassByStudentRedux'
+import ListClassAction from '../Redux/ListClassRedux'
 
 import { Icon } from "native-base";
 import { Actions } from "react-native-router-flux";
@@ -30,58 +32,101 @@ class MyClassScreen extends Component {
 			userData: props.tempUser,
 			user_key: "",
 			classData: [],
-			statusLoading: false
+			statusLoading: false,
+			tempClasses: [],
+			userClasses: []
 		};
 	}
-	componentWillMount = () => {
-		const { userData } = this.state;
-		this.setState({ statusLoading: true });
-		var roleName = ""
-		CloudFireStoreUserHelper.readUserRoleById(
-			userData.data.roleId,
-			response => {
-				if (response) {
-					if (response[0].roleName == "Student") {
-						CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
-							({ ResponeStudent: response })
-							if (response) {
-								this.readAllProfessional(response)
-							} else {
-								this.setState({ statusLoading: false });
-							}
-						});
-					}
-					if (response[0].roleName == "Teacher") {
-						CloudFireStoreUserHelper.readClassByTeacherId(
-							userData.data.key,
-							response => {
-								if (response) {
-									this.setState({ classData: response, statusLoading: false });
-								} else {
-									this.setState({ statusLoading: false });
-								}
-							});
-					}
-				} else {
-					this.setState({ statusLoading: false });
-				}
-			});
+	// componentWillMount = () => {
+	// 	const { userData } = this.state;
+	// 	this.setState({ statusLoading: true });
+	// 	var roleName = ""
+	// 	CloudFireStoreUserHelper.readUserRoleById(
+	// 		userData.data.roleId,
+	// 		response => {
+	// 			if (response) {
+	// 				if (response[0].roleName == "Student") {
+	// 					CloudFireStoreUserHelper.readClassByStudentId(userData.data.key, response => {
+	// 						({ ResponeStudent: response })
+	// 						if (response) {
+	// 							this.readAllProfessional(response)
+	// 						} else {
+	// 							this.setState({ statusLoading: false });
+	// 						}
+	// 					});
+	// 				}
+	// 				if (response[0].roleName == "Teacher") {
+	// 					CloudFireStoreUserHelper.readClassByTeacherId(
+	// 						userData.data.key,
+	// 						response => {
+	// 							if (response) {
+	// 								this.setState({ classData: response, statusLoading: false });
+	// 							} else {
+	// 								this.setState({ statusLoading: false });
+	// 							}
+	// 						});
+	// 				}
+	// 			} else {
+	// 				this.setState({ statusLoading: false });
+	// 			}
+	// 		});
 
-	};
+	// };
 
-
-
-	readAllProfessional = async (items) => {
-		let professionals = []
-		for (var index in items) {
-			let docUser = await db.collection('tbl_class').where('key', '==', `${items[index].classId}`).get()
-			let objectData = { ...docUser._docs[0]._data }
-			professionals.push(objectData)
+	componentDidMount() {
+		let data = {
+			studentId: '2',
 		}
-		return this.setState({ classData: professionals, statusLoading: false })
+		this.props.requestListClass()
+		this.props.requestClassByStudent(data)
+
 	}
 
+	componentWillReceiveProps(newProps) {
+		if (Actions.currentScene == "MyClassScreen") {
+			if (newProps.getListClass) {
+				const { fetching, error, payload } = newProps.getListClass
+				if (fetching == false && error == null && payload) {
+					this.setState({ tempClasses: payload});
+				}
+			}
+
+			if (newProps.getClassByStudent) {
+				const { fetching, error, payload } = newProps.getClassByStudent
+				if (fetching == false && error == null && payload) {
+					let classesData = []
+					this.state.tempClasses.map((item, index) => {
+						 
+						payload.classes.map((eachItem, eachindex) => {
+							if (eachItem == item.classId) {
+								classesData.push(item)
+							}
+						})
+					})
+
+					console.tron.log(classesData, 'dd')
+					this.setState({ classData:classesData})
+					// this.requestFaqList = false;
+					// this.tempFaqData = [...this.tempFaqData, ...data]
+					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
+				}
+			}
+
+		}
+	}
+
+	// readAllProfessional = async (items) => {
+	// 	let professionals = []
+	// 	for (var index in items) {
+	// 		let docUser = await db.collection('tbl_class').where('key', '==', `${items[index].classId}`).get()
+	// 		let objectData = { ...docUser._docs[0]._data }
+	// 		professionals.push(objectData)
+	// 	}
+	// 	return this.setState({ classData: professionals, statusLoading: false })
+	// }
+
 	_renderTab = ({ item, index }) => {
+		console.tron.log(item)
 		return (
 			<TouchableOpacity
 				onPress={() => this.clickOnEachClass(item)}
@@ -115,7 +160,7 @@ class MyClassScreen extends Component {
 				</View>
 				<View style={{ alignItems: 'center', justifyContent: "center", width: "100%", paddingVertical: 15, backgroundColor: 'white', borderRadius: 5, paddingLeft: 20, }}>
 					<Text style={{ color: Colors.main_color, width: '100%', textAlign: 'left', fontWight: "bold", fontSize: 14, marginLeft: 10, marginBottom: 5 }} >
-						{item.classname}
+						{item.name}
 					</Text>
 					<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: 10, }}>
 						<Icon name={item.status == 'true' ? "check-circle" : "times-circle"} type='FontAwesome' style={{ fontSize: 17, color: item.status == 'true' ? "#009933" : "#e60000", }} />
@@ -164,11 +209,17 @@ class MyClassScreen extends Component {
 }
 const mapStateToProps = state => {
 	return {
-		tempUser: state.tempUser
+		tempUser: state.tempUser,
+		getClassByStudent: state.getClassByStudent,
+		getListClass: state.getListClass,
+
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	null
-)(MyClassScreen);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		requestClassByStudent: (data) => dispatch(ClassByStudentAction.classByStudentRequest(data)),
+		requestListClass: () => dispatch(ListClassAction.listClassRequest()),
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MyClassScreen);
