@@ -49,6 +49,9 @@ const images = {
 	img1: require('../Images/img1.jpg'),
 	img2: require('../Images/img2.jpg'),
   img3: require('../Images/img3.jpg'),
+  img4: require('../Images/img4.png'),
+  img5: require('../Images/img5.png'),
+  img6: require('../Images/img6.jpg'),
   
   //home menu
   food: require('../Images/MenuIcons/food.png'),

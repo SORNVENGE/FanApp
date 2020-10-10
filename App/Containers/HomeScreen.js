@@ -58,52 +58,48 @@ class HomeScreen extends Component {
         {
           title: 'my_class',
           name: "My Class",
-          url:"https://www.iconfinder.com/data/icons/education-flat-icon-1/130/135-512.png",
-             },
+          url: "https://www.iconfinder.com/data/icons/education-flat-icon-1/130/135-512.png",
+        },
         {
           title: 'facebook',
           name: "Facebook",
-                    url:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTvKZpYOpBeLFlco79gpt9So4r3lEp-YdhkkQ&usqp=CAU"
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTvKZpYOpBeLFlco79gpt9So4r3lEp-YdhkkQ&usqp=CAU"
         },
         {
           title: 'youtube',
           name: "Youtube",
-            url:'https://img1.pnghut.com/11/6/21/ucFZMBV0E1/4k-resolution-post-apple-icon-image-format-symbol-red.jpg'
+          url: 'https://img1.pnghut.com/11/6/21/ucFZMBV0E1/4k-resolution-post-apple-icon-image-format-symbol-red.jpg'
         },
         {
           title: 'admission',
           name: "Admission",
-           url:"https://www.pngkit.com/png/detail/99-998068_free-admission-icon-william-sheller-master-serie.png"
+          url: "https://www.pngkit.com/png/detail/99-998068_free-admission-icon-william-sheller-master-serie.png"
         },
         {
           title: 'tuition_fee',
           name: "Tuition Fee",
-          
-          url:"https://www.avonumc.net/wp-content/uploads/2015/08/financial-literacy.gif"
+          url: "https://www.avonumc.net/wp-content/uploads/2015/08/financial-literacy.gif"
         },
         {
           title: 'main_program',
           name: "Main Program",
-          
-          url:"https://thumbs.dreamstime.com/b/back-to-school-flat-icons-design-set-distance-education-corse-program-online-course-universities-colleges-proposes-77868065.jpg"
+          url: "https://thumbs.dreamstime.com/b/back-to-school-flat-icons-design-set-distance-education-corse-program-online-course-universities-colleges-proposes-77868065.jpg"
 
         },
         {
-
-          title: "elearning",
-          name: "E-Learning",
-           url:"https://www.iconfinder.com/data/icons/e-learning-flat-education-technology/512/Distance_education-512.png"
-
+          title: "map",
+          name: "Map",
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTH8b6NmsQxwdKpnkYCkiiVacHKUIcdirUw5Q&usqp=CAU"
         },
         {
           title: 'News',
           name: "News",
-           url:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTwzo0YsMaFc8UJRrkrTrN39X7zQ6zDY7a-9g&usqp=CAU"
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTwzo0YsMaFc8UJRrkrTrN39X7zQ6zDY7a-9g&usqp=CAU"
         },
         {
           title: 'setting',
           name: "Setting",
-          url:"https://www.pngfind.com/pngs/m/427-4275693_tuerca-png-settings-icon-transparent-png-download.png"
+          url: "https://www.pngfind.com/pngs/m/427-4275693_tuerca-png-settings-icon-transparent-png-download.png"
 
         },
       ],
@@ -154,16 +150,16 @@ class HomeScreen extends Component {
           justifyContent: "center",
           alignItems: "center",
           width: "33.33%",
-          marginRight:4,
+          marginRight: 4,
           marginTop: 3,
           height: height < 731.4285714285714 ? width / 2.8 : width / 3,
-          backgroundColor:'black'
-          
+          backgroundColor: 'black'
+
         }}
       >
         <View style={{ width: '100%', height: '100%', justifyContent: "center", flexDirection: "column", alignItems: "center", backgroundColor: Colors.white }}>
-          <View style={{ alignItems: "center",paddingTop:40,paddingBottom:10 }}>
-          <Image source={{ uri: item.url }} style={{ width:50,height:50,borderRadius:50 }} />
+          <View style={{ alignItems: "center", paddingTop: 40, paddingBottom: 10 }}>
+            <Image source={{ uri: item.url }} style={{ width: 50, height: 50, borderRadius: 50 }} />
             {/* <Icon name={item.iconName} type={item.iconType} style={{ color: Colors.black, fontSize: 30, fontWeight: "bold" }} /> */}
           </View>
           <View
@@ -425,7 +421,7 @@ class HomeScreen extends Component {
           <View>
             <View>
               <Swiper
-              showsButtons={true}
+                showsButtons={true}
                 loop={true}
                 autoplay={true}
                 style={{ height: 300 }}

@@ -22,7 +22,7 @@ class LoginScreen extends Component {
 			statusPassword: true,
 			statusBorder: false,
 			username: 'venge',
-			password: '123456',
+			password: 'venge',
 			userData: [],
 		};
 	}

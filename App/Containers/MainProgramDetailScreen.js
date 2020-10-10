@@ -17,12 +17,13 @@ export default class MainProgramDetailScreen extends Component {
         if (statusLoading) return <Loading />
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ justifyContent: 'center', padding: 10 }}>
-                    <Text style={{ fontSize: 15, paddingTop: 10,paddingLeft:10 }}>
-                        {item.description}
-                    </Text>
-                   
-                </View>
+                <ScrollView>
+                    <View style={{ justifyContent: 'center', padding: 10 }}>
+                        <Text style={{ fontSize: 15, paddingTop: 10,paddingLeft:10,lineHeight:24 }}>
+                            {item.description}
+                        </Text>
+                    </View>
+               </ScrollView>
             </View>
         );
     }
