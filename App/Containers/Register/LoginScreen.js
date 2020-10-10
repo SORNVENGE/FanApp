@@ -29,8 +29,10 @@ class LoginScreen extends Component {
 	componentWillReceiveProps(newProps) {
 		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
 			if (newProps.login.payload) {
+				console.tron.log(newProps.login.payload)
 				this.setState({ statusLoading: false });
-				Actions.HomeScreen()
+				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
+				Actions.MyClassScreen();
 			}
 		} else if (newProps.login.message == '404') {
 			ToastAndroid.showWithGravityAndOffset("Please check username and password again!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
