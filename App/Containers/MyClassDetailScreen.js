@@ -23,7 +23,7 @@ import CloudFireStoreUserHelper from "../Services/CloudFireStoreUserHelper";
 import Loading from "../Components/Loading";
 import Pdf from "react-native-pdf";
 import I18n from './I18n';
-import { UIActivityIndicator , BallIndicator} from 'react-native-indicators';
+import { UIActivityIndicator, BallIndicator } from 'react-native-indicators';
 import * as Progress from 'react-native-progress';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -412,29 +412,31 @@ class MyClassDetailScreen extends Component {
 					{this.type_clicked == "Information" ? (
 						<ScrollView style={{ paddingBottom: 5, }}>
 							<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 10, }}>
-								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center',  marginBottom: 10}}>
-									<Text style={{fontSize: 30, fontWeight: 'bold', color: Colors.main_color}}>C {this.state.index}</Text>
-									<Text style={{fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5}}>{classData.classname}</Text>
+								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
+									<Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>C {this.state.index}</Text>
+									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5 }}>{classData.classname}</Text>
 								</View>
-								<View style={{borderRadius: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 20 , backgroundColor: 'white', shadowColor: "#000",
-						shadowOffset: {
-							width: 0,
-							height: 4,
-						},
-						shadowOpacity: 0.30,
-						shadowRadius: 4.65,
-						elevation: 8, }}>
+								<View style={{
+									borderRadius: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 20, backgroundColor: 'white', shadowColor: "#000",
+									shadowOffset: {
+										width: 0,
+										height: 4,
+									},
+									shadowOpacity: 0.30,
+									shadowRadius: 4.65,
+									elevation: 8,
+								}}>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
-										<Icon type="AntDesign" name="book" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15}} />
-										<Text style={{fontSize: 16, fontWeight: 'bold', color:Colors.main_color}}>{subjectName}</Text>
+										<Icon type="AntDesign" name="book" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{subjectName}</Text>
 									</View>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
-										<Icon type="FontAwesome" name="signal" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15}} />
-										<Text style={{fontSize: 16, fontWeight: 'bold', color: Colors.main_color}}>{levelName}</Text>
+										<Icon type="FontAwesome" name="signal" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{levelName}</Text>
 									</View>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
-										<Icon type="Entypo" name="back-in-time" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15}} />
-										<Text style={{fontSize: 16, fontWeight: 'bold', color: Colors.main_color}}>{sessionName}</Text>
+										<Icon type="Entypo" name="back-in-time" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{sessionName}</Text>
 									</View>
 								</View>
 
@@ -569,11 +571,16 @@ class MyClassDetailScreen extends Component {
 							</Text> */}
 							<View style={{ height: "70%", justifyContent: 'flex-start', alignItems: 'center' }}>
 								{statusLoadingStudent ?
-								 
-									<View>
+
+									<View style={{marginTop: 50}}>
+										{/* <Image
+											source={{ uri: "https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" }}
+											style={{ width: 100, height: 100,  marginTop: 25}}
+										/> */}
+											<Loading /> 
 									</View>
-									 
-									 :
+								
+									:
 									<ScrollView>
 										{this.state.studentData.map((eachStudent, ind) => {
 											return (

@@ -4,14 +4,12 @@ import Reactotron from 'reactotron-react-native'
 import { reactotronRedux as reduxPlugin } from 'reactotron-redux'
 import sagaPlugin from 'reactotron-redux-saga'
 import {AsyncStorage} from 'react-native'
-
 const reactotron = Reactotron
     .configure({ name: 'Ignite App',host:'192.168.60.137'})
     .useReactNative()
     .use(reduxPlugin({ onRestore: Immutable }))
     .use(sagaPlugin())
     .setAsyncStorageHandler(AsyncStorage)
-
 if (Config.useReactotron) {
   // https://github.com/infinitered/reactotron for more options!
 

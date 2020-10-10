@@ -13,6 +13,10 @@ export const reducers = combineReducers({
   footer: require('./FooterRedux').reducer,
   language: require('./LanguageRedux').reducer,
   tempUser: require('./StoreUserInfoRedux').reducer,
+  getClassByStudent:require('./ClassByStudentRedux').reducer,
+  getListClass:require('./ListClassRedux').reducer,
+
+
   login: require('./LoginRedux').reducer,
 
 })
