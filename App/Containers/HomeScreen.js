@@ -403,7 +403,6 @@ class HomeScreen extends Component {
     // 	});
     // })
   };
-
   render() {
     if (this.props.getLanguage.value) {
       I18n.locale = this.props.getLanguage.value;

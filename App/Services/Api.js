@@ -43,6 +43,8 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
   const getClassByStudent = (data) => api.get('students/' + data.studentId + '/classes')
   const getListClass = (data) => api.get('/classes')
   const getLogin = (data) => api.post('users/login',data)
+  const getNews =(data) =>api.get('/news')
+
 
   // ------
   // STEP 3
@@ -64,6 +66,7 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
     getClassByStudent,
     getListClass,
     getLogin,
+    getNews
 
   }
 }

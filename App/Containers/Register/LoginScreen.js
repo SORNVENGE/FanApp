@@ -9,6 +9,7 @@ import { Icon } from 'native-base';
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
 import LoginActions from '../../Redux/LoginRedux'
+import NewsActions from '../../Redux/NewsRedux'
 
 //component
 import Loading from '../../Components/Loading'
@@ -24,9 +25,25 @@ class LoginScreen extends Component {
 			username: '',
 			password: '',
 			userData: [],
+			newsData:[]
 		};
 	}
+
+
+	componentDidMount=()=>{
+		this.props.requestNewsData()
+	}
+	
 	componentWillReceiveProps(newProps) {
+		if (newProps.getNews) {
+			if (newProps.getNews.fetching == false &&newProps.getNews.error == null &&newProps.getNews.payload)
+			{
+				console.tron.log({getNewsData:newProps.getNews.payload})
+			}
+		}
+
+
+
 		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
 			if (newProps.login.payload) {
 				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
@@ -166,13 +183,17 @@ const styles = StyleSheet.create({
 
 const props = (state) => {
 	return {
-		login: state.login
+		login: state.login,
+		getNews: state.getNews,
+
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
-		requestLogin: (data) => dispatch(LoginActions.loginRequest(data))
+		requestLogin: (data) => dispatch(LoginActions.loginRequest(data)),
+		requestNewsData: () => dispatch(NewsActions.newsRequest())
+
 	}
 }
 export default connect(props, mapDispatchToProps)(LoginScreen)

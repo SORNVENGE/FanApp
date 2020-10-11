@@ -7,7 +7,7 @@ export default class NewsDetailScreen extends Component{
         super(props);
         this.state={
             statusLoading:true,
-            description:props.item.description
+            content:props.item.content
         }
     }
 
@@ -18,7 +18,7 @@ export default class NewsDetailScreen extends Component{
     }
 
     render(){
-        const {description,statusLoading}=this.state
+        const {content,statusLoading}=this.state
         if (statusLoading) return <Loading />
 
         return(
@@ -26,7 +26,7 @@ export default class NewsDetailScreen extends Component{
                 <ScrollView>
                     <View style={{ justifyContent: 'center', padding: 10 }}>
                         <Text style={{ fontSize: 15, paddingTop: 10,paddingLeft:10,lineHeight:24 }}>
-                            {description}
+                            {content}
                         </Text>
                     </View>
                </ScrollView>

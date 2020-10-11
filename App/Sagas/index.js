@@ -12,6 +12,7 @@ import { ListClassTypes } from '../Redux/ListClassRedux'
 
 
 import { LoginTypes } from './../Redux/LoginRedux'
+import { NewsTypes } from './../Redux/NewsRedux'
 
 
 /* ------------- Sagas ------------- */
@@ -23,6 +24,7 @@ import { getListClass} from './ListClassSagas'
 
 
 import { getLogin } from './LoginSagas'
+import { getNews } from './NewsSagas'
 
 
 /* ------------- API ------------- */
@@ -44,6 +46,8 @@ export default function * root () {
     takeLatest(ListClassTypes.LIST_CLASS_REQUEST, getListClass, api),
 
     takeLatest(LoginTypes.LOGIN_REQUEST, getLogin, api),
+    takeLatest(NewsTypes.NEWS_REQUEST, getNews, api),
+
 
   ])
 }

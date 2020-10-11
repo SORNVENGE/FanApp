@@ -15,9 +15,9 @@ export const reducers = combineReducers({
   tempUser: require('./StoreUserInfoRedux').reducer,
   getClassByStudent:require('./ClassByStudentRedux').reducer,
   getListClass:require('./ListClassRedux').reducer,
-
-
   login: require('./LoginRedux').reducer,
+  getNews: require('./NewsRedux').reducer,
+  
 
 })
 
