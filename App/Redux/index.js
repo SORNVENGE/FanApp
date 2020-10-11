@@ -15,7 +15,6 @@ export const reducers = combineReducers({
   tempUser: require('./StoreUserInfoRedux').reducer,
   getClassByStudent:require('./ClassByStudentRedux').reducer,
   getListClass:require('./ListClassRedux').reducer,
-<<<<<<< HEAD
   getListStudent:require('./ListStudentRedux').reducer,
   getStudentByClass:require('./ListStudentByClassRedux').reducer,
   getLessionByClass:require('./ListLessionByClassRedux').reducer,
@@ -24,8 +23,6 @@ export const reducers = combineReducers({
 
 
 
-=======
->>>>>>> 75d4d5203027b94e7026b1136bbda8950a7f4717
   login: require('./LoginRedux').reducer,
   getNews: require('./NewsRedux').reducer,
   
