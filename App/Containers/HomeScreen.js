@@ -35,7 +35,6 @@ class HomeScreen extends Component {
     this.state = {
       statusLoading: false,
       userData: props.tempUser ? props.tempUser : [],
-
       imageSlide: [
         {
           url: "https://scholarship-positions.com/wp-content/uploads/2019/06/Swansea-University-Medical-School-Postgraduate-Taught-Masters-Scholarships-2019.jpg",
@@ -103,8 +102,6 @@ class HomeScreen extends Component {
 
         },
       ],
-      activeIndex: 1,
-      locationShop: ""
     };
     // this.ref = firebase.firestore().collection('main_program');
   }
@@ -129,8 +126,8 @@ class HomeScreen extends Component {
     else if (Actions.currentScene == "HomeScreen" && item.name == "Tuition Fee") {
       Actions.FeeScreen();
     }
-    else if (Actions.currentScene == "HomeScreen" && item.name == "E-Learning") {
-      Actions.ELearningScreen();
+    else if (Actions.currentScene == "HomeScreen" && item.name == "Map") {
+      Actions.MapScreen();
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Main Program") {
       Actions.MainProgramScreen();
@@ -421,12 +418,11 @@ class HomeScreen extends Component {
           <View>
             <View>
               <Swiper
-                showsButtons={true}
                 loop={true}
                 autoplay={true}
                 style={{ height: 300 }}
-                dot={<View />}
-                activeDot={<View />}
+                dot={<View style={{backgroundColor:Colors.main_color, width: 11, height: 11,borderRadius: 15, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
+                  activeDot={<View style={{backgroundColor:Colors.white, width: 11, height: 11, borderRadius: 15, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
               >
                 {imageSlide.map((eachImage, index) => {
                   return (

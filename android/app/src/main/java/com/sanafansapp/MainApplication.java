@@ -28,6 +28,8 @@ import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,7 +65,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebaseStoragePackage(),
             new RNGestureHandlerPackage(),
             new ReactVideoPackage(),
-            new RNCWebViewPackage() 
+            new RNCWebViewPackage(),
+            new MapsPackage()
       );
     }
 

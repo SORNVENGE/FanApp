@@ -21,17 +21,17 @@ class LoginScreen extends Component {
 			statusLoading: false,
 			statusPassword: true,
 			statusBorder: false,
-			username: 'venge',
-			password: 'venge',
+			username: '',
+			password: '',
 			userData: [],
 		};
 	}
 	componentWillReceiveProps(newProps) {
 		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
 			if (newProps.login.payload) {
-				console.tron.log(newProps.login.payload)
-				this.setState({ statusLoading: false });
 				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
+				this.setState({ statusLoading: false });
+				console.tron.log({Data :newProps.login.payload})
 				Actions.MyClassScreen();
 			}
 		} else if (newProps.login.message == '404') {

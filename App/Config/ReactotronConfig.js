@@ -5,7 +5,7 @@ import { reactotronRedux as reduxPlugin } from 'reactotron-redux'
 import sagaPlugin from 'reactotron-redux-saga'
 import {AsyncStorage} from 'react-native'
 const reactotron = Reactotron
-    .configure({ name: 'Ignite App',host:'192.168.1.5'})
+    .configure({ name: 'Ignite App',host:'192.168.1.4'})
     .useReactNative()
     .use(reduxPlugin({ onRestore: Immutable }))
     .use(sagaPlugin())
