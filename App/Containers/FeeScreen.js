@@ -9,36 +9,29 @@ export default class FeeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feeData:[],
-            statusLoading:false,
+            statusLoading:true,
             data: [
-                { title: "I. General Education (Grade 1-12)", lefeICon: "https://i7.pngflow.com/pngimage/877/789/png-student-group-education-college-university-student-tshirt-blue-people-university-clipart-thumb.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
-                { title: "II. ESL Program (Level 1-12)", lefeICon: "https://w7.pngwing.com/pngs/343/187/png-transparent-student-university-institute-school-education-student-class-people-public-relations.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
-                { title: "III. Intelligent Mental-Arimethic IMA ", lefeICon: "https://imacorp.com/wp-content/uploads/2018/01/IMA_Gardner_BLUE.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
-                { title: "IV. Computer Training Course ", lefeICon: "https://images.ctfassets.net/fevtq3bap7tj/4rsL8Wiv2EuyaOKgwC0OOU/93dc05128009c2ec38cd34e35dd46fb2/Home_illustration.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
-                { title: "V. Intelligent Test Program Course", lefeICon: "https://f1.pngfuel.com/png/612/755/809/educational-test-of-english-as-a-foreign-language-toefl-educational-testing-service-book-text-technology-number-blue-png-clip-art.png", image1: Images.img1, image2: Images.img2, image3: Images.img3 },
+                { title: "I. General Education (Grade 1-12)",image:"https://media.istockphoto.com/vectors/scholarship-icon-vector-id980135014?k=6&m=980135014&s=612x612&w=0&h=30Nm_7aHTwnjWmk9YvUMoB8kblWPD2Gv5W5C8BPxN9A=",image1: Images.img1, image2: Images.img2, image3: Images.img3 },
+                { title: "II. ESL Program (Level 1-12)",image:"https://www.archivistonline.pk/wp-content/uploads/2015/06/school-fee-collection-software.jpg",image1: Images.img3, image2: Images.img1, image3: Images.img2},
+                { title: "III. Intelligent Mental-Arimethic IMA ",image:"https://missionvalleynews.com/wp-content/uploads/2017/03/o-TUITION-COSTS-facebook.jpg",image1: Images.img5, image2: Images.img3, image3: Images.img6},
+                { title: "IV. Computer Training Course ",image:"https://cdn.modernghana.com/images/content/31201995703_i4ep276gfa_threewaysstudyingabroadcanhelpyourpostgradjobsearch_16001154_800783681_0_0_14039927_500.jpg",image1: Images.img6, image2: Images.img3, image3: Images.img1},
+                { title: "V. Intelligent Test Program Course",image:"https://images-na.ssl-images-amazon.com/images/I/816%2BZsTBOeL._SL1500_.jpg",image1: Images.img1, image2: Images.img4, image3: Images.img6},
             ]
         }
     }
     componentWillMount=()=>{
-        this.setState({  statusLoading: true });
-        CloudFireStoreUserHelper.readFee((response) => {
-            if (response) {
-                this.setState({ feeData: response, statusLoading: false });
-            }
-            else {
-                this.setState({ statusLoading: false });
-            }
-        })
+        setTimeout(() => {
+            this.setState({statusLoading: false})
+        }, 1000)
     }
     render() {
 
-        const {statusLoading,feeData } = this.state
+        const {statusLoading,data } = this.state
         if (statusLoading) return <Loading />
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView>
-                    {feeData.map((eachData, index) => {
+                    {data.map((eachData, index) => {
                         return (
                             <TouchableOpacity onPress={() =>Actions.FeeDetailScreen({ item: eachData })} style={{ padding: 10, flexDirection: 'column' }}>
                                 <View style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>

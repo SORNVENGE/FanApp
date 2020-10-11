@@ -33,7 +33,7 @@ class SettingScreen extends Component {
 						<Image source={Images.english} style={{ width: 60, height: 60, alignSelf: 'center', resizeMode: 'center' }} />
 
                         </View>
-                        <Text style={{ textAlign: 'center', fontSize: 18, color: "black", fontWeight: 'bold' }}>English</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 18, color: "black", fontWeight: 'bold' }}> {I18n.t("English")}</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -45,7 +45,7 @@ class SettingScreen extends Component {
                         <View style={{paddingLeft:20,paddingRight:20}}> 
 						<Image source={Images.khmer} style={{ width: 60, height: 60, alignSelf: 'center', resizeMode: 'center' }} />
                         </View>
-                        <Text style={{ textAlign: 'center', fontSize: 18, color: "black", fontWeight: 'bold' }}>Khmer</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 18, color: "black", fontWeight: 'bold' }}> {I18n.t("Khmer")}</Text>
                     </View>
                 </TouchableOpacity>
                 

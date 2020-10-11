@@ -3,48 +3,53 @@ import { View, Image, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Images, Colors, Metrics, Fonts } from '../Themes'
 import Loading from '../Components/Loading'
 import CloudFireStoreUserHelper from '../Services/CloudFireStoreUserHelper';
+import moment from 'moment';
 
-export default class NewsScreen extends Component {
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux'
+import NewsActions from '../Redux/NewsRedux'
+
+class NewsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            statusLoading: false,
-            newsData: []
+            statusLoading: true,
+            newsList:[],
         }
     }
-    componentWillMount = () => {
-        this.setState({ statusLoading: true });
-        CloudFireStoreUserHelper.readNews((response) => {
-            if (response) {
-                this.setState({ newsData: response, statusLoading: false });
-            }
-            else {
-                this.setState({ statusLoading: false });
-            }
-        })
+    componentDidMount=()=>{
+		this.props.requestNewsData()
+    }
+    
+    componentWillReceiveProps(newProps) {
+		if (newProps.getNews) {
+			if (newProps.getNews.fetching == false &&newProps.getNews.error == null &&newProps.getNews.payload)
+			{
+                this.setState({newsList:newProps.getNews.payload,statusLoading: false});
+			}
+        }
     }
 
     render() {
-        const { statusLoading, newsData } = this.state
+        const { statusLoading,newsList } = this.state
         if (statusLoading) return <Loading />
+        console.tron.log(moment().format("MMM Do YY"))
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView>
-
-
-                    {newsData.map((eachData, index) => {
+                    {newsList.map((eachData, index) => {
                         return (
                             <View style={{ padding: 10, flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>
+                                <TouchableOpacity onPress={() => Actions.NewsDetailScreen({ item: eachData })} style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>
                                     <View style={{ width: '30%', justifyContent: 'center' }}>
-                                        <Image source={{ uri: eachData.image }} style={{ width: 80, height: 80, alignSelf: 'center' }} />
+                                        <Image source={{ uri: eachData.filePath }} style={{ width: 80, height: 80, alignSelf: 'center' }} />
                                     </View>
                                     <View style={{ width: '70%', flexDirection: 'column', justifyContent: 'center' }}>
                                         <View style={{}}>
                                             <Text style={{ fontSize: 15, color: 'black', fontWeight: 'bold' }}>{eachData.title}</Text>
                                         </View>
-                                        <View style={{}}>
-                                            <Text style={{ fontSize: 14, color: 'black' }}>{eachData.date}</Text>
+                                        <View style={{marginTop:10}}>
+                                            <Text style={{ fontSize: 14, color: 'black' }}>{moment(eachData.createdAt).format("YYYY-MMM-DD")}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -61,3 +66,18 @@ export default class NewsScreen extends Component {
         );
     }
 }
+
+
+const props = (state) => {
+	return {
+		getNews: state.getNews,
+
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		requestNewsData: () => dispatch(NewsActions.newsRequest())
+
+	}
+}
+export default connect(props, mapDispatchToProps)(NewsScreen)

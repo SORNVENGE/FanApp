@@ -48,6 +48,7 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
   const getListLessionByClass = (data) => api.get('classes/' + data.classId + '/lessons')
   const getDeleteLessionByClass = (data) => api.delete('classes/' + data.classId + '/lessons/' + data.lessionId)
   const getAddLessionByClass = (data) => api.post('classes/' + data.classId + '/lessons')
+  const getNews =(data) =>api.get('/news')
 
 
   // ------
@@ -74,7 +75,9 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
     getListStudentByClass,
     getListLessionByClass,
     getDeleteLessionByClass,
-    getAddLessionByClass
+    getAddLessionByClass,
+    getNews
+
   }
 }
 

@@ -17,6 +17,7 @@ import { AddLessionByClassTypes } from '../Redux/AddLessionByClassRedux'
 
 
 import { LoginTypes } from './../Redux/LoginRedux'
+import { NewsTypes } from './../Redux/NewsRedux'
 
 
 /* ------------- Sagas ------------- */
@@ -34,6 +35,7 @@ import { getDeleteLessionByClass} from './DeleteLessionByClassSagas'
 import { getAddLessionByClass} from './AddLessionByClassSagas'
 
 import { getLogin } from './LoginSagas'
+import { getNews } from './NewsSagas'
 
 
 /* ------------- API ------------- */
@@ -60,6 +62,8 @@ export default function * root () {
     takeLatest(AddLessionByClassTypes.ADD_LESSION_BY_CLASS_REQUEST, getAddLessionByClass, api),
 
     takeLatest(LoginTypes.LOGIN_REQUEST, getLogin, api),
+    takeLatest(NewsTypes.NEWS_REQUEST, getNews, api),
+
 
   ])
 }

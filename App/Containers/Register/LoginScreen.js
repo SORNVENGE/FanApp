@@ -9,6 +9,7 @@ import { Icon } from 'native-base';
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
 import LoginActions from '../../Redux/LoginRedux'
+import NewsActions from '../../Redux/NewsRedux'
 
 //component
 import Loading from '../../Components/Loading'
@@ -21,17 +22,33 @@ class LoginScreen extends Component {
 			statusLoading: false,
 			statusPassword: true,
 			statusBorder: false,
-			username: 'venge',
-			password: '123456',
+			username: '',
+			password: '',
 			userData: [],
+			newsData:[]
 		};
 	}
+
+
+	componentDidMount=()=>{
+		this.props.requestNewsData()
+	}
+	
 	componentWillReceiveProps(newProps) {
+		if (newProps.getNews) {
+			if (newProps.getNews.fetching == false &&newProps.getNews.error == null &&newProps.getNews.payload)
+			{
+				console.tron.log({getNewsData:newProps.getNews.payload})
+			}
+		}
+
+
+
 		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
 			if (newProps.login.payload) {
-				console.tron.log(newProps.login.payload, 'ddddddddddddddd')
-				this.setState({ statusLoading: false });
 				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
+				this.setState({ statusLoading: false });
+				console.tron.log({Data :newProps.login.payload})
 				Actions.MyClassScreen();
 			}
 		} else if (newProps.login.message == '404') {
@@ -166,13 +183,17 @@ const styles = StyleSheet.create({
 
 const props = (state) => {
 	return {
-		login: state.login
+		login: state.login,
+		getNews: state.getNews,
+
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
-		requestLogin: (data) => dispatch(LoginActions.loginRequest(data))
+		requestLogin: (data) => dispatch(LoginActions.loginRequest(data)),
+		requestNewsData: () => dispatch(NewsActions.newsRequest())
+
 	}
 }
 export default connect(props, mapDispatchToProps)(LoginScreen)
