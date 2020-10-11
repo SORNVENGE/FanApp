@@ -29,7 +29,7 @@ class LoginScreen extends Component {
 	componentWillReceiveProps(newProps) {
 		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
 			if (newProps.login.payload) {
-				console.tron.log(newProps.login.payload)
+				console.tron.log(newProps.login.payload, 'ddddddddddddddd')
 				this.setState({ statusLoading: false });
 				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
 				Actions.MyClassScreen();

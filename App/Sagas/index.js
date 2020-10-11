@@ -9,6 +9,11 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { ClassByStudentTypes } from '../Redux/ClassByStudentRedux'
 import { ListClassTypes } from '../Redux/ListClassRedux'
+import { ListStudentTypes } from '../Redux/ListStudentRedux'
+import { ListStudentByClassTypes } from '../Redux/ListStudentByClassRedux'
+import { ListLessionByClassTypes } from '../Redux/ListLessionByClassRedux'
+import { DeleteLessionByClassTypes } from '../Redux/DeleteLessionByClassRedux'
+import { AddLessionByClassTypes } from '../Redux/AddLessionByClassRedux'
 
 
 import { LoginTypes } from './../Redux/LoginRedux'
@@ -20,7 +25,13 @@ import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { getClassByStudent } from './ClassByStudentSagas'
 import { getListClass} from './ListClassSagas'
+import { getListStudent} from './ListStudentSagas'
 
+import { getListStudentByClass} from './ListStudentByClassSagas'
+import { getListLessionByClass} from './ListLessionByClassSagas'
+
+import { getDeleteLessionByClass} from './DeleteLessionByClassSagas'
+import { getAddLessionByClass} from './AddLessionByClassSagas'
 
 import { getLogin } from './LoginSagas'
 
@@ -42,6 +53,11 @@ export default function * root () {
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
     takeLatest(ClassByStudentTypes.CLASS_BY_STUDENT_REQUEST, getClassByStudent, api),
     takeLatest(ListClassTypes.LIST_CLASS_REQUEST, getListClass, api),
+    takeLatest(ListStudentByClassTypes.LIST_STUDENT_BY_CLASS_REQUEST, getListStudentByClass, api),
+    takeLatest(ListStudentTypes.LIST_STUDENT_REQUEST, getListStudent, api),
+    takeLatest(ListLessionByClassTypes.LIST_LESSION_BY_CLASS_REQUEST, getListLessionByClass, api),
+    takeLatest(DeleteLessionByClassTypes.DELETE_LESSION_BY_CLASS_REQUEST, getDeleteLessionByClass, api),
+    takeLatest(AddLessionByClassTypes.ADD_LESSION_BY_CLASS_REQUEST, getAddLessionByClass, api),
 
     takeLatest(LoginTypes.LOGIN_REQUEST, getLogin, api),
 

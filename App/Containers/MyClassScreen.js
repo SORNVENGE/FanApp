@@ -32,8 +32,9 @@ class MyClassScreen extends Component {
 			userData: props.tempUser,
 			user_key: "",
 			classData: [],
-			statusLoading: false,
+			statusLoading: true,
 			tempClasses: [],
+			tempUserClass: [],
 			userClasses: []
 		};
 	}
@@ -74,9 +75,13 @@ class MyClassScreen extends Component {
 	// };
 
 	componentDidMount() {
+		const { userData } = this.state
+		var userId =  userData.data ? userData.data.userId : ''
+		console.tron.log(userId)
 		let data = {
-			studentId: '2',
+			studentId: userId,
 		}
+		
 		this.props.requestListClass()
 		this.props.requestClassByStudent(data)
 
@@ -87,25 +92,14 @@ class MyClassScreen extends Component {
 			if (newProps.getListClass) {
 				const { fetching, error, payload } = newProps.getListClass
 				if (fetching == false && error == null && payload) {
-					this.setState({ tempClasses: payload});
+					this.setState({ tempClasses: payload });
 				}
 			}
 
 			if (newProps.getClassByStudent) {
 				const { fetching, error, payload } = newProps.getClassByStudent
 				if (fetching == false && error == null && payload) {
-					let classesData = []
-					this.state.tempClasses.map((item, index) => {
-						 
-						payload.classes.map((eachItem, eachindex) => {
-							if (eachItem == item.classId) {
-								classesData.push(item)
-							}
-						})
-					})
-
-					console.tron.log(classesData, 'dd')
-					this.setState({ classData:classesData})
+					this.setState({ tempUserClass: payload, statusLoading: false })
 					// this.requestFaqList = false;
 					// this.tempFaqData = [...this.tempFaqData, ...data]
 					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
@@ -125,65 +119,27 @@ class MyClassScreen extends Component {
 	// 	return this.setState({ classData: professionals, statusLoading: false })
 	// }
 
-	_renderTab = ({ item, index }) => {
-		console.tron.log(item)
-		return (
-			<TouchableOpacity
-				onPress={() => this.clickOnEachClass(item)}
-				style={{
-					flex: 1,
-					height: 'auto',
-					backgroundColor: 'white',
-					justifyContent: 'flex-start',
-					alignItems: 'center',
-					shadowColor: "#000",
-					shadowOffset: {
-						width: 0,
-						height: 4,
-					},
-					shadowOpacity: 0.30,
-					shadowRadius: 4.65,
-					elevation: 8,
-					borderRadius: 5,
-					marginHorizontal: 5,
-					marginBottom: 15,
-				}}
-			>
-				<View style={{ justifyContent: "center", width: "100%" }}>
-					<Image
-						source={{
-							uri:
-								"https://dynamicmedia.zuza.com/zz/m/original_/a/f/af862213-8bf8-4113-8ac1-575e8d6951b3/shutterstock_356921618___Super_Portrait.jpg"
-						}}
-						style={{ width: '100%', height: 150, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
-					/>
-				</View>
-				<View style={{ alignItems: 'center', justifyContent: "center", width: "100%", paddingVertical: 15, backgroundColor: 'white', borderRadius: 5, paddingLeft: 20, }}>
-					<Text style={{ color: Colors.main_color, width: '100%', textAlign: 'left', fontWight: "bold", fontSize: 14, marginLeft: 10, marginBottom: 5 }} >
-						{item.name}
-					</Text>
-					<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: 10, }}>
-						<Icon name={item.status == 'true' ? "check-circle" : "times-circle"} type='FontAwesome' style={{ fontSize: 17, color: item.status == 'true' ? "#009933" : "#e60000", }} />
-						<Text style={{ color: Colors.main_color, width: "80%", textAlign: 'left', fontSize: 12, marginLeft: 10, }} >
-							{item.status == 'true' ? "Active" : "Inactive"}
-						</Text>
 
-					</View>
-				</View>
-			</TouchableOpacity>
-		);
-	};
-
-	clickOnEachClass = eachData => {
+	clickOnEachClass = (eachData) => {
+		console.tron.log(eachData)
 		Actions.MyClassDetailScreen({ classDetail: eachData });
 	};
 	render() {
-		const { statusLoading, classData, userData } = this.state;
+		const { statusLoading, classData, userData, tempClasses, tempUserClass } = this.state;
+		console.tron.log(tempClasses, tempUserClass)
 		if (statusLoading) return <Loading />;
+		let data = []
+		this.state.tempClasses.map((item, index) => {
+			tempUserClass.classes.map((eachItem, eachindex) => {
+				if (eachItem == item.classId) {
+					data.push(item)
+				}
+			})
+		})
 		return (
 			<View style={{ flex: 1, backgroundColor: Colors.white }}>
 				<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-					<Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>{userData.data.username}</Text>
+					<Text style={{ fontSize: 26, fontWeight: 'bold', color: Colors.main_color, marginTop: 5}}>{userData.data.username}</Text>
 					<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5 }}>{userData.data.phone}</Text>
 				</View>
 				{/* <View style={{ margin: 10, alignItems: 'center' }}>
@@ -194,16 +150,61 @@ class MyClassScreen extends Component {
 						{userData.data.phone}
 					</Text>
 				</View> */}
-				<View style={{ padding: 10 }}>
-					<FlatList
-						style={{ marginTop: Metrics.baseMargin, }}
-						data={classData}
-						numColumns={2}
-						renderItem={this._renderTab}
-						keyExtractor={(item, index) => index.toString()}
-					/>
-				</View>
+
+				<ScrollView scrollEventThrottle={0.2} style={{ flex: 1, marginTop: 10 }} showsVerticalScrollIndicator={false}>
+					<View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-start', width: '100%', paddingHorizontal: 10,  }}>
+						{data.map((item, index) => {
+							return (
+								<TouchableOpacity
+									onPress={() => this.clickOnEachClass(item)}
+									style={{
+										width: '41%',
+										height: 'auto',
+										backgroundColor: 'white',
+										justifyContent: 'flex-start',
+										alignItems: 'center',
+										shadowColor: "#000",
+										shadowOffset: {
+											width: 0,
+											height: 4,
+										},
+										shadowOpacity: 0.30,
+										shadowRadius: 4.65,
+										elevation: 8,
+										borderRadius: 5,
+										marginHorizontal: 5,
+										marginBottom: 15,
+									}}
+								>
+									<View style={{ justifyContent: "center", width: "100%" }}>
+										<Image
+											source={{
+												uri:
+													"https://dynamicmedia.zuza.com/zz/m/original_/a/f/af862213-8bf8-4113-8ac1-575e8d6951b3/shutterstock_356921618___Super_Portrait.jpg"
+											}}
+											style={{ width: '100%', height: 150, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+										/>
+									</View>
+									<View style={{ alignItems: 'center', justifyContent: "center", width: "100%", paddingVertical: 15, backgroundColor: 'white', borderRadius: 5, paddingLeft: 20, }}>
+										<Text style={{ color: Colors.main_color, width: '100%', textAlign: 'left', fontWight: "bold", fontSize: 14, marginLeft: 10, marginBottom: 5 }} >
+											{item.name}
+										</Text>
+										<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', marginLeft: 10, }}>
+											<Icon name={item.status ? "check-circle" : "times-circle"} type='FontAwesome' style={{ fontSize: 17, color: item.status ? "#009933" : "#e60000", }} />
+											<Text style={{ color: Colors.main_color, width: "80%", textAlign: 'left', fontSize: 12, marginLeft: 10, }} >
+												{item.status ? "Active" : "Inactive"}
+											</Text>
+
+										</View>
+									</View>
+								</TouchableOpacity>
+							)
+						})
+						}
+					</View>
+				</ScrollView>
 			</View>
+
 		);
 	}
 }

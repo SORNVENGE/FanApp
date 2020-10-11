@@ -11,9 +11,15 @@ import {
 	TextInput,
 	ScrollView,
 	Alert,
+	ToastAndroid,
 	Platform
 } from "react-native";
 import { Icon } from 'native-base';
+import ListStudentByClassAction from '../Redux/ListStudentByClassRedux'
+import ListStudentAction from '../Redux/ListStudentRedux'
+import ListLessionByClassAction from '../Redux/ListLessionByClassRedux'
+import DeleteLessionByClassAction from '../Redux/DeleteLessionByClassRedux'
+
 import { Actions } from "react-native-router-flux";
 import { Images, Colors, Metrics, Fonts } from "../Themes";
 import FilePickerManager from "react-native-file-picker";
@@ -42,15 +48,16 @@ class MyClassDetailScreen extends Component {
 			subjectData: [],
 			levelData: [],
 			sessionData: [],
-			subjectName: "",
-			sessionName: "",
-			levelName: "",
-			roleType: "",
+			subjectName: props.classDetail ? props.classDetail.subject : '',
+			sessionName: props.classDetail ? props.classDetail.session : '',
+			levelName: props.classDetail ? props.classDetail.level : '',
+			roleType: props.classDetail ? props.classDetail : '',
 			index: props.index,
 			statusLoading: false,
 			statusLoadingLession: false,
 			statusLoadingStudent: true,
-
+			tempStudentInClass: [],
+			tempStudent: [],
 			tap: [
 				{
 					key: "Information",
@@ -69,62 +76,114 @@ class MyClassDetailScreen extends Component {
 		};
 		this.type_clicked = "Information";
 	}
+
+	componentWillReceiveProps(newProps) {
+		if (Actions.currentScene == "MyClassDetailScreen") {
+
+			if (newProps.getListStudent) {
+				const { fetching, error, payload } = newProps.getListStudent
+				if (fetching == false && error == null && payload) {
+					this.setState({ tempStudent: payload });
+				}
+			}
+			if (newProps.getListStudentByClass) {
+				const { fetching, error, payload } = newProps.getListStudentByClass
+
+				if (fetching == false && error == null && payload) {
+					this.setState({ tempStudentInClass: payload, statusLoading: false, statusLoadingStudent: false })
+					// this.requestFaqList = false;
+					// this.tempFaqData = [...this.tempFaqData, ...data]
+					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
+				}
+			}
+			console.tron.log( newProps.getListLessionByClass, 'lesssion')
+
+			if (newProps.getListLessionByClass) {
+				const { fetching, error, payload } = newProps.getListLessionByClass
+				if (fetching == false && error == null && payload) {
+					console.tron.log(payload, 'lesssion')
+					this.setState({ lessionData: payload, statusLoading: false, })
+					// this.requestFaqList = false;
+					// this.tempFaqData = [...this.tempFaqData, ...data]
+					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
+				}
+			}
+
+
+			if (newProps.deleteLessionByClass.fetching == false && this.props.deleteLessionByClass.fetching == true && newProps.deleteLessionByClass.error == null) {
+				if (newProps.deleteLessionByClass.payload) {
+					this.setState({statusLoading: false })
+					ToastAndroid.showWithGravityAndOffset("Lession Deleted!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
+				}
+			}  
+
+		}
+	}
 	componentWillMount = () => {
-		const { userData, classData } = this.state;
-		this.setState({ statusLoading: true });
-		var teacherId = userData.data.user_id;
-		var teacherName = userData.data.username;
-		var roleId = userData.data.roleId;
-		var subjectKey = classData.subjectId;
-		var levelKey = classData.levelId;
-		var sessionKey = classData.sessionId;
-		var classId = classData.key
-		CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
-			if (response) {
-				this.setState({ subjectName: response[0].subjectName });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readUserRoleById(roleId, response => {
-			if (response) {
-				response.map((eachData, ind) => {
-					this.setState({ roleType: eachData.roleName });
-				})
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readLevelById(levelKey, response => {
-			if (response) {
-				this.setState({ levelName: response[0].levelName });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readSessionById(sessionKey, response => {
-			if (response) {
-				this.setState({ sessionName: response[0].sessionName });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
+		const { userData, classData } = this.state
+		var classId = classData.classId
+		let data = {
+			classId: classId,
+		}
+
+		this.props.requestListStudent()
+		this.props.requestListStudentByClass(data)
+		this.props.requestListLessionByClass(data)
+
+		// this.setState({ statusLoading: true });
+		// var teacherId = userData.data.user_id;
+		// var teacherName = userData.data.username;
+		// var roleId = userData.data.roleId;
+		// var subjectKey = classData.subjectId;
+		// var levelKey = classData.levelId;
+		// var sessionKey = classData.sessionId;
+		// var classId = classData.key
+		// CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
+		// 	if (response) {
+		// 		this.setState({ subjectName: response[0].subjectName });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readUserRoleById(roleId, response => {
+		// 	if (response) {
+		// 		response.map((eachData, ind) => {
+		// 			this.setState({ roleType: eachData.roleName });
+		// 		})
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readLevelById(levelKey, response => {
+		// 	if (response) {
+		// 		this.setState({ levelName: response[0].levelName });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readSessionById(sessionKey, response => {
+		// 	if (response) {
+		// 		this.setState({ sessionName: response[0].sessionName });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
 
 
-		CloudFireStoreUserHelper.readStudentByClassId(classId, response => {
-			if (response) {
-				this.setState({ studentData: response, statusLoading: false });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readStudentClass(classId, response => {
-			if (response) {
-				this.readAllProfessional(response)
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
+		// CloudFireStoreUserHelper.readStudentByClassId(classId, response => {
+		// 	if (response) {
+		// 		this.setState({ studentData: response, statusLoading: false });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readStudentClass(classId, response => {
+		// 	if (response) {
+		// 		this.readAllProfessional(response)
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
 	};
 
 	readAllProfessional = async (items) => {
@@ -139,15 +198,23 @@ class MyClassDetailScreen extends Component {
 
 	handlePresstap = tab => {
 		this.type_clicked = tab.key;
-		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
-		if (tab.key == 'Lession') {
-			this.setState({ statusLoadingLession: true })
-			CloudFireStoreUserHelper.readLession(this.state.classData.key, response => {
-				if (response) {
-					this.setState({ lessionData: response, statusLoadingLession: false });
-				}
-			});
+		const { userData, classData } = this.state
+		var classId = classData.classId
+		let data = {
+			classId: classId,
 		}
+		if (tab.key == 'Lession') {
+			// console.tron.log('Lession')
+
+			this.props.requestListLessionByClass(data)
+		} else {
+			// console.tron.log('Information')
+
+			this.props.requestListStudent()
+			this.props.requestListStudentByClass(data)
+		}
+		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
+
 	};
 	_renderTab = (item, index) => {
 		IsTab = this.state.key_tab == item.key ? true : false;
@@ -333,10 +400,25 @@ class MyClassDetailScreen extends Component {
 			Actions.LessionScreen({ item: item, classDetail: this.state.classData, roleType: this.state.roleType, index: index })
 		}
 	}
-	onDeleteLession = (item) => {
-		CloudFireStoreUserHelper.deleteLession(item.id)
+	onDeleteLession = (item, index) => {
+		// CloudFireStoreUserHelper.deleteLession(item.id)
+		let data = {
+			classId: item.classId,
+			lessionId: item.lessonId
+		}
+		this.props.requestDeleteLessionByClass(data)
+		this.props.requestListLessionByClass(data)
+
+		let { lessionData } =  this.state
+		var newLessions = [] ;
+		newLessions = [].concat(lessionData);
+		newLessions.splice(index, 1);
+		console.tron.log(item, index)
+		this.setState({lessionData:[...newLessions], statusLoading: true});
+	
+
 	}
-	_handleDeteleVideo = (item) => {
+	_handleDeteleVideo = (item, index) => {
 		Alert.alert(
 			"Delete This Lession!",
 			I18n.t('are_you_sure'),
@@ -345,7 +427,7 @@ class MyClassDetailScreen extends Component {
 					text: I18n.t('no'),
 					style: "cancel"
 				},
-				{ text: I18n.t('yes'), onPress: () => this.onDeleteLession(item) }
+				{ text: I18n.t('yes'), onPress: () => this.onDeleteLession(item, index) }
 			],
 			{ cancelable: false }
 		);
@@ -363,7 +445,7 @@ class MyClassDetailScreen extends Component {
 							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
 						</View>
 						:
-						<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
+						<TouchableOpacity onPress={() => this._handleDeteleVideo(item, index)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
 							<Text style={{ width: '100%', textAlign: 'right', color: '#ff0000', fontSize: 12, }}>Delete</Text>
 							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
 						</TouchableOpacity>
@@ -386,9 +468,22 @@ class MyClassDetailScreen extends Component {
 			sessionName,
 			roleType,
 			classData,
-			statusLoadingLession
+			statusLoadingLession,
+			tempStudent,
+			tempStudentInClass
 		} = this.state;
 		if (statusLoading) return <Loading />;
+		let data = []
+		if (tempStudentInClass.students) {
+			tempStudent.map((item, index) => {
+				tempStudentInClass.students.map((eachItem, eachindex) => {
+					if (eachItem == item.userId) {
+						data.push(item)
+					}
+				})
+			})
+		}
+
 		return (
 			<View style={{ flex: 1, backgroundColor: Colors.white }}>
 				<View style={{ flex: 5.3 }}>
@@ -412,9 +507,9 @@ class MyClassDetailScreen extends Component {
 					{this.type_clicked == "Information" ? (
 						<ScrollView style={{ paddingBottom: 5, }}>
 							<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 10, }}>
-								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-									<Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>C {this.state.index}</Text>
-									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5 }}>{classData.classname}</Text>
+								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', }}>
+									{/* <Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>C {this.state.index}</Text> */}
+									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5, marginBottom: 10 }}>Class : {classData.name}</Text>
 								</View>
 								<View style={{
 									borderRadius: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 20, backgroundColor: 'white', shadowColor: "#000",
@@ -442,147 +537,20 @@ class MyClassDetailScreen extends Component {
 
 							</View>
 
-							{/* <TouchableOpacity
-								style={{
-									marginTop: 10,
-									shadowOpacity: 0.5,
-									borderWidth: 0.4,
-									borderColor: Colors.main_color,
-									borderRadius: 15
-								}}
-							>
-								<View
-									style={{
-										padding: 10,
-										justifyContent: "space-between",
-										flexDirection: "row"
-									}}
-								>
-									<View style={{ width: "30%" }}>
-										<Text
-											style={{
-												fontSize: 15,
-												color: "black",
-												fontWight: "bold"
-											}}
-										>
-											{" "}
-											Subject :{" "}
-										</Text>
-									</View>
-									<View style={{ width: "80%" }}>
-										<Text
-											style={{
-												fontSize: 17,
-												color: Colors.black,
-												fontWight: "bold"
-											}}
-										>
-											{subjectName}
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={{
-									marginTop: 10,
-									shadowOpacity: 0.5,
-									borderWidth: 0.4,
-									borderColor: Colors.main_color,
-									borderRadius: 15
-								}}
-							>
-								<View
-									style={{
-										padding: 10,
-										justifyContent: "space-between",
-										flexDirection: "row"
-									}}
-								>
-									<View style={{ width: "30%" }}>
-										<Text style={{ fontSize: 15, color: "black", fontWight: "bold" }}>
-											{" "}
-											Level :{" "}
-										</Text>
-									</View>
-									<View style={{ width: "80%" }}>
-										<Text
-											style={{
-												fontSize: 17,
-												color: Colors.black,
-												fontWight: "bold"
-											}}
-										>
-											{levelName}
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={{
-									marginTop: 10,
-									shadowOpacity: 0.5,
-									borderWidth: 0.4,
-									borderColor: Colors.main_color,
-									borderRadius: 15
-								}}
-							>
-								<View
-									style={{
-										padding: 10,
-										justifyContent: "space-between",
-										flexDirection: "row"
-									}}
-								>
-									<View style={{ width: "30%" }}>
-										<Text
-											style={{
-												fontSize: 15,
-												color: "black",
-												fontWight: "bold"
-											}}
-										>
-											{" "}
-											Session :{" "}
-										</Text>
-									</View>
-									<View style={{ width: "80%" }}>
-										<Text
-											style={{
-												fontSize: 17,
-												color: Colors.black,
-												fontWight: "bold"
-											}}
-										>
-											{sessionName}
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity> */}
-							{/* <Text style={{
-								fontSize: 18,
-								fontWeight: "bold",
-								width: '100%',
-								textAlign: 'center',
-								paddingVertical: 15,
-								color: Colors.main_color,
-							}} >
-								List Student in class
-							</Text> */}
 							<View style={{ height: "70%", justifyContent: 'flex-start', alignItems: 'center' }}>
 								{statusLoadingStudent ?
 
-									<View style={{marginTop: 50}}>
+									<View style={{ marginTop: 50 }}>
 										{/* <Image
 											source={{ uri: "https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" }}
 											style={{ width: 100, height: 100,  marginTop: 25}}
 										/> */}
-											<Loading /> 
+										<Loading />
 									</View>
-								
+
 									:
 									<ScrollView>
-										{this.state.studentData.map((eachStudent, ind) => {
+										{data.map((eachStudent, ind) => {
 											return (
 												<TouchableOpacity
 													style={{
@@ -669,11 +637,22 @@ class MyClassDetailScreen extends Component {
 }
 const mapStateToProps = state => {
 	return {
-		tempUser: state.tempUser
+		tempUser: state.tempUser,
+		getListStudentByClass: state.getStudentByClass,
+		getListLessionByClass: state.getLessionByClass,
+		getListStudent: state.getListStudent,
+		deleteLessionByClass: state.deleteLessionByClass,
+
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	null
-)(MyClassDetailScreen);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		requestListStudentByClass: (data) => dispatch(ListStudentByClassAction.listStudentByClassRequest(data)),
+		requestListStudent: () => dispatch(ListStudentAction.listStudentRequest()),
+		requestListLessionByClass: (data) => dispatch(ListLessionByClassAction.listLessionByClassRequest(data)),
+		requestDeleteLessionByClass: (data) => dispatch(DeleteLessionByClassAction.deleteLessionByClassRequest(data)),
+
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MyClassDetailScreen);
