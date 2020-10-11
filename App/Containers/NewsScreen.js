@@ -3,9 +3,10 @@ import { View, Image, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Images, Colors, Metrics, Fonts } from '../Themes'
 import Loading from '../Components/Loading'
 import CloudFireStoreUserHelper from '../Services/CloudFireStoreUserHelper';
+import moment from 'moment';
+
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
-
 import NewsActions from '../Redux/NewsRedux'
 
 class NewsScreen extends Component {
@@ -32,11 +33,10 @@ class NewsScreen extends Component {
     render() {
         const { statusLoading,newsList } = this.state
         if (statusLoading) return <Loading />
+        console.tron.log(moment().format("MMM Do YY"))
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView>
-
-
                     {newsList.map((eachData, index) => {
                         return (
                             <View style={{ padding: 10, flexDirection: 'column' }}>
@@ -48,8 +48,8 @@ class NewsScreen extends Component {
                                         <View style={{}}>
                                             <Text style={{ fontSize: 15, color: 'black', fontWeight: 'bold' }}>{eachData.title}</Text>
                                         </View>
-                                        <View style={{}}>
-                                            <Text style={{ fontSize: 14, color: 'black' }}>{eachData.date}</Text>
+                                        <View style={{marginTop:10}}>
+                                            <Text style={{ fontSize: 14, color: 'black' }}>{moment(eachData.createdAt).format("YYYY-MMM-DD")}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
