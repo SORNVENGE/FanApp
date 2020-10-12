@@ -26,6 +26,8 @@ class HeaderScreen extends Component {
                 Actions.HomeScreen()
             } else if (screenName == "SettingScreen") {
                 Actions.reset('HomeScreen')
+            } else if (screenName == "MyClassDetailScreen") {
+                Actions.reset('MyClassScreen')
             }
             else {
                 Actions.pop()

@@ -8,6 +8,8 @@ import DebugConfig from '../Config/DebugConfig'
 import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { ClassByStudentTypes } from '../Redux/ClassByStudentRedux'
+import { ListClassByTeacherTypes } from '../Redux/ListClassByTeacherRedux'
+
 import { ListClassTypes } from '../Redux/ListClassRedux'
 import { ListStudentTypes } from '../Redux/ListStudentRedux'
 import { ListStudentByClassTypes } from '../Redux/ListStudentByClassRedux'
@@ -28,6 +30,8 @@ import { NewsTypes } from './../Redux/NewsRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { getClassByStudent } from './ClassByStudentSagas'
+import { getListClassByTeacher } from './ListClassByTeacherSagas'
+
 import { getListClass} from './ListClassSagas'
 import { getListStudent} from './ListStudentSagas'
 
@@ -69,7 +73,9 @@ export default function * root () {
     takeLatest(UploadFileTypes.UPLOAD_FILE_REQUEST, getUploadFile, api),
     takeLatest(ListDocByLessonTypes.LIST_DOC_BY_LESSON_REQUEST, getListDocByLesson, api),
     takeLatest(DeleteLessonTypes.DELETE_LESSON_REQUEST, getDeleteLesson, api),
+    takeLatest(ListClassByTeacherTypes.LIST_CLASS_BY_TEACHER_REQUEST, getListClassByTeacher, api),
 
+    
     takeLatest(LoginTypes.LOGIN_REQUEST, getLogin, api),
     takeLatest(NewsTypes.NEWS_REQUEST, getNews, api),
 
