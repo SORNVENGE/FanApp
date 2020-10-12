@@ -347,6 +347,7 @@ class LessionScreen extends Component {
 			levelName,
 			sessionName,
 			roleType,
+			userData,
 			item,
 			statusLoadingLession
 		} = this.state;
@@ -410,7 +411,7 @@ class LessionScreen extends Component {
 							</View>
 						)}
 				</View>
-				{roleType == "Student" ? null :
+				{userData.data.role == "student" ? null :
 					(
 						<TouchableOpacity
 							onPress={() => this.handleOnUploadFile()}

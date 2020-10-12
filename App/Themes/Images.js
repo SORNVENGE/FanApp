@@ -5,6 +5,11 @@ const images = {
   english: require('../Images/english.png'),
   profile: require('../Images/profile.png'),
   khmer:require('../Images/khmer.jpg'),
+  english:require('../Images/english.jpg'),
+  chinese:require('../Images/chinese.png'),
+  computer:require('../Images/computer.jpg'),
+  khicon:require('../Images/khicon.jpg'),
+
   homeCard:require('../Images/homeCard.png'),
   profileIcon: require('../Images/Footer/profile_active.png'),
   pdf_icon: require('../Images/Icons/pdf_icon.jpg'),

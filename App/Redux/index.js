@@ -14,6 +14,8 @@ export const reducers = combineReducers({
   language: require('./LanguageRedux').reducer,
   tempUser: require('./StoreUserInfoRedux').reducer,
   getClassByStudent:require('./ClassByStudentRedux').reducer,
+  getClassByTeacher:require('./ListClassByTeacherRedux').reducer,
+
   getListClass:require('./ListClassRedux').reducer,
   getListStudent:require('./ListStudentRedux').reducer,
   getStudentByClass:require('./ListStudentByClassRedux').reducer,
