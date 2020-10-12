@@ -20,6 +20,9 @@ export const reducers = combineReducers({
   getLessionByClass:require('./ListLessionByClassRedux').reducer,
   deleteLessionByClass:require('./DeleteLessionByClassRedux').reducer,
   addLessionByClass:require('./AddLessionByClassRedux').reducer,
+  uploadFile:require('./UploadFileRedux').reducer,
+  getListDocByLesson:require('./ListDocByLessonRedux').reducer,
+  deleteLesson:require('./DeleteLessonRedux').reducer,
 
 
 

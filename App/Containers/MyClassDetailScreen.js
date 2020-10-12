@@ -19,7 +19,7 @@ import ListStudentByClassAction from '../Redux/ListStudentByClassRedux'
 import ListStudentAction from '../Redux/ListStudentRedux'
 import ListLessionByClassAction from '../Redux/ListLessionByClassRedux'
 import DeleteLessionByClassAction from '../Redux/DeleteLessionByClassRedux'
-
+import _ from 'lodash'
 import { Actions } from "react-native-router-flux";
 import { Images, Colors, Metrics, Fonts } from "../Themes";
 import FilePickerManager from "react-native-file-picker";
@@ -41,7 +41,7 @@ class MyClassDetailScreen extends Component {
 		this.state = {
 			userData: props.tempUser,
 			classData: props.classDetail,
-			classId: props.classDetail.user_id,
+			// classId: props.classDetail.user_id,
 			studentData: [],
 			documentData: [],
 			lessionData: [],
@@ -51,10 +51,10 @@ class MyClassDetailScreen extends Component {
 			subjectName: props.classDetail ? props.classDetail.subject : '',
 			sessionName: props.classDetail ? props.classDetail.session : '',
 			levelName: props.classDetail ? props.classDetail.level : '',
-			roleType: props.classDetail ? props.classDetail : '',
+			roleType: props.tempUser ? props.tempUser.data.role.toLowerCase() : '',
 			index: props.index,
 			statusLoading: false,
-			statusLoadingLession: false,
+			statusLoadingLession: true,
 			statusLoadingStudent: true,
 			tempStudentInClass: [],
 			tempStudent: [],
@@ -69,10 +69,10 @@ class MyClassDetailScreen extends Component {
 				// },
 				{
 					key: "Lession",
-					title: "Lession"
+					title: "Lesson"
 				}
 			],
-			key_tab: "Information"
+			key_tab: props.key_tab ? props.key_tab : "Information"
 		};
 		this.type_clicked = "Information";
 	}
@@ -91,18 +91,13 @@ class MyClassDetailScreen extends Component {
 
 				if (fetching == false && error == null && payload) {
 					this.setState({ tempStudentInClass: payload, statusLoading: false, statusLoadingStudent: false })
-					// this.requestFaqList = false;
-					// this.tempFaqData = [...this.tempFaqData, ...data]
-					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
 				}
 			}
-			console.tron.log( newProps.getListLessionByClass, 'lesssion')
 
 			if (newProps.getListLessionByClass) {
 				const { fetching, error, payload } = newProps.getListLessionByClass
 				if (fetching == false && error == null && payload) {
-					console.tron.log(payload, 'lesssion')
-					this.setState({ lessionData: payload, statusLoading: false, })
+					this.setState({ lessionData:[...payload] , statusLoading: false, statusLoadingLession: false })
 					// this.requestFaqList = false;
 					// this.tempFaqData = [...this.tempFaqData, ...data]
 					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
@@ -112,15 +107,16 @@ class MyClassDetailScreen extends Component {
 
 			if (newProps.deleteLessionByClass.fetching == false && this.props.deleteLessionByClass.fetching == true && newProps.deleteLessionByClass.error == null) {
 				if (newProps.deleteLessionByClass.payload) {
-					this.setState({statusLoading: false })
-					ToastAndroid.showWithGravityAndOffset("Lession Deleted!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
+					this.setState({ statusLoading: false , statusLoadingLession: false})
+					ToastAndroid.showWithGravityAndOffset("Lession Deleted!", ToastAndroid.SHORT, ToastAndroid.BOTTOM, 10, 10);
 				}
-			}  
+			}
 
 		}
 	}
 	componentWillMount = () => {
-		const { userData, classData } = this.state
+		const { userData, classData, key_tab } = this.state
+		this.type_clicked = key_tab
 		var classId = classData.classId
 		let data = {
 			classId: classId,
@@ -203,6 +199,7 @@ class MyClassDetailScreen extends Component {
 		let data = {
 			classId: classId,
 		}
+		this.setState({ statusLoadingStudent: true, statusLoadingLession: true })
 		if (tab.key == 'Lession') {
 			// console.tron.log('Lession')
 
@@ -279,71 +276,70 @@ class MyClassDetailScreen extends Component {
 		);
 	};
 	handleOnUploadFile = () => {
-		const { classData } = this.state;
-		var teacherId = classData.teacherId;
-		var classId = classData.key
+		const { classData, userData } = this.state;
+		var teacherId = userData.data ? userData.data.userId : '';
 		if (this.type_clicked == 'Lession') {
 			if (Actions.currentScene == 'MyClassDetailScreen') {
-				Actions.AddLessionScreen({ classId: classId })
+				Actions.AddLessionScreen({ classData: classData, teacherId: teacherId })
 			}
 		} else {
-			FilePickerManager.showFilePicker(null, response => {
-				if (response.didCancel) {
-				} else if (response.error) {
-				} else {
-					this.setState({ statusLoading: true });
-					firebase
-						.storage()
-						.ref("/document/" + response.fileName)
-						.putFile(response.path)
-						.then(snapshot => {
-							var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf(".") + 1);
-							var type = "";
-							if (ext == "jpeg" || ext == "jpg" || ext == "png") {
-								type = "image";
-							} else if (ext == "pdf") {
-								type = "pdf";
-							} else if (ext == "pptx") {
-								type = "pptx";
-							}
+			// FilePickerManager.showFilePicker(null, response => {
+			// 	if (response.didCancel) {
+			// 	} else if (response.error) {
+			// 	} else {
+			// 		this.setState({ statusLoading: true });
+			// 		firebase
+			// 			.storage()
+			// 			.ref("/document/" + response.fileName)
+			// 			.putFile(response.path)
+			// 			.then(snapshot => {
+			// 				var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf(".") + 1);
+			// 				var type = "";
+			// 				if (ext == "jpeg" || ext == "jpg" || ext == "png") {
+			// 					type = "image";
+			// 				} else if (ext == "pdf") {
+			// 					type = "pdf";
+			// 				} else if (ext == "pptx") {
+			// 					type = "pptx";
+			// 				}
 
-							let mergeObj = {
-								created_date: firebase.firestore.FieldValue.serverTimestamp(),
-								file: snapshot.downloadURL,
-								fileName: response.fileName,
-								teacherId: teacherId,
-								title: "upload without title",
-								classId: classId,
-								type: type,
-								file_size: response.size
-							};
-							CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
-								if (response) {
-									CloudFireStoreUserHelper.readDocument(
-										classId,
-										teacherId,
-										response => {
-											if (response) {
-												this.setState({
-													documentData: response,
-													statusLoading: false
-												});
-											} else {
-											}
-										}
-									);
-								} else {
-									alert(" Please Check file before upload!!! ");
-								}
-							});
-							// this.setState({ statusIsProgress: false, progress_bar: 0 })
-							// if (Actions.currentScene == 'DocumentScreen') {
-							//     Actions.DocumentPreview({ selectedFile: mergeObj })
-							// }
-						})
-						.catch();
-				}
-			});
+			// 				let mergeObj = {
+			// 					created_date: firebase.firestore.FieldValue.serverTimestamp(),
+			// 					file: snapshot.downloadURL,
+			// 					fileName: response.fileName,
+			// 					teacherId: teacherId,
+			// 					title: "upload without title",
+			// 					classId: classId,
+			// 					type: type,
+			// 					file_size: response.size
+			// 				};
+			// 				CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
+			// 					if (response) {
+			// 						CloudFireStoreUserHelper.readDocument(
+			// 							classId,
+			// 							teacherId,
+			// 							response => {
+			// 								if (response) {
+			// 									this.setState({
+			// 										documentData: response,
+			// 										statusLoading: false
+			// 									});
+			// 								} else {
+			// 								}
+			// 							}
+			// 						);
+			// 					} else {
+			// 						alert(" Please Check file before upload!!! ");
+			// 					}
+			// 				});
+			// 				// this.setState({ statusIsProgress: false, progress_bar: 0 })
+			// 				// if (Actions.currentScene == 'DocumentScreen') {
+			// 				//     Actions.DocumentPreview({ selectedFile: mergeObj })
+			// 				// }
+			// 			})
+			// 			.catch();
+			// 	}
+			// });
 		}
 	};
 	_handlePress = item => {
@@ -409,18 +405,17 @@ class MyClassDetailScreen extends Component {
 		this.props.requestDeleteLessionByClass(data)
 		this.props.requestListLessionByClass(data)
 
-		let { lessionData } =  this.state
-		var newLessions = [] ;
+		let { lessionData } = this.state
+		var newLessions = [];
 		newLessions = [].concat(lessionData);
 		newLessions.splice(index, 1);
-		console.tron.log(item, index)
-		this.setState({lessionData:[...newLessions], statusLoading: true});
-	
+		this.setState({ lessionData: [...newLessions], statusLoading: true });
+
 
 	}
 	_handleDeteleVideo = (item, index) => {
 		Alert.alert(
-			"Delete This Lession!",
+			"Delete This Lesson!",
 			I18n.t('are_you_sure'),
 			[
 				{
@@ -439,7 +434,7 @@ class MyClassDetailScreen extends Component {
 			<TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
 				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
 					<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 16, }}>{item.title}</Text>
-					{roleType == "Student" ?
+					{roleType == "student" ?
 						<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
 							<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
 							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
@@ -477,13 +472,13 @@ class MyClassDetailScreen extends Component {
 		if (tempStudentInClass.students) {
 			tempStudent.map((item, index) => {
 				tempStudentInClass.students.map((eachItem, eachindex) => {
-					if (eachItem == item.userId) {
+					if (eachItem == item.userId && item.role.toLowerCase() == 'student') {
 						data.push(item)
 					}
 				})
 			})
 		}
-
+		let sortLessionData = _.orderBy(lessionData, [item => item.title], ['asc']);
 		return (
 			<View style={{ flex: 1, backgroundColor: Colors.white }}>
 				<View style={{ flex: 5.3 }}>
@@ -523,31 +518,28 @@ class MyClassDetailScreen extends Component {
 								}}>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
 										<Icon type="AntDesign" name="book" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16,  marginRight: 5, color: Colors.main_color }}>Subject: </Text>
 										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{subjectName}</Text>
 									</View>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
 										<Icon type="FontAwesome" name="signal" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, marginRight: 5,  color: Colors.main_color }}>Level: </Text>
 										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{levelName}</Text>
+
 									</View>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
 										<Icon type="Entypo" name="back-in-time" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, marginRight: 5,   color: Colors.main_color }}>Session: </Text>
+
 										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{sessionName}</Text>
 									</View>
 								</View>
 
 							</View>
 
-							<View style={{ height: "70%", justifyContent: 'flex-start', alignItems: 'center' }}>
+							<View style={{ flex: 1, }}>
 								{statusLoadingStudent ?
-
-									<View style={{ marginTop: 50 }}>
-										{/* <Image
-											source={{ uri: "https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" }}
-											style={{ width: 100, height: 100,  marginTop: 25}}
-										/> */}
-										<Loading />
-									</View>
-
+									<UIActivityIndicator color={Colors.main_color} size={40} style={{marginTop: 30}} />
 									:
 									<ScrollView>
 										{data.map((eachStudent, ind) => {
@@ -584,10 +576,11 @@ class MyClassDetailScreen extends Component {
 					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
 							{statusLoadingLession ?
-								<Loading /> :
+								<UIActivityIndicator color={Colors.main_color} size={40} style={{marginTop: 30}} />
+								:
 								<FlatList
-									style={{ width: '100%', backgroundColor: 'white' }}
-									data={lessionData}
+									style={{ width: '100%', backgroundColor: 'white', marginBottom: 120 }}
+									data={sortLessionData}
 									renderItem={this.renderItemView}
 									keyExtractor={(item, index) => index.toString()} />
 							}
@@ -606,7 +599,7 @@ class MyClassDetailScreen extends Component {
 							)}
 				</View>
 				{this.type_clicked == "Information" ? null :
-					roleType == "Student" ? null :
+					roleType == "student" ? null :
 						(
 							<TouchableOpacity
 								onPress={() => this.handleOnUploadFile()}
@@ -627,7 +620,7 @@ class MyClassDetailScreen extends Component {
 										fontWeight: "bold"
 									}}
 								>
-									Upload Lession
+									Add Lesson
 								</Text>
 							</TouchableOpacity>
 						)}

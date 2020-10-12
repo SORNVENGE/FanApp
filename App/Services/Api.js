@@ -47,7 +47,11 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
   const getListStudentByClass = (data) => api.get('classes/' + data.classId + '/students')
   const getListLessionByClass = (data) => api.get('classes/' + data.classId + '/lessons')
   const getDeleteLessionByClass = (data) => api.delete('classes/' + data.classId + '/lessons/' + data.lessionId)
-  const getAddLessionByClass = (data) => api.post('classes/' + data.classId + '/lessons')
+  const getAddLessionByClass = (data) => api.post('classes/' + data.classId + '/lessons', data)
+  const getUploadFile = (data) => api.post('lessons/' + data.lessionId + '/docs', data)
+  const getListDocByLesson = (data) => api.get('lessons/' + data.lessionId + '/docs')
+  const getDeleteLesson = (data) => api.delete('lessons/' + data.lessionId + '/docs/' + data.docsId)
+  
   const getNews =(data) =>api.get('/news')
 
 
@@ -76,6 +80,9 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
     getListLessionByClass,
     getDeleteLessionByClass,
     getAddLessionByClass,
+    getUploadFile,
+    getListDocByLesson,
+    getDeleteLesson,
     getNews
 
   }

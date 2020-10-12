@@ -77,7 +77,6 @@ class MyClassScreen extends Component {
 	componentDidMount() {
 		const { userData } = this.state
 		var userId =  userData.data ? userData.data.userId : ''
-		console.tron.log(userId)
 		let data = {
 			studentId: userId,
 		}
@@ -121,12 +120,10 @@ class MyClassScreen extends Component {
 
 
 	clickOnEachClass = (eachData) => {
-		console.tron.log(eachData)
 		Actions.MyClassDetailScreen({ classDetail: eachData });
 	};
 	render() {
 		const { statusLoading, classData, userData, tempClasses, tempUserClass } = this.state;
-		console.tron.log(tempClasses, tempUserClass)
 		if (statusLoading) return <Loading />;
 		let data = []
 		this.state.tempClasses.map((item, index) => {

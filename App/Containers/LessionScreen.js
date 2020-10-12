@@ -23,6 +23,10 @@ import CloudFireStoreUserHelper from "../Services/CloudFireStoreUserHelper";
 import Loading from "../Components/Loading";
 import Pdf from "react-native-pdf";
 import I18n from './I18n';
+import UploadFileAction from '../Redux/UploadFileRedux'
+import ListDocByLessonAction from '../Redux/ListDocByLessonRedux'
+import { UIActivityIndicator, BallIndicator } from 'react-native-indicators';
+
 
 const db = firebase.firestore();
 class LessionScreen extends Component {
@@ -31,7 +35,7 @@ class LessionScreen extends Component {
 		this.state = {
 			userData: props.tempUser,
 			classData: props.classDetail,
-			classId: props.classDetail.user_id,
+			classId: props.classDetail.user_id ? props.classDetail.user_id : '',
 			item: props.item,
 			studentData: [],
 			documentData: [],
@@ -43,7 +47,7 @@ class LessionScreen extends Component {
 			sessionName: "",
 			levelName: "",
 			roleType: props.roleType,
-			statusLoading: false,
+			statusLoading: true,
 			statusLoadingLession: false,
 			tap: [
 				{
@@ -59,14 +63,35 @@ class LessionScreen extends Component {
 		};
 		this.type_clicked = "Document";
 	}
-	componentWillMount = () => {
-		const {item} = this.state
-		this.setState({statusLoading: true})
-		CloudFireStoreUserHelper.readDocByLessionId(item.id, response => {
-			if (response) {
-				this.setState({ documentData: response, statusLoading: false });
+	componentWillReceiveProps(newProps) {
+		if (Actions.currentScene == "LessionScreen") {
+			if (newProps.getListDocByLesson) {
+				const { fetching, error, payload } = newProps.getListDocByLesson
+
+				if (fetching == false && error == null && payload) {
+					this.setState({ documentData: [...payload], statusLoading: false })
+				}
 			}
-		});
+
+			if (newProps.uploadFile.fetching == false && this.props.uploadFile.fetching == true && newProps.uploadFile.error == null) {
+				if (newProps.uploadFile.payload) {
+					this.setState({ statusLoading: false });
+
+				} else if (newProps.uploadFile.message == '404') {
+					ToastAndroid.showWithGravityAndOffset("Please check username and password again!", ToastAndroid.SHORT, ToastAndroid.BOTTOM, 10, 10);
+					this.setState({ statusLoading: false });
+				}
+			}
+		}
+	}
+	componentWillMount = () => {
+		const { item } = this.state
+		console.tron.log(item)
+		var lessonId = item.lessonId
+		let data = {
+			lessionId: lessonId,
+		}
+		this.props.requestListDocByLesson(data)
 	};
 
 
@@ -107,7 +132,7 @@ class LessionScreen extends Component {
 					elevation: 8,
 				}}
 			>
-					<Icon type="FontAwesome" name={index == 0 ? "file-pdf-o" : "file-video-o"} style={{ fontSize: 25, color: IsTab ? Colors.white : '#b3b3b3', padding: 5 }} />
+				<Icon type="FontAwesome" name={index == 0 ? "file-pdf-o" : "file-video-o"} style={{ fontSize: 25, color: IsTab ? Colors.white : '#b3b3b3', padding: 5 }} />
 				<Text
 					style={{
 						textAlign: "center",
@@ -147,6 +172,8 @@ class LessionScreen extends Component {
 		const { classData, item } = this.state;
 		var teacherId = classData.teacherId;
 		var classId = classData.key
+		var lessonId = item.lessonId
+		console.tron.log(item, 'ddd')
 		if (this.type_clicked == 'Video') {
 			if (Actions.currentScene == 'LessionScreen') {
 				Actions.AddVideoScreen({ classId: classId, item: item })
@@ -183,25 +210,16 @@ class LessionScreen extends Component {
 								type: type,
 								file_size: response.size
 							};
-							CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
-								if (response) {
-									// CloudFireStoreUserHelper.readDocument(
-									// 	classId,
-									// 	teacherId,
-									// 	response => {
-									// 		if (response) {
-												this.setState({
-													// documentData: response,
-													statusLoading: false
-												});
-									// 		} else {
-									// 		}
-									// 	}
-									// );
-								} else {
-									alert(" Please Check file before upload!!! ");
-								}
-							});
+							let data = {
+								lessionId: lessonId,
+								name: response.fileName,
+								path: snapshot.downloadURL,
+								isFile: true,
+								 
+							}
+							this.props.requestUploadFile(data) 
+							this.props.requestListDocByLesson(data) 
+
 							// this.setState({ statusIsProgress: false, progress_bar: 0 })
 							// if (Actions.currentScene == 'DocumentScreen') {
 							//     Actions.DocumentPreview({ selectedFile: mergeObj })
@@ -213,7 +231,8 @@ class LessionScreen extends Component {
 		}
 	};
 	_handlePress = item => {
-		Actions.DocumentPreviewScreen({ selectedFile: item });
+		console.tron.log(item)
+		Actions.DocumentPreviewScreen({ selectedFile: item, classData: this.state.classData, item : this.state.item  });
 	};
 	renderItemList = ({ item, index }) => {
 		return (
@@ -251,10 +270,10 @@ class LessionScreen extends Component {
 					/>
 				</View>
 				<Text style={{ padding: 2, fontSize: Fonts.size.medium }}>
-					{item.fileName != ""
-						? item.fileName.length > 13
-							? item.fileName.substr(0, 9) + "..."
-							: item.fileName
+					{item.name != ""
+						? item.name.length > 13
+							? item.name.substr(0, 9) + "..."
+							: item.name
 						: ""}
 				</Text>
 			</TouchableOpacity>
@@ -268,7 +287,7 @@ class LessionScreen extends Component {
 	}
 	_handleBackScreen = () => {
 		if (Actions.currentScene == 'LessionScreen') {
-			Actions.pop()
+			Actions.MyClassDetailScreen({classDetail: this.state.classData,key_tab: 'Lession'})
 		}
 	}
 	onDeleteVideo = (item) => {
@@ -304,12 +323,12 @@ class LessionScreen extends Component {
 					<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '70%', }}>
 						<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 14, marginLeft: 10 }}>{item.title}</Text>
 						{roleType == "Student" ?
-							<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10,}}>
+							<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
 								<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
 								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
 							</View>
 							:
-							<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
+							<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
 								<Text style={{ width: '100%', textAlign: 'right', color: '#ff0000', fontSize: 12, }}>Delete</Text>
 								<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
 							</TouchableOpacity>
@@ -349,7 +368,7 @@ class LessionScreen extends Component {
 				</View>
 				<View style={{ flex: 5.3 }}>
 					<View
-						style={{ 
+						style={{
 							width: "100%"
 						}}
 					/>
@@ -372,7 +391,8 @@ class LessionScreen extends Component {
 					{this.type_clicked == "Video" ? (
 						<View style={{ padding: 10 }}>
 							{statusLoadingLession ?
-								<Loading /> :
+								<UIActivityIndicator color={Colors.main_color} size={40} style={{marginTop: 30}} />
+									  :
 								<FlatList
 									style={{ width: '100%', backgroundColor: 'white' }}
 									data={lessionData}
@@ -381,54 +401,60 @@ class LessionScreen extends Component {
 							}
 						</View>
 					) : (
-								<View style={{ padding: 10 }}>
-									<View style={{ width: "90%", alignSelf: "center" }}>
-										<FlatList
-											data={documentData}
-											numColumns={3}
-											renderItem={this.renderItemList}
-											keyExtractor={(item, index) => index.toString}
-										/>
-									</View>
+							<View style={{ padding: 10 }}>
+								<View style={{ width: "90%", alignSelf: "center" }}>
+									<FlatList
+										data={documentData}
+										numColumns={3}
+										renderItem={this.renderItemList}
+										keyExtractor={(item, index) => index.toString}
+									/>
 								</View>
-							)}
+							</View>
+						)}
 				</View>
 				{roleType == "Student" ? null :
-						(
-							<TouchableOpacity
-								onPress={() => this.handleOnUploadFile()}
+					(
+						<TouchableOpacity
+							onPress={() => this.handleOnUploadFile()}
+							style={{
+								position: "absolute",
+								bottom: 0,
+								backgroundColor: Colors.main_color,
+								width: "100%",
+								height: 50,
+								justifyContent: "center",
+								alignItems: "center"
+							}}
+						>
+							<Text
 								style={{
-									position: "absolute",
-									bottom: 0,
-									backgroundColor: Colors.main_color,
-									width: "100%",
-									height: 50,
-									justifyContent: "center",
-									alignItems: "center"
+									color: "white",
+									fontSize: Fonts.size.medium,
+									fontWeight: "bold"
 								}}
 							>
-								<Text
-									style={{
-										color: "white",
-										fontSize: Fonts.size.medium,
-										fontWeight: "bold"
-									}}
-								>
-									{this.type_clicked == "Document" ? 'Upload Document' : "Upload Video"}
-								</Text>
-							</TouchableOpacity>
-						)}
+								{this.type_clicked == "Document" ? 'Upload Document' : "Upload Video"}
+							</Text>
+						</TouchableOpacity>
+					)}
 			</View>
 		);
 	}
 }
 const mapStateToProps = state => {
 	return {
-		tempUser: state.tempUser
+		tempUser: state.tempUser,
+		getListDocByLesson: state.getListDocByLesson,
+		uploadFile: state.uploadFile,
+
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	null
-)(LessionScreen);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		requestUploadFile: (data) => dispatch(UploadFileAction.uploadFileRequest(data)),
+		requestListDocByLesson: (data) => dispatch(ListDocByLessonAction.listDocByLessonRequest(data)),
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(LessionScreen);

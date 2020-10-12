@@ -57,12 +57,10 @@ class ELearningScreen extends Component {
         //             mainSubject: eachLand.mainSubject,
         //             link: eachLand.link
         //     	}).then((data) => {
-        //     		console.tron.log(data._documentPath._parts[1])
         //             db.collection("tbl_elearning_video").doc(data._documentPath._parts[1]).update({
         //                 id: data._documentPath._parts[1]
         //             });
         //     	}).catch((error) => {
-        //     		console.tron.log(`error adding Firestore document = ${error}`);
         //     	});
         //     })
 
