@@ -86,7 +86,6 @@ class LessionScreen extends Component {
 	}
 	componentWillMount = () => {
 		const { item } = this.state
-		console.tron.log(item)
 		var lessonId = item.lessonId
 		let data = {
 			lessionId: lessonId,
@@ -173,7 +172,6 @@ class LessionScreen extends Component {
 		var teacherId = classData.teacherId;
 		var classId = classData.key
 		var lessonId = item.lessonId
-		console.tron.log(item, 'ddd')
 		if (this.type_clicked == 'Video') {
 			if (Actions.currentScene == 'LessionScreen') {
 				Actions.AddVideoScreen({ classId: classId, item: item })
@@ -231,7 +229,6 @@ class LessionScreen extends Component {
 		}
 	};
 	_handlePress = item => {
-		console.tron.log(item)
 		Actions.DocumentPreviewScreen({ selectedFile: item, classData: this.state.classData, item : this.state.item  });
 	};
 	renderItemList = ({ item, index }) => {

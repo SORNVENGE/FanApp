@@ -54,7 +54,6 @@ class DocumentPreviewScreen extends React.Component {
     onDeleteDoc = () => {
         // CloudFireStoreUserHelper.deleteLession(item.id)
         const { selectedItem } = this.state
-        console.tron.log(selectedItem)
 		let data = {
 			lessionId: selectedItem.lessonId,
 			docsId: selectedItem.docId
@@ -84,7 +83,6 @@ class DocumentPreviewScreen extends React.Component {
 
     render() {
         const { selectedItem, numOfPage, current, loading, userData } = this.state
-        console.tron.log(userData)
 
         const source = { uri: selectedItem.path, cache: true };
         if (loading) return <Loading />

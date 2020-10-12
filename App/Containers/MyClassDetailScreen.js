@@ -554,7 +554,7 @@ class MyClassDetailScreen extends Component {
 												>
 													<View style={{ width: '100%', padding: 10, justifyContent: "space-between", flexDirection: "row", alignItems: 'center' }}>
 														<Image
-															source={{ uri: "https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_640.png" }}
+															source={Images.profile}
 															style={{ width: 60, height: 60, borderRadius: 60 / 2, }}
 														/>
 														<View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
