@@ -52,7 +52,8 @@ const create = (baseURL = 'http://192.168.0.241:3000/') => {
   const getUploadFile = (data) => api.post('lessons/' + data.lessionId + '/docs', data)
   const getListDocByLesson = (data) => api.get('lessons/' + data.lessionId + '/docs')
   const getDeleteLesson = (data) => api.delete('lessons/' + data.lessionId + '/docs/' + data.docsId)
-  
+  const getListClassByTeacher = (data) => api.get('classes?teacher=' + data.teacherName )
+   
   const getNews =(data) =>api.get('/news')
 
 
@@ -84,6 +85,7 @@ const create = (baseURL = 'http://192.168.0.241:3000/') => {
     getUploadFile,
     getListDocByLesson,
     getDeleteLesson,
+    getListClassByTeacher,
     getNews
 
   }
