@@ -9,7 +9,6 @@ import { Icon } from 'native-base';
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../../Services/CloudFireStoreUserHelper';
 import LoginActions from '../../Redux/LoginRedux'
-import NewsActions from '../../Redux/NewsRedux'
 
 //component
 import Loading from '../../Components/Loading'
@@ -25,34 +24,24 @@ class LoginScreen extends Component {
 			username: '',
 			password: '',
 			userData: [],
-			newsData:[]
 		};
 	}
 
-
-	componentDidMount=()=>{
-		this.props.requestNewsData()
-	}
-	
 	componentWillReceiveProps(newProps) {
-		if (newProps.getNews) {
-			if (newProps.getNews.fetching == false &&newProps.getNews.error == null &&newProps.getNews.payload)
-			{
-			}
-		}
-
-
 
 		if (newProps.login.fetching == false && this.props.login.fetching == true && newProps.login.error == null) {
-			if (newProps.login.payload) {
-				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
+            if (newProps.login.payload) {
+                this.props.setAllUserInfoAfterLogin(newProps.login.payload)
 				this.setState({ statusLoading: false });
 				Actions.MyClassScreen();
-			}
-		} else if (newProps.login.message == '404') {
+            }
+        }
+        else if(newProps.login.fetching ==false && newProps.login.error == true){
 			ToastAndroid.showWithGravityAndOffset("Please check username and password again!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
-			this.setState({ statusLoading: false });
-		}
+				this.setState({ statusLoading: false });
+        }
+
+
 	}
 	_handleOnUsernameChange = (username) => {
 		this.setState({ username: username });
@@ -127,7 +116,7 @@ class LoginScreen extends Component {
 								<Icon name='unlock-alt' type="FontAwesome" style={{ color: Colors.main_color, fontSize: 35, fontWeight: "bold" }} />
 							</TouchableOpacity>
 							<TextInput
-								style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color }]}
+								style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color}]}
 								placeholder="Password"
 								value={this.state.password}
 								onChangeText={(password) => { this._handleOnPasswordChange(password) }}
@@ -166,7 +155,6 @@ const styles = StyleSheet.create({
 		color: '#555555',
 		paddingRight: 10,
 		paddingLeft: 15,
-		paddingTop: 5,
 		borderWidth: 1,
 		borderRadius: 10,
 		alignSelf: 'center',
@@ -182,7 +170,6 @@ const styles = StyleSheet.create({
 const props = (state) => {
 	return {
 		login: state.login,
-		getNews: state.getNews,
 
 	}
 }
@@ -190,7 +177,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
 		requestLogin: (data) => dispatch(LoginActions.loginRequest(data)),
-		requestNewsData: () => dispatch(NewsActions.newsRequest())
 
 	}
 }
