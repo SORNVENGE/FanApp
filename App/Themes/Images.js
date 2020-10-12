@@ -5,7 +5,7 @@ const images = {
   english: require('../Images/english.png'),
   profile: require('../Images/profile.png'),
   khmer:require('../Images/khmer.jpg'),
-  english:require('../Images/english.jpg'),
+  englishIcon:require('../Images/englishIcon.jpg'),
   chinese:require('../Images/chinese.png'),
   computer:require('../Images/computer.jpg'),
   khicon:require('../Images/khicon.jpg'),
@@ -50,6 +50,20 @@ const images = {
   four: require('../Images/4.jpg'),
 	five: require('../Images/5.jpg'),
   six: require('../Images/6.jpg'),
+// image on Fee Screen 
+  feeimg1: require('../Images/feeimg1.png'),
+  feeimg2: require('../Images/feeimg2.jpg'),
+  feeimg3: require('../Images/feeimg3.jpg'),
+  feeimg4: require('../Images/feeimg4.jpg'),
+  feeimg5: require('../Images/feeimg5.jpg'),
+// image on main Screen 
+mainimg1: require('../Images/mainimg1.png'),
+mainimg2: require('../Images/mainimg2.jpg'),
+mainimg3: require('../Images/mainimg3.png'),
+mainimg4: require('../Images/mainimg4.jpg'),
+mainimg5: require('../Images/mainimg5.jpeg'),
+
+
 
 
 	img1: require('../Images/img1.jpg'),

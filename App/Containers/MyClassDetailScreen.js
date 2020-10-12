@@ -201,12 +201,8 @@ class MyClassDetailScreen extends Component {
 		}
 		this.setState({ statusLoadingStudent: true, statusLoadingLession: true })
 		if (tab.key == 'Lession') {
-			// console.tron.log('Lession')
-
 			this.props.requestListLessionByClass(data)
 		} else {
-			// console.tron.log('Information')
-
 			this.props.requestListStudent()
 			this.props.requestListStudentByClass(data)
 		}

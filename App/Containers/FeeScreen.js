@@ -11,11 +11,11 @@ export default class FeeScreen extends Component {
         this.state = {
             statusLoading:true,
             data: [
-                { title: "I. General Education (Grade 1-12)",image:"https://media.istockphoto.com/vectors/scholarship-icon-vector-id980135014?k=6&m=980135014&s=612x612&w=0&h=30Nm_7aHTwnjWmk9YvUMoB8kblWPD2Gv5W5C8BPxN9A=",image1: Images.img1, image2: Images.img2, image3: Images.img3 },
-                { title: "II. ESL Program (Level 1-12)",image:"https://www.archivistonline.pk/wp-content/uploads/2015/06/school-fee-collection-software.jpg",image1: Images.img3, image2: Images.img1, image3: Images.img2},
-                { title: "III. Intelligent Mental-Arimethic IMA ",image:"https://missionvalleynews.com/wp-content/uploads/2017/03/o-TUITION-COSTS-facebook.jpg",image1: Images.img5, image2: Images.img3, image3: Images.img6},
-                { title: "IV. Computer Training Course ",image:"https://cdn.modernghana.com/images/content/31201995703_i4ep276gfa_threewaysstudyingabroadcanhelpyourpostgradjobsearch_16001154_800783681_0_0_14039927_500.jpg",image1: Images.img6, image2: Images.img3, image3: Images.img1},
-                { title: "V. Intelligent Test Program Course",image:"https://images-na.ssl-images-amazon.com/images/I/816%2BZsTBOeL._SL1500_.jpg",image1: Images.img1, image2: Images.img4, image3: Images.img6},
+                { title: "I. General Education (Grade 1-12)",url:Images.feeimg1,image1: Images.img1, image2: Images.img2, image3: Images.img3 },
+                { title: "II. ESL Program (Level 1-12)",url:Images.feeimg2,image1: Images.img3, image2: Images.img1, image3: Images.img2},
+                { title: "III. Intelligent Mental-Arimethic IMA ",url:Images.feeimg3,image1: Images.img5, image2: Images.img3, image3: Images.img6},
+                { title: "IV. Computer Training Course ",url:Images.feeimg4,image1: Images.img6, image2: Images.img3, image3: Images.img1},
+                { title: "V. Intelligent Test Program Course",url:Images.feeimg5,image1: Images.img1, image2: Images.img4, image3: Images.img6},
             ]
         }
     }
@@ -38,7 +38,7 @@ export default class FeeScreen extends Component {
                                     <View style={{ width: '30%', justifyContent: 'center' }}>
                                         <Image
                                             style={{ width: 85, height: 75, alignSelf: 'center', resizeMode: 'center' }}
-                                            source={{ uri: eachData.image }}
+                                            source={ eachData.url }
                                         />
                                     </View>
                                     <View style={{ width: '70%', flexDirection: 'column', justifyContent: 'center' }}>
