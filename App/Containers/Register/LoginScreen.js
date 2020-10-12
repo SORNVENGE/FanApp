@@ -38,7 +38,6 @@ class LoginScreen extends Component {
 		if (newProps.getNews) {
 			if (newProps.getNews.fetching == false &&newProps.getNews.error == null &&newProps.getNews.payload)
 			{
-				console.tron.log({getNewsData:newProps.getNews.payload})
 			}
 		}
 
@@ -48,7 +47,6 @@ class LoginScreen extends Component {
 			if (newProps.login.payload) {
 				this.props.setAllUserInfoAfterLogin(newProps.login.payload)
 				this.setState({ statusLoading: false });
-				console.tron.log({Data :newProps.login.payload})
 				Actions.MyClassScreen();
 			}
 		} else if (newProps.login.message == '404') {

@@ -11,9 +11,15 @@ import {
 	TextInput,
 	ScrollView,
 	Alert,
+	ToastAndroid,
 	Platform
 } from "react-native";
 import { Icon } from 'native-base';
+import ListStudentByClassAction from '../Redux/ListStudentByClassRedux'
+import ListStudentAction from '../Redux/ListStudentRedux'
+import ListLessionByClassAction from '../Redux/ListLessionByClassRedux'
+import DeleteLessionByClassAction from '../Redux/DeleteLessionByClassRedux'
+import _ from 'lodash'
 import { Actions } from "react-native-router-flux";
 import { Images, Colors, Metrics, Fonts } from "../Themes";
 import FilePickerManager from "react-native-file-picker";
@@ -35,22 +41,23 @@ class MyClassDetailScreen extends Component {
 		this.state = {
 			userData: props.tempUser,
 			classData: props.classDetail,
-			classId: props.classDetail.user_id,
+			// classId: props.classDetail.user_id,
 			studentData: [],
 			documentData: [],
 			lessionData: [],
 			subjectData: [],
 			levelData: [],
 			sessionData: [],
-			subjectName: "",
-			sessionName: "",
-			levelName: "",
-			roleType: "",
+			subjectName: props.classDetail ? props.classDetail.subject : '',
+			sessionName: props.classDetail ? props.classDetail.session : '',
+			levelName: props.classDetail ? props.classDetail.level : '',
+			roleType: props.tempUser ? props.tempUser.data.role.toLowerCase() : '',
 			index: props.index,
 			statusLoading: false,
-			statusLoadingLession: false,
+			statusLoadingLession: true,
 			statusLoadingStudent: true,
-
+			tempStudentInClass: [],
+			tempStudent: [],
 			tap: [
 				{
 					key: "Information",
@@ -62,69 +69,117 @@ class MyClassDetailScreen extends Component {
 				// },
 				{
 					key: "Lession",
-					title: "Lession"
+					title: "Lesson"
 				}
 			],
-			key_tab: "Information"
+			key_tab: props.key_tab ? props.key_tab : "Information"
 		};
 		this.type_clicked = "Information";
 	}
+
+	componentWillReceiveProps(newProps) {
+		if (Actions.currentScene == "MyClassDetailScreen") {
+
+			if (newProps.getListStudent) {
+				const { fetching, error, payload } = newProps.getListStudent
+				if (fetching == false && error == null && payload) {
+					this.setState({ tempStudent: payload });
+				}
+			}
+			if (newProps.getListStudentByClass) {
+				const { fetching, error, payload } = newProps.getListStudentByClass
+
+				if (fetching == false && error == null && payload) {
+					this.setState({ tempStudentInClass: payload, statusLoading: false, statusLoadingStudent: false })
+				}
+			}
+
+			if (newProps.getListLessionByClass) {
+				const { fetching, error, payload } = newProps.getListLessionByClass
+				if (fetching == false && error == null && payload) {
+					this.setState({ lessionData:[...payload] , statusLoading: false, statusLoadingLession: false })
+					// this.requestFaqList = false;
+					// this.tempFaqData = [...this.tempFaqData, ...data]
+					// this.setState({ faqListdata: [...this.state.faqListdata, ...data],  });
+				}
+			}
+
+
+			if (newProps.deleteLessionByClass.fetching == false && this.props.deleteLessionByClass.fetching == true && newProps.deleteLessionByClass.error == null) {
+				if (newProps.deleteLessionByClass.payload) {
+					this.setState({ statusLoading: false , statusLoadingLession: false})
+					ToastAndroid.showWithGravityAndOffset("Lession Deleted!", ToastAndroid.SHORT, ToastAndroid.BOTTOM, 10, 10);
+				}
+			}
+
+		}
+	}
 	componentWillMount = () => {
-		const { userData, classData } = this.state;
-		this.setState({ statusLoading: true });
-		var teacherId = userData.data.user_id;
-		var teacherName = userData.data.username;
-		var roleId = userData.data.roleId;
-		var subjectKey = classData.subjectId;
-		var levelKey = classData.levelId;
-		var sessionKey = classData.sessionId;
-		var classId = classData.key
-		CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
-			if (response) {
-				this.setState({ subjectName: response[0].subjectName });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readUserRoleById(roleId, response => {
-			if (response) {
-				response.map((eachData, ind) => {
-					this.setState({ roleType: eachData.roleName });
-				})
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readLevelById(levelKey, response => {
-			if (response) {
-				this.setState({ levelName: response[0].levelName });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readSessionById(sessionKey, response => {
-			if (response) {
-				this.setState({ sessionName: response[0].sessionName });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
+		const { userData, classData, key_tab } = this.state
+		this.type_clicked = key_tab
+		var classId = classData.classId
+		let data = {
+			classId: classId,
+		}
+
+		this.props.requestListStudent()
+		this.props.requestListStudentByClass(data)
+		this.props.requestListLessionByClass(data)
+
+		// this.setState({ statusLoading: true });
+		// var teacherId = userData.data.user_id;
+		// var teacherName = userData.data.username;
+		// var roleId = userData.data.roleId;
+		// var subjectKey = classData.subjectId;
+		// var levelKey = classData.levelId;
+		// var sessionKey = classData.sessionId;
+		// var classId = classData.key
+		// CloudFireStoreUserHelper.readSubjectById(subjectKey, response => {
+		// 	if (response) {
+		// 		this.setState({ subjectName: response[0].subjectName });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readUserRoleById(roleId, response => {
+		// 	if (response) {
+		// 		response.map((eachData, ind) => {
+		// 			this.setState({ roleType: eachData.roleName });
+		// 		})
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readLevelById(levelKey, response => {
+		// 	if (response) {
+		// 		this.setState({ levelName: response[0].levelName });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readSessionById(sessionKey, response => {
+		// 	if (response) {
+		// 		this.setState({ sessionName: response[0].sessionName });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
 
 
-		CloudFireStoreUserHelper.readStudentByClassId(classId, response => {
-			if (response) {
-				this.setState({ studentData: response, statusLoading: false });
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
-		CloudFireStoreUserHelper.readStudentClass(classId, response => {
-			if (response) {
-				this.readAllProfessional(response)
-			} else {
-				this.setState({ statusLoading: false });
-			}
-		});
+		// CloudFireStoreUserHelper.readStudentByClassId(classId, response => {
+		// 	if (response) {
+		// 		this.setState({ studentData: response, statusLoading: false });
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
+		// CloudFireStoreUserHelper.readStudentClass(classId, response => {
+		// 	if (response) {
+		// 		this.readAllProfessional(response)
+		// 	} else {
+		// 		this.setState({ statusLoading: false });
+		// 	}
+		// });
 	};
 
 	readAllProfessional = async (items) => {
@@ -139,15 +194,24 @@ class MyClassDetailScreen extends Component {
 
 	handlePresstap = tab => {
 		this.type_clicked = tab.key;
-		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
-		if (tab.key == 'Lession') {
-			this.setState({ statusLoadingLession: true })
-			CloudFireStoreUserHelper.readLession(this.state.classData.key, response => {
-				if (response) {
-					this.setState({ lessionData: response, statusLoadingLession: false });
-				}
-			});
+		const { userData, classData } = this.state
+		var classId = classData.classId
+		let data = {
+			classId: classId,
 		}
+		this.setState({ statusLoadingStudent: true, statusLoadingLession: true })
+		if (tab.key == 'Lession') {
+			// console.tron.log('Lession')
+
+			this.props.requestListLessionByClass(data)
+		} else {
+			// console.tron.log('Information')
+
+			this.props.requestListStudent()
+			this.props.requestListStudentByClass(data)
+		}
+		this.setState({ tap: [...this.state.tap], key_tab: tab.key });
+
 	};
 	_renderTab = (item, index) => {
 		IsTab = this.state.key_tab == item.key ? true : false;
@@ -212,71 +276,70 @@ class MyClassDetailScreen extends Component {
 		);
 	};
 	handleOnUploadFile = () => {
-		const { classData } = this.state;
-		var teacherId = classData.teacherId;
-		var classId = classData.key
+		const { classData, userData } = this.state;
+		var teacherId = userData.data ? userData.data.userId : '';
 		if (this.type_clicked == 'Lession') {
 			if (Actions.currentScene == 'MyClassDetailScreen') {
-				Actions.AddLessionScreen({ classId: classId })
+				Actions.AddLessionScreen({ classData: classData, teacherId: teacherId })
 			}
 		} else {
-			FilePickerManager.showFilePicker(null, response => {
-				if (response.didCancel) {
-				} else if (response.error) {
-				} else {
-					this.setState({ statusLoading: true });
-					firebase
-						.storage()
-						.ref("/document/" + response.fileName)
-						.putFile(response.path)
-						.then(snapshot => {
-							var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf(".") + 1);
-							var type = "";
-							if (ext == "jpeg" || ext == "jpg" || ext == "png") {
-								type = "image";
-							} else if (ext == "pdf") {
-								type = "pdf";
-							} else if (ext == "pptx") {
-								type = "pptx";
-							}
+			// FilePickerManager.showFilePicker(null, response => {
+			// 	if (response.didCancel) {
+			// 	} else if (response.error) {
+			// 	} else {
+			// 		this.setState({ statusLoading: true });
+			// 		firebase
+			// 			.storage()
+			// 			.ref("/document/" + response.fileName)
+			// 			.putFile(response.path)
+			// 			.then(snapshot => {
+			// 				var ext = snapshot.ref.substr(snapshot.ref.lastIndexOf(".") + 1);
+			// 				var type = "";
+			// 				if (ext == "jpeg" || ext == "jpg" || ext == "png") {
+			// 					type = "image";
+			// 				} else if (ext == "pdf") {
+			// 					type = "pdf";
+			// 				} else if (ext == "pptx") {
+			// 					type = "pptx";
+			// 				}
 
-							let mergeObj = {
-								created_date: firebase.firestore.FieldValue.serverTimestamp(),
-								file: snapshot.downloadURL,
-								fileName: response.fileName,
-								teacherId: teacherId,
-								title: "upload without title",
-								classId: classId,
-								type: type,
-								file_size: response.size
-							};
-							CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
-								if (response) {
-									CloudFireStoreUserHelper.readDocument(
-										classId,
-										teacherId,
-										response => {
-											if (response) {
-												this.setState({
-													documentData: response,
-													statusLoading: false
-												});
-											} else {
-											}
-										}
-									);
-								} else {
-									alert(" Please Check file before upload!!! ");
-								}
-							});
-							// this.setState({ statusIsProgress: false, progress_bar: 0 })
-							// if (Actions.currentScene == 'DocumentScreen') {
-							//     Actions.DocumentPreview({ selectedFile: mergeObj })
-							// }
-						})
-						.catch();
-				}
-			});
+			// 				let mergeObj = {
+			// 					created_date: firebase.firestore.FieldValue.serverTimestamp(),
+			// 					file: snapshot.downloadURL,
+			// 					fileName: response.fileName,
+			// 					teacherId: teacherId,
+			// 					title: "upload without title",
+			// 					classId: classId,
+			// 					type: type,
+			// 					file_size: response.size
+			// 				};
+			// 				CloudFireStoreUserHelper.addDocumentByUser(mergeObj, response => {
+			// 					if (response) {
+			// 						CloudFireStoreUserHelper.readDocument(
+			// 							classId,
+			// 							teacherId,
+			// 							response => {
+			// 								if (response) {
+			// 									this.setState({
+			// 										documentData: response,
+			// 										statusLoading: false
+			// 									});
+			// 								} else {
+			// 								}
+			// 							}
+			// 						);
+			// 					} else {
+			// 						alert(" Please Check file before upload!!! ");
+			// 					}
+			// 				});
+			// 				// this.setState({ statusIsProgress: false, progress_bar: 0 })
+			// 				// if (Actions.currentScene == 'DocumentScreen') {
+			// 				//     Actions.DocumentPreview({ selectedFile: mergeObj })
+			// 				// }
+			// 			})
+			// 			.catch();
+			// 	}
+			// });
 		}
 	};
 	_handlePress = item => {
@@ -333,19 +396,33 @@ class MyClassDetailScreen extends Component {
 			Actions.LessionScreen({ item: item, classDetail: this.state.classData, roleType: this.state.roleType, index: index })
 		}
 	}
-	onDeleteLession = (item) => {
-		CloudFireStoreUserHelper.deleteLession(item.id)
+	onDeleteLession = (item, index) => {
+		// CloudFireStoreUserHelper.deleteLession(item.id)
+		let data = {
+			classId: item.classId,
+			lessionId: item.lessonId
+		}
+		this.props.requestDeleteLessionByClass(data)
+		this.props.requestListLessionByClass(data)
+
+		let { lessionData } = this.state
+		var newLessions = [];
+		newLessions = [].concat(lessionData);
+		newLessions.splice(index, 1);
+		this.setState({ lessionData: [...newLessions], statusLoading: true });
+
+
 	}
-	_handleDeteleVideo = (item) => {
+	_handleDeteleVideo = (item, index) => {
 		Alert.alert(
-			"Delete This Lession!",
+			"Delete This Lesson!",
 			I18n.t('are_you_sure'),
 			[
 				{
 					text: I18n.t('no'),
 					style: "cancel"
 				},
-				{ text: I18n.t('yes'), onPress: () => this.onDeleteLession(item) }
+				{ text: I18n.t('yes'), onPress: () => this.onDeleteLession(item, index) }
 			],
 			{ cancelable: false }
 		);
@@ -357,13 +434,13 @@ class MyClassDetailScreen extends Component {
 			<TouchableOpacity onPress={() => this._handleNextScreen(item, index)} style={{ width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: 10, paddingHorizontal: 20, height: 'auto', }}>
 				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 0.5, borderBottomColor: Colors.main_color, paddingBottom: 10 }}>
 					<Text style={{ fontWeight: 'bold', width: '70%', textAlign: 'left', color: Colors.main_color, fontSize: 16, }}>{item.title}</Text>
-					{roleType == "Student" ?
+					{roleType == "student" ?
 						<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
 							<Text style={{ width: '100%', textAlign: 'right', color: Colors.main_color, fontSize: 12, }}>Next</Text>
 							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: Colors.main_color, }} />
 						</View>
 						:
-						<TouchableOpacity onPress={() => this._handleDeteleVideo(item)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
+						<TouchableOpacity onPress={() => this._handleDeteleVideo(item, index)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', paddingRight: 10, }}>
 							<Text style={{ width: '100%', textAlign: 'right', color: '#ff0000', fontSize: 12, }}>Delete</Text>
 							<Icon type="Entypo" name="chevron-right" style={{ fontSize: 15, color: '#ff0000', }} />
 						</TouchableOpacity>
@@ -386,9 +463,22 @@ class MyClassDetailScreen extends Component {
 			sessionName,
 			roleType,
 			classData,
-			statusLoadingLession
+			statusLoadingLession,
+			tempStudent,
+			tempStudentInClass
 		} = this.state;
 		if (statusLoading) return <Loading />;
+		let data = []
+		if (tempStudentInClass.students) {
+			tempStudent.map((item, index) => {
+				tempStudentInClass.students.map((eachItem, eachindex) => {
+					if (eachItem == item.userId && item.role.toLowerCase() == 'student') {
+						data.push(item)
+					}
+				})
+			})
+		}
+		let sortLessionData = _.orderBy(lessionData, [item => item.title], ['asc']);
 		return (
 			<View style={{ flex: 1, backgroundColor: Colors.white }}>
 				<View style={{ flex: 5.3 }}>
@@ -412,9 +502,9 @@ class MyClassDetailScreen extends Component {
 					{this.type_clicked == "Information" ? (
 						<ScrollView style={{ paddingBottom: 5, }}>
 							<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 10, }}>
-								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-									<Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>C {this.state.index}</Text>
-									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5 }}>{classData.classname}</Text>
+								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', }}>
+									{/* <Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>C {this.state.index}</Text> */}
+									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5, marginBottom: 10 }}>Class : {classData.name}</Text>
 								</View>
 								<View style={{
 									borderRadius: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 20, backgroundColor: 'white', shadowColor: "#000",
@@ -428,161 +518,31 @@ class MyClassDetailScreen extends Component {
 								}}>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
 										<Icon type="AntDesign" name="book" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16,  marginRight: 5, color: Colors.main_color }}>Subject: </Text>
 										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{subjectName}</Text>
 									</View>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
 										<Icon type="FontAwesome" name="signal" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, marginRight: 5,  color: Colors.main_color }}>Level: </Text>
 										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{levelName}</Text>
+
 									</View>
 									<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', paddingVertical: 5 }}>
 										<Icon type="Entypo" name="back-in-time" style={{ fontSize: 20, color: Colors.main_color, marginRight: 15 }} />
+										<Text style={{ fontSize: 16, marginRight: 5,   color: Colors.main_color }}>Session: </Text>
+
 										<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color }}>{sessionName}</Text>
 									</View>
 								</View>
 
 							</View>
 
-							{/* <TouchableOpacity
-								style={{
-									marginTop: 10,
-									shadowOpacity: 0.5,
-									borderWidth: 0.4,
-									borderColor: Colors.main_color,
-									borderRadius: 15
-								}}
-							>
-								<View
-									style={{
-										padding: 10,
-										justifyContent: "space-between",
-										flexDirection: "row"
-									}}
-								>
-									<View style={{ width: "30%" }}>
-										<Text
-											style={{
-												fontSize: 15,
-												color: "black",
-												fontWight: "bold"
-											}}
-										>
-											{" "}
-											Subject :{" "}
-										</Text>
-									</View>
-									<View style={{ width: "80%" }}>
-										<Text
-											style={{
-												fontSize: 17,
-												color: Colors.black,
-												fontWight: "bold"
-											}}
-										>
-											{subjectName}
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={{
-									marginTop: 10,
-									shadowOpacity: 0.5,
-									borderWidth: 0.4,
-									borderColor: Colors.main_color,
-									borderRadius: 15
-								}}
-							>
-								<View
-									style={{
-										padding: 10,
-										justifyContent: "space-between",
-										flexDirection: "row"
-									}}
-								>
-									<View style={{ width: "30%" }}>
-										<Text style={{ fontSize: 15, color: "black", fontWight: "bold" }}>
-											{" "}
-											Level :{" "}
-										</Text>
-									</View>
-									<View style={{ width: "80%" }}>
-										<Text
-											style={{
-												fontSize: 17,
-												color: Colors.black,
-												fontWight: "bold"
-											}}
-										>
-											{levelName}
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={{
-									marginTop: 10,
-									shadowOpacity: 0.5,
-									borderWidth: 0.4,
-									borderColor: Colors.main_color,
-									borderRadius: 15
-								}}
-							>
-								<View
-									style={{
-										padding: 10,
-										justifyContent: "space-between",
-										flexDirection: "row"
-									}}
-								>
-									<View style={{ width: "30%" }}>
-										<Text
-											style={{
-												fontSize: 15,
-												color: "black",
-												fontWight: "bold"
-											}}
-										>
-											{" "}
-											Session :{" "}
-										</Text>
-									</View>
-									<View style={{ width: "80%" }}>
-										<Text
-											style={{
-												fontSize: 17,
-												color: Colors.black,
-												fontWight: "bold"
-											}}
-										>
-											{sessionName}
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity> */}
-							{/* <Text style={{
-								fontSize: 18,
-								fontWeight: "bold",
-								width: '100%',
-								textAlign: 'center',
-								paddingVertical: 15,
-								color: Colors.main_color,
-							}} >
-								List Student in class
-							</Text> */}
-							<View style={{ height: "70%", justifyContent: 'flex-start', alignItems: 'center' }}>
+							<View style={{ flex: 1, }}>
 								{statusLoadingStudent ?
-
-									<View style={{marginTop: 50}}>
-										{/* <Image
-											source={{ uri: "https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" }}
-											style={{ width: 100, height: 100,  marginTop: 25}}
-										/> */}
-											<Loading /> 
-									</View>
-								
+									<UIActivityIndicator color={Colors.main_color} size={40} style={{marginTop: 30}} />
 									:
 									<ScrollView>
-										{this.state.studentData.map((eachStudent, ind) => {
+										{data.map((eachStudent, ind) => {
 											return (
 												<TouchableOpacity
 													style={{
@@ -594,7 +554,7 @@ class MyClassDetailScreen extends Component {
 												>
 													<View style={{ width: '100%', padding: 10, justifyContent: "space-between", flexDirection: "row", alignItems: 'center' }}>
 														<Image
-															source={{ uri: "https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_640.png" }}
+															source={Images.profile}
 															style={{ width: 60, height: 60, borderRadius: 60 / 2, }}
 														/>
 														<View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}>
@@ -616,10 +576,11 @@ class MyClassDetailScreen extends Component {
 					) : this.type_clicked == "Lession" ? (
 						<View style={{ padding: 10 }}>
 							{statusLoadingLession ?
-								<Loading /> :
+								<UIActivityIndicator color={Colors.main_color} size={40} style={{marginTop: 30}} />
+								:
 								<FlatList
-									style={{ width: '100%', backgroundColor: 'white' }}
-									data={lessionData}
+									style={{ width: '100%', backgroundColor: 'white', marginBottom: 120 }}
+									data={sortLessionData}
 									renderItem={this.renderItemView}
 									keyExtractor={(item, index) => index.toString()} />
 							}
@@ -638,7 +599,7 @@ class MyClassDetailScreen extends Component {
 							)}
 				</View>
 				{this.type_clicked == "Information" ? null :
-					roleType == "Student" ? null :
+					roleType == "student" ? null :
 						(
 							<TouchableOpacity
 								onPress={() => this.handleOnUploadFile()}
@@ -659,7 +620,7 @@ class MyClassDetailScreen extends Component {
 										fontWeight: "bold"
 									}}
 								>
-									Upload Lession
+									Add Lesson
 								</Text>
 							</TouchableOpacity>
 						)}
@@ -669,11 +630,22 @@ class MyClassDetailScreen extends Component {
 }
 const mapStateToProps = state => {
 	return {
-		tempUser: state.tempUser
+		tempUser: state.tempUser,
+		getListStudentByClass: state.getStudentByClass,
+		getListLessionByClass: state.getLessionByClass,
+		getListStudent: state.getListStudent,
+		deleteLessionByClass: state.deleteLessionByClass,
+
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	null
-)(MyClassDetailScreen);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		requestListStudentByClass: (data) => dispatch(ListStudentByClassAction.listStudentByClassRequest(data)),
+		requestListStudent: () => dispatch(ListStudentAction.listStudentRequest()),
+		requestListLessionByClass: (data) => dispatch(ListLessionByClassAction.listLessionByClassRequest(data)),
+		requestDeleteLessionByClass: (data) => dispatch(DeleteLessionByClassAction.deleteLessionByClassRequest(data)),
+
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MyClassDetailScreen);

@@ -33,7 +33,6 @@ class NewsScreen extends Component {
     render() {
         const { statusLoading,newsList } = this.state
         if (statusLoading) return <Loading />
-        console.tron.log(moment().format("MMM Do YY"))
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView>

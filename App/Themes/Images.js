@@ -3,6 +3,7 @@ const images = {
   backGroundImage: require('../Images/background.jpg'),
   fansLogo: require('../Images/fans.png'),
   english: require('../Images/english.png'),
+  profile: require('../Images/profile.png'),
   khmer:require('../Images/khmer.jpg'),
   homeCard:require('../Images/homeCard.png'),
   profileIcon: require('../Images/Footer/profile_active.png'),

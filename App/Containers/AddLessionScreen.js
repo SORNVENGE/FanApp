@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, ImageBackground, StyleSheet,ToastAndroid, Image, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import { Images, Metrics, Colors, Fonts } from '../Themes'
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
@@ -8,6 +8,7 @@ import { Icon } from 'native-base';
 
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../Services/CloudFireStoreUserHelper';
+import AddLessionByClassAction from '../Redux/AddLessionByClassRedux'
 
 //component
 import Loading from '../Components/Loading'
@@ -16,7 +17,8 @@ class AddLessionScreen extends Component {
 		super(props);
 		this.state = {
 			phoneNum: '',
-			classId: this.props.classId,
+			classData: props.classData,
+			teacherId: props.teacherId,
 			confirmResult: null,
 			statusLoading: false,
 			statusPassword: true,
@@ -29,6 +31,19 @@ class AddLessionScreen extends Component {
 			messageDes: false,
 
 		};
+	}
+	componentWillReceiveProps(newProps) {
+		if (newProps.addLessionByClass.fetching == false && this.props.addLessionByClass.fetching == true && newProps.addLessionByClass.error == null) {
+			if (newProps.addLessionByClass.payload) {
+				this.setState({ statusLoading: false });
+				if(Actions.currentScene == 'AddLessionScreen') {
+					Actions.MyClassDetailScreen({classDetail: this.state.classData,key_tab: 'Lession'})
+				}
+			}
+		} else if (newProps.addLessionByClass.message == '404') {
+			ToastAndroid.showWithGravityAndOffset("Please check username and password again!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
+			this.setState({ statusLoading: false });
+		}
 	}
 
 	_handleBackScreen = () => {
@@ -50,35 +65,27 @@ class AddLessionScreen extends Component {
 	}
 
 	_handleAddVideo = () => {
-		const { title, description, title_kh, classId } = this.state 
+		const { title, description, title_kh, classData } = this.state 
 		var date = firebase.firestore.FieldValue.serverTimestamp()
 
 		if (description == '') {
 			this.setState({messageDes: true})
 		} else if (title == '') {
 			this.setState({messageTitle: true})
-		} else if (title_kh == '') {
-			this.setState({messageTitleKh: true})
-		}else {
-			let mergeObj = {
-				classId: classId,
+		} else {
+			let data = {
+				classId:  classData.classId,
 				description: description,
-				title: title,
-				title_kh: title_kh,
-				createdDate: date
+				title: title, 
 			}
-			CloudFireStoreUserHelper.addLession(mergeObj, (response) => {
-				if (response) {
-					if (Actions.currentScene == 'AddLessionScreen') {
-						Actions.pop()
-					}
-				}
-			});
+			this.props.requestAddLessionByClass(data)
+			this.setState({statusLoading: true})
 		}
 	}
 
 	render() {
-		const { title, title_kh, description } = this.state
+		const { title, title_kh, description, statusLoading } = this.state
+		if (statusLoading) return <Loading />;
 		return (
 			<View style={styles.container}>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 56, backgroundColor: Colors.main_color }}>
@@ -101,7 +108,7 @@ class AddLessionScreen extends Component {
 							onChangeText={(text) => { this._handlChangeTitle(text) }}
 						/>
 					</View>
-					<View style={styles.searchSection}>
+					{/* <View style={styles.searchSection}>
 						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Title Khmer {this.state.messageTitleKh ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
 						<TextInput
 							style={[styles.input, { borderColor: this.state.messageTitleKh ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
@@ -109,7 +116,7 @@ class AddLessionScreen extends Component {
 							value={title_kh}
 							onChangeText={(text) => { this._handlChangeTitleKh(text) }}
 						/>
-					</View>
+					</View> */}
 					<View style={styles.searchSection}>
 						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Description {this.state.messageDes ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
 						<TextInput
@@ -165,12 +172,19 @@ const styles = StyleSheet.create({
 		height: 125,
 	}
 })
+const mapStateToProps = state => {
+	return {
+		tempUser: state.tempUser,
+		addLessionByClass: state.addLessionByClass,
 
+	};
+};
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
+		requestClassByStudent: (data) => dispatch(ClassByStudentAction.classByStudentRequest(data)),
+		requestAddLessionByClass: (data) => dispatch(AddLessionByClassAction.addLessionByClassRequest(data)),
 	}
 }
-export default connect(null, mapDispatchToProps)(AddLessionScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(AddLessionScreen)
 

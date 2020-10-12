@@ -20,7 +20,7 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJib2R5Ijoic3R1ZmYiLCJpYXQiOjE2MDIzMTEzOTl9.vrI-o2KRre4JZfXCbB_mRe3pyJsPaooHjD2wZTp5Skw'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 60000
   })
 
   // ------
@@ -42,7 +42,16 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
   const getUser = (username) => api.get('search/users', {q: username})
   const getClassByStudent = (data) => api.get('students/' + data.studentId + '/classes')
   const getListClass = (data) => api.get('/classes')
-  const getLogin = (data) => api.post('users/login',data)
+  const getListStudent = (data) => api.get('/users')
+  const getLogin = (data) => api.post('users/login',data) 
+  const getListStudentByClass = (data) => api.get('classes/' + data.classId + '/students')
+  const getListLessionByClass = (data) => api.get('classes/' + data.classId + '/lessons')
+  const getDeleteLessionByClass = (data) => api.delete('classes/' + data.classId + '/lessons/' + data.lessionId)
+  const getAddLessionByClass = (data) => api.post('classes/' + data.classId + '/lessons', data)
+  const getUploadFile = (data) => api.post('lessons/' + data.lessionId + '/docs', data)
+  const getListDocByLesson = (data) => api.get('lessons/' + data.lessionId + '/docs')
+  const getDeleteLesson = (data) => api.delete('lessons/' + data.lessionId + '/docs/' + data.docsId)
+  
   const getNews =(data) =>api.get('/news')
 
 
@@ -65,7 +74,15 @@ const create = (baseURL = 'http://159.65.10.219:3000/') => {
     getUser,
     getClassByStudent,
     getListClass,
+    getListStudent,
     getLogin,
+    getListStudentByClass,
+    getListLessionByClass,
+    getDeleteLessionByClass,
+    getAddLessionByClass,
+    getUploadFile,
+    getListDocByLesson,
+    getDeleteLesson,
     getNews
 
   }

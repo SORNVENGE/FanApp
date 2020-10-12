@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import {View, Text, Image,TouchableOpacity} from 'react-native';
+import { View, Text, Image, TouchableOpacity, BackHandler } from 'react-native';
 import { Images, Metrics, Colors, Fonts } from '../Themes'
 import LanguageActions from '../Redux/LanguageRedux'
 import { connect } from 'react-redux'
 import I18n from './I18n';
+import { Actions } from 'react-native-router-flux';
 
 class SettingScreen extends Component {
     constructor(props) {
@@ -20,6 +21,16 @@ class SettingScreen extends Component {
         this.setState({ lang: item, isVisible: false });
     }
 
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        if (Actions.currentScene == 'SettingScreen') {
+            Actions.reset('HomeScreen')
+        }
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -28,9 +39,9 @@ class SettingScreen extends Component {
                 </View>
 
                 <TouchableOpacity onPress={() => this._handleChangeLanguage('en')} style={{ backgroundColor: 'white', padding: 10, paddingLeft: 20, paddingRight: 20 }}>
-                    <View style={{ borderColor: 'grey', borderWidth: 0.5, height: 100, alignItems: 'center', flexDirection: 'row',opacity:8 }}>
-                        <View style={{paddingLeft:20,paddingRight:20}}> 
-						<Image source={Images.english} style={{ width: 60, height: 60, alignSelf: 'center', resizeMode: 'center' }} />
+                    <View style={{ borderColor: 'grey', borderWidth: 0.5, height: 100, alignItems: 'center', flexDirection: 'row', opacity: 8 }}>
+                        <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                            <Image source={Images.english} style={{ width: 60, height: 60, alignSelf: 'center', resizeMode: 'center' }} />
 
                         </View>
                         <Text style={{ textAlign: 'center', fontSize: 18, color: "black", fontWeight: 'bold' }}> {I18n.t("English")}</Text>
@@ -40,15 +51,15 @@ class SettingScreen extends Component {
 
 
 
-                <TouchableOpacity  onPress={() => this._handleChangeLanguage('kh')}  style={{ backgroundColor: 'white', padding: 10, paddingLeft: 20, paddingRight: 20 }}>
+                <TouchableOpacity onPress={() => this._handleChangeLanguage('kh')} style={{ backgroundColor: 'white', padding: 10, paddingLeft: 20, paddingRight: 20 }}>
                     <View style={{ borderColor: 'grey', borderWidth: 0.5, height: 100, alignItems: 'center', flexDirection: 'row' }}>
-                        <View style={{paddingLeft:20,paddingRight:20}}> 
-						<Image source={Images.khmer} style={{ width: 60, height: 60, alignSelf: 'center', resizeMode: 'center' }} />
+                        <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                            <Image source={Images.khmer} style={{ width: 60, height: 60, alignSelf: 'center', resizeMode: 'center' }} />
                         </View>
                         <Text style={{ textAlign: 'center', fontSize: 18, color: "black", fontWeight: 'bold' }}> {I18n.t("Khmer")}</Text>
                     </View>
                 </TouchableOpacity>
-                
+
             </View>
         );
     }
@@ -57,16 +68,15 @@ class SettingScreen extends Component {
 
 
 const mapStateToProps = (state) => {
-    return { 
-      getLanguage: state.language,
-    }
-  }
-  
-  const mapDispatchToProps = (dispatch) => {
     return {
-      requestUpdateLanguage: (value) => dispatch(LanguageActions.languageRequest(value)),
+        getLanguage: state.language,
     }
-  }
-  export default connect(mapStateToProps, mapDispatchToProps)(SettingScreen)
-  
-  
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        requestUpdateLanguage: (value) => dispatch(LanguageActions.languageRequest(value)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SettingScreen)
+
