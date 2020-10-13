@@ -83,8 +83,13 @@ class DocumentPreviewScreen extends React.Component {
 
     render() {
         const { selectedItem, numOfPage, current, loading, userData } = this.state
-
-        const source = { uri: selectedItem.path, cache: true };
+        console.tron.log(selectedItem)
+        let sources = {}
+        if (selectedItem.path.includes("firebasestorage")) {
+            sources = { uri: selectedItem.path, cache: true };
+        } else {
+            sources = { uri:  "http://192.168.0.100:3000"+ selectedItem.path, cache: true };
+        }  
         if (loading) return <Loading />
         var ext = selectedItem.name.substr(selectedItem.name.lastIndexOf(".") + 1);
         var type = "";
@@ -101,7 +106,7 @@ class DocumentPreviewScreen extends React.Component {
                             <Image source={{ uri: selectedItem.path }} style={{ width: '100%', height: '80%' }} />
                             :
                             <Pdf
-                                source={source}
+                                source={sources}
                                 onLoadComplete={(numberOfPages, filePath) => {
                                     this.setState({ numOfPage: numberOfPages })
                                 }}

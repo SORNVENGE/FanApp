@@ -39,7 +39,7 @@ class AddVideoScreen extends Component {
 				if (newProps.uploadFile.payload) {
 
 					this.setState({ statusLoading: false });
-					Actions.LessionScreen({item: this.state.item, classDetail: this.state.classData,})
+					Actions.LessionScreen({item: this.state.item, classDetail: this.state.classData,key_tab: 'Video'})
 
 				} else if (newProps.uploadFile.message == '404') {
 					ToastAndroid.showWithGravityAndOffset("Please check username and password again!", ToastAndroid.SHORT, ToastAndroid.BOTTOM, 10, 10);
@@ -52,7 +52,7 @@ class AddVideoScreen extends Component {
 
 	_handleBackScreen = () => {
 		if (Actions.currentScene == 'AddVideoScreen') {
-			Actions.pop()
+			Actions.LessionScreen({item: this.state.item, classDetail: this.state.classData,key_tab: 'Video'})
 		}
 	}
 

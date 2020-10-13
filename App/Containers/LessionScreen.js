@@ -59,11 +59,12 @@ class LessionScreen extends Component {
 					title: "Video"
 				}
 			],
-			key_tab: "Document"
+			key_tab: props.key_tab ? props.key_tab : "Document"
 		};
 		this.type_clicked = "Document";
 	}
 	componentWillReceiveProps(newProps) {
+		this.type_clicked = this.state.key_tab;
 		if (Actions.currentScene == "LessionScreen") {
 			if (newProps.getListDocByLesson) {
 				const { fetching, error, payload } = newProps.getListDocByLesson
@@ -76,7 +77,12 @@ class LessionScreen extends Component {
 
 			if (newProps.uploadFile.fetching == false && this.props.uploadFile.fetching == true && newProps.uploadFile.error == null) {
 				if (newProps.uploadFile.payload) {
-
+					const { item } = this.state
+					var lessonId = item.lessonId
+					let data = {
+						lessionId: lessonId,
+					}
+					this.props.requestListDocByLesson(data)
 					this.setState({ statusLoading: false });
 
 				} else if (newProps.uploadFile.message == '404') {
@@ -213,7 +219,6 @@ class LessionScreen extends Component {
 
 							}
 							this.props.requestUploadFile(data)
-							this.props.requestListDocByLesson(data)
 
 							// this.setState({ statusIsProgress: false, progress_bar: 0 })
 							// if (Actions.currentScene == 'DocumentScreen') {
