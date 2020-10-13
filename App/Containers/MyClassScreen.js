@@ -79,7 +79,6 @@ class MyClassScreen extends Component {
 
 	componentDidMount() {
 		const { userData } = this.state
-		console.tron.log(userData)
 		var userId = userData.data ? userData.data.userId : ''
 		var teacherName = userData.data ? userData.data.username : ''
 
@@ -106,7 +105,6 @@ class MyClassScreen extends Component {
 				if (newProps.getClassByTeacher) {
 					const { fetching, error, payload } = newProps.getClassByTeacher
 					if (fetching == false && error == null && payload) {
-						console.tron.log(payload)
 						this.setState({ teacherClass: payload, statusLoading: false })
 						// this.requestFaqList = false;
 						// this.tempFaqData = [...this.tempFaqData, ...data]
@@ -147,7 +145,6 @@ class MyClassScreen extends Component {
 	// }
 
 	renderItemList = ({ item, index }) => {
-		console.tron.log(item)
 		return (
 			<TouchableOpacity
 				onPress={() => this.clickOnEachClass(item)}
@@ -172,7 +169,7 @@ class MyClassScreen extends Component {
 			>
 				<View style={{ justifyContent: "center", width: "100%" }}>
 					<Image
-						source={item.subject == "Computer" ? Images.computer : item.subject == "Khmer" ? Images.khicon : item.subject == "English" ? Images.english : Images.chinese}
+						source={item.subject == "Computer" ? Images.computer : item.subject == "Khmer" ? Images.khicon : item.subject == "English" ? Images.englishIcon : Images.chinese}
 						style={{ width: '100%', height: 150, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
 					/>
 				</View>

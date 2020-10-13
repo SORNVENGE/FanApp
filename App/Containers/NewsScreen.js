@@ -41,7 +41,7 @@ class NewsScreen extends Component {
                             <View style={{ padding: 10, flexDirection: 'column' }}>
                                 <TouchableOpacity onPress={() => Actions.NewsDetailScreen({ item: eachData })} style={{ flexDirection: 'row', paddingTop: 5, paddingBottom: 5 }}>
                                     <View style={{ width: '30%', justifyContent: 'center' }}>
-                                        <Image source={{ uri: "http://192.168.0.241:3000"+ eachData.filePath }} style={{ width: 80, height: 80, alignSelf: 'center' }} />
+                                        <Image source={{ uri: "http://192.168.0.100:3000"+ eachData.filePath }} style={{ width: 80, height: 80, alignSelf: 'center' }} />
                                     </View>
                                     <View style={{ width: '70%', flexDirection: 'column', justifyContent: 'center' }}>
                                         <View style={{}}>

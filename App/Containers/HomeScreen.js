@@ -37,68 +37,74 @@ class HomeScreen extends Component {
       userData: props.tempUser ? props.tempUser : [],
       imageSlide: [
         {
-          url: "https://scholarship-positions.com/wp-content/uploads/2019/06/Swansea-University-Medical-School-Postgraduate-Taught-Masters-Scholarships-2019.jpg",
-          location: "#169,Street 168, Toek Thla,Sen Sok"
+          image:Images.fanslide1
+        },
+        
+        {
+          image:Images.fanslide3
         },
         {
-          url: "https://e.swufe.edu.cn/images/7.png",
-          location: "#169,Street 168, Toek Thla,Sen Sok"
+          image:Images.fanslide6
         },
         {
-          url: "https://isac.oss-accelerate.aliyuncs.com/wordpress/wp-content/uploads/2019/11/%E8%A5%BF%E5%8D%97%E8%B4%A2%E7%BB%8F%E5%A4%A7%E5%AD%A6banner.jpg",
-          location: "#169,Street 168, Toek Thla"
+          image:Images.fanslide7
         },
         {
-          url: "https://smapse.com/storage/2019/02/southwestern-university-of-finance-economics-1.jpg",
-          location: "#169,Street 168, Toek Thla"
+          image:Images.fanslide8
         }
       ],
       category: [
         {
           title: 'my_class',
           name: "My Class",
-          url: "https://www.iconfinder.com/data/icons/education-flat-icon-1/130/135-512.png",
+          url:Images.myclassIcon
         },
         {
           title: 'facebook',
           name: "Facebook",
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTvKZpYOpBeLFlco79gpt9So4r3lEp-YdhkkQ&usqp=CAU"
+          url:Images.facebookIcon
         },
         {
           title: 'youtube',
           name: "Youtube",
-          url: 'https://img1.pnghut.com/11/6/21/ucFZMBV0E1/4k-resolution-post-apple-icon-image-format-symbol-red.jpg'
+          url:Images.youtubeIcon
+
         },
         {
           title: 'admission',
           name: "Admission",
-          url: "https://www.pngkit.com/png/detail/99-998068_free-admission-icon-william-sheller-master-serie.png"
+          url:Images.admissionIcon
+
         },
         {
           title: 'tuition_fee',
           name: "Tuition Fee",
-          url: "https://www.avonumc.net/wp-content/uploads/2015/08/financial-literacy.gif"
+          url:Images.feeIcon
+
         },
         {
           title: 'main_program',
           name: "Main Program",
-          url: "https://thumbs.dreamstime.com/b/back-to-school-flat-icons-design-set-distance-education-corse-program-online-course-universities-colleges-proposes-77868065.jpg"
+          url:Images.mainprogramIcon
 
         },
         {
           title: "map",
           name: "Map",
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTH8b6NmsQxwdKpnkYCkiiVacHKUIcdirUw5Q&usqp=CAU"
+          url:Images.mapIcon
+
         },
         {
           title: 'News',
           name: "News",
-          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTwzo0YsMaFc8UJRrkrTrN39X7zQ6zDY7a-9g&usqp=CAU"
+          url:Images.newsIcon
+
         },
         {
           title: 'setting',
           name: "Setting",
-          url: "https://www.pngfind.com/pngs/m/427-4275693_tuerca-png-settings-icon-transparent-png-download.png"
+          url:Images.settingIcon
+
 
         },
       ],
@@ -156,7 +162,7 @@ class HomeScreen extends Component {
       >
         <View style={{ width: '100%', height: '100%', justifyContent: "center", flexDirection: "column", alignItems: "center", backgroundColor: Colors.white }}>
           <View style={{ alignItems: "center", paddingTop: 40, paddingBottom: 10 }}>
-            <Image source={{ uri: item.url }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+            <Image source={item.url} style={{ width: 50, height: 50, borderRadius: 50 }} />
             {/* <Icon name={item.iconName} type={item.iconType} style={{ color: Colors.black, fontSize: 30, fontWeight: "bold" }} /> */}
           </View>
           <View
@@ -419,14 +425,14 @@ class HomeScreen extends Component {
               <Swiper
                 loop={true}
                 autoplay={true}
-                style={{ height: 300 }}
+                style={{ height: 250 }}
                 dot={<View style={{backgroundColor:Colors.main_color, width: 11, height: 11,borderRadius: 15, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
                   activeDot={<View style={{backgroundColor:Colors.white, width: 11, height: 11, borderRadius: 15, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3,}} />}
               >
                 {imageSlide.map((eachImage, index) => {
                   return (
                     <View>
-                      <Image source={{ uri: eachImage.url }} width="100%" style={{ height: 300, resizeMode: 'cover', marginTop: 0 }} />
+                      <Image source={eachImage.image} resizeMode="cover"  width="100%" style={{ height: 250, marginTop: 0 }} />
                     </View>
                   );
                 })}
