@@ -36,20 +36,14 @@ const images = {
 
 
   //slider image
-  homeSlide: require('../Images/homeSlide.jpg'),
-	homeSlide1: require('../Images/homeSlide1.jpg'),
-	homeSlide2: require('../Images/homeSlide2.jpg'),
-	homeSlide3: require('../Images/homeSlide3.jpg'),
-	homeSlide4: require('../Images/homeSlide4.jpg'),
-	homeSlide5: require('../Images/homeSlide5.jpg'),
-  homeSlide6: require('../Images/homeSlide6.jpg'),
-  //slider image
-  one: require('../Images/1.jpg'),
-	two: require('../Images/2.png'),
-	three: require('../Images/3.jpg'),  
-  four: require('../Images/4.jpg'),
-	five: require('../Images/5.jpg'),
-  six: require('../Images/6.jpg'),
+  fanslide1: require('../Images/fanslide1.jpg'),
+  fanslide2: require('../Images/fanslide2.jpg'),
+  fanslide3: require('../Images/fanslide3.jpg'),
+  fanslide4: require('../Images/fanslide4.jpg'),
+  fanslide5: require('../Images/fanslide5.jpg'),
+  fanslide6: require('../Images/fanslide6.jpg'),
+  fanslide7: require('../Images/fanslide7.jpg'),
+  fanslide8: require('../Images/fanslide8.jpg'),
 // image on Fee Screen 
   feeimg1: require('../Images/feeimg1.png'),
   feeimg2: require('../Images/feeimg2.jpg'),
@@ -57,13 +51,22 @@ const images = {
   feeimg4: require('../Images/feeimg4.jpg'),
   feeimg5: require('../Images/feeimg5.jpg'),
 // image on main Screen 
-mainimg1: require('../Images/mainimg1.png'),
-mainimg2: require('../Images/mainimg2.jpg'),
-mainimg3: require('../Images/mainimg3.png'),
-mainimg4: require('../Images/mainimg4.jpg'),
-mainimg5: require('../Images/mainimg5.jpeg'),
+  mainimg1: require('../Images/mainimg1.png'),
+  mainimg2: require('../Images/mainimg2.jpg'),
+  mainimg3: require('../Images/mainimg3.png'),
+  mainimg4: require('../Images/mainimg4.jpg'),
+  mainimg5: require('../Images/mainimg5.jpeg'),
 
-
+// icon home screen
+myclassIcon: require('../Images/myclassIcon.png'),
+facebookIcon: require('../Images/facebookIcon.png'),
+youtubeIcon: require('../Images/youtubeIcon.jpg'),
+admissionIcon: require('../Images/admissionIcon.png'),
+feeIcon: require('../Images/feeIcon.gif'),
+mainprogramIcon: require('../Images/mainprogramIcon.jpg'),
+mapIcon: require('../Images/mapIcon.png'),
+newsIcon: require('../Images/newsIcon.jpeg'),
+settingIcon: require('../Images/settingIcon.png'),
 
 
 	img1: require('../Images/img1.jpg'),
@@ -71,18 +74,8 @@ mainimg5: require('../Images/mainimg5.jpeg'),
   img3: require('../Images/img3.jpg'),
   img4: require('../Images/img4.png'),
   img5: require('../Images/img5.png'),
-  img6: require('../Images/img6.jpg'),
-  
-  //home menu
-  food: require('../Images/MenuIcons/food.png'),
-  glocery: require('../Images/MenuIcons/glocery.png'),
-  berverages: require('../Images/MenuIcons/berverages.png'),
-  bakery: require('../Images/MenuIcons/bakery.png'),
-  health: require('../Images/MenuIcons/health.png'),
-  babyMart: require('../Images/MenuIcons/babyMart.png'),
-  stationary: require('../Images/MenuIcons/stationary.png'),
-  flower: require('../Images/MenuIcons/flower.png'),
- 
+  img6: require('../Images/img6.jpg'),  
+
 }
 
 export default images
