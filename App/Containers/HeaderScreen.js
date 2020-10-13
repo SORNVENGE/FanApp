@@ -87,7 +87,7 @@ class HeaderScreen extends Component {
                     <View style={[ApplicationStyles.mainHeightIconAndTitle, { paddingLeft: 10, flexDirection: 'row' }]}>
                         <View style={{ width: '10%' }} />
                         <View style={{ width: '80%' }}>
-                            <Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: 'center' }}>{title}</Text>
+                            <Text style={{width:'100%', fontSize: Fonts.size.input, color: Colors.white, textAlign: 'center', marginLeft: 30}}>{title}</Text>
                         </View>
                         <View style={{ width: '10%' }} />
                     </View>
@@ -109,7 +109,7 @@ class HeaderScreen extends Component {
                             </TouchableOpacity>
                         }
                         <View style={{ width: '60%' }}>
-                            <Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: statusLogoHomeScreen ? "left" : 'center', marginLeft: statusLogoHomeScreen ? 10 : 0 }}> {title}</Text>
+                            <Text style={{ fontSize: Fonts.size.input, color: Colors.white, textAlign: statusLogoHomeScreen ? "left" : 'center', marginLeft: statusLogoHomeScreen ? 10 : 50 }}> {title}</Text>
                         </View>
                         {statusLogoHomeScreen ?
                             this.props.tempUser.data != null ?

@@ -223,14 +223,19 @@ class MyClassScreen extends Component {
 						{userData.data.phone}
 					</Text>
 				</View> */}
-				<FlatList
-				style={{paddingHorizontal: 10}}
-					data={data}
-					numColumns={2}
-					columnWrapperStyle={{justifyContent: 'space-between'}}
-					renderItem={this.renderItemList}
-					keyExtractor={(item, index) => index.toString}
-				/>
+				{
+					data.length >= 1 ?
+						<FlatList
+							style={{ paddingHorizontal: 10 }}
+							data={data}
+							numColumns={2}
+							columnWrapperStyle={{ justifyContent: 'space-between' }}
+							renderItem={this.renderItemList}
+							keyExtractor={(item, index) => index.toString}
+						/> :
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5 }}>No Class</Text>
+				}
+
 				{/*<ScrollView scrollEventThrottle={0.2} style={{ flex: 1, marginTop: 10 }} showsVerticalScrollIndicator={false}>
 					 <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-start', width: '100%', paddingHorizontal: 10, }}>  
 					{data.map((item, index) => {

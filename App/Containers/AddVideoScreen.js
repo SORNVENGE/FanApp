@@ -5,6 +5,8 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import StoreUserInfoActions from '../Redux/StoreUserInfoRedux'
 import { Icon } from 'native-base';
+import UploadFileAction from '../Redux/UploadFileRedux'
+
 
 import firebase from 'react-native-firebase'
 import CloudFireStoreUserHelper from '../Services/CloudFireStoreUserHelper';
@@ -17,6 +19,7 @@ class AddVideoScreen extends Component {
 		this.state = {
 			phoneNum: '',
 			classId: this.props.classId,
+			classData: props.classData,
 			item: this.props.item,
 			confirmResult: null,
 			statusLoading: false,
@@ -29,11 +32,29 @@ class AddVideoScreen extends Component {
 		};
 	}
 
+	componentWillReceiveProps(newProps) {
+		if (Actions.currentScene == "AddVideoScreen") {
+
+			if (newProps.uploadFile.fetching == false && this.props.uploadFile.fetching == true && newProps.uploadFile.error == null) {
+				if (newProps.uploadFile.payload) {
+
+					this.setState({ statusLoading: false });
+					Actions.LessionScreen({item: this.state.item, classDetail: this.state.classData,key_tab: 'Video'})
+
+				} else if (newProps.uploadFile.message == '404') {
+					ToastAndroid.showWithGravityAndOffset("Please check username and password again!", ToastAndroid.SHORT, ToastAndroid.BOTTOM, 10, 10);
+					this.setState({ statusLoading: false });
+				}
+			}
+
+		}
+	}
+
 	_handleBackScreen = () => {
-        if (Actions.currentScene == 'AddVideoScreen') {
-            Actions.pop()
-        }
-    }
+		if (Actions.currentScene == 'AddVideoScreen') {
+			Actions.LessionScreen({item: this.state.item, classDetail: this.state.classData,key_tab: 'Video'})
+		}
+	}
 
 	_handlChangeTitle = (text) => {
 		this.setState({ title: text });
@@ -49,9 +70,10 @@ class AddVideoScreen extends Component {
 
 	_handleAddVideo = () => {
 		const { title, videoId, title_kh, classId, item } = this.state
+		console.tron.log(item)
 		var res = videoId.replace("https://youtu.be/", "");
 		if (videoId == '') {
-			this.setState({messageVideo: true})
+			this.setState({ messageVideo: true })
 		} else {
 			let mergeObj = {
 				lessionId: item.id,
@@ -60,13 +82,16 @@ class AddVideoScreen extends Component {
 				title: title,
 				title_kh: title_kh,
 			}
-			CloudFireStoreUserHelper.addVideo(mergeObj, (response) => {
-				if (response) {
-					if (Actions.currentScene == 'AddVideoScreen') {
-						Actions.pop()
-					}
-				}
-			});
+ 
+			let data = {
+				lessionId: item.lessonId,
+				name: title,
+				path: 'https://www.youtube.com/watch?v=' + res,
+				isFile: false,
+
+			}
+			this.props.requestUploadFile(data) 
+			this.setState({ statusLoading: true })
 		}
 	}
 
@@ -94,7 +119,7 @@ class AddVideoScreen extends Component {
 							onChangeText={(text) => { this._handlChangeTitle(text) }}
 						/>
 					</View>
-					<View style={styles.searchSection}>
+					{/* <View style={styles.searchSection}>
 						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Title Khmer</Text>
 						<TextInput
 							style={[styles.input, { borderColor: this.state.statusBorder ? 'red' : Colors.main_color, textAlignVertical: 'center' }]}
@@ -102,7 +127,7 @@ class AddVideoScreen extends Component {
 							value={title_kh}
 							onChangeText={(text) => { this._handlChangeTitleKh(text) }}
 						/>
-					</View>
+					</View> */}
 					<View style={styles.searchSection}>
 						<Text style={{ fontSize: 14, fontWeight: '500', width: '100%', textAlign: 'left', marginBottom: 10 }}>Video Link or Video Id {this.state.messageVideo ? <Text style={{ fontSize: 14, color: '#B9052C' }}>*</Text> : ''}</Text>
 						<TextInput
@@ -158,10 +183,17 @@ const styles = StyleSheet.create({
 })
 
 
+const mapStateToProps = state => {
+	return {
+		tempUser: state.tempUser,
+		uploadFile: state.uploadFile,
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setAllUserInfoAfterLogin: (data) => dispatch(StoreUserInfoActions.storeUserInfoRequest(data)),
+		requestUploadFile: (data) => dispatch(UploadFileAction.uploadFileRequest(data)),
 	}
 }
-export default connect(null, mapDispatchToProps)(AddVideoScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(AddVideoScreen)
 

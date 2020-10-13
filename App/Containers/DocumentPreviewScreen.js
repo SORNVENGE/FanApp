@@ -83,18 +83,30 @@ class DocumentPreviewScreen extends React.Component {
 
     render() {
         const { selectedItem, numOfPage, current, loading, userData } = this.state
-
-        const source = { uri: selectedItem.path, cache: true };
+        console.tron.log(selectedItem)
+        let sources = {}
+        if (selectedItem.path.includes("firebasestorage")) {
+            sources = { uri: selectedItem.path, cache: true };
+        } else {
+            sources = { uri:  "http://192.168.0.100:3000"+ selectedItem.path, cache: true };
+        }  
         if (loading) return <Loading />
+        var ext = selectedItem.name.substr(selectedItem.name.lastIndexOf(".") + 1);
+        var type = "";
+		if (ext == "jpeg" || ext == "jpg" || ext == "png") {
+			type = "image";
+		} else if (ext == "pdf") {
+			type = "pdf";
+		}
         return (
             <Container>
                 <Content>
                     <View style={styles.container}>
-                        {selectedItem.type == 'image' ?
+                        {type == 'image' ?
                             <Image source={{ uri: selectedItem.path }} style={{ width: '100%', height: '80%' }} />
                             :
                             <Pdf
-                                source={source}
+                                source={sources}
                                 onLoadComplete={(numberOfPages, filePath) => {
                                     this.setState({ numOfPage: numberOfPages })
                                 }}
@@ -126,11 +138,11 @@ class DocumentPreviewScreen extends React.Component {
                 }
 
                 <View style={{ justifyContent: 'center' }}>
-                    {selectedItem.type == 'image' ? null :
+                    {type == 'image' ? null :
                         <Text style={[styles.text, { fontSize: 14 }]}>{current} / {numOfPage}</Text>
                     }
                     <Text style={[styles.text, { fontWeight: '700', color: Colors.text }]}>File Name</Text>
-                    <Text style={[styles.text, { fontSize: 14 }]}>{selectedItem.fileName}</Text>
+                    <Text style={[styles.text, { fontSize: 14 }]}>{selectedItem.name}</Text>
                 </View>
                 {/* <View style={styles.contentButtons}>
                     <TouchableOpacity onPress={this._handleCancel} style={[styles.btnStyles, { backgroundColor: Colors.border }]}>
