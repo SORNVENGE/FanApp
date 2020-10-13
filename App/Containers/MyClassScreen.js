@@ -233,7 +233,7 @@ class MyClassScreen extends Component {
 							renderItem={this.renderItemList}
 							keyExtractor={(item, index) => index.toString}
 						/> :
-						<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5 }}>No Class</Text>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5, width: '100%', textAlign: 'center', marginTop: 20 }}>No Class</Text>
 				}
 
 				{/*<ScrollView scrollEventThrottle={0.2} style={{ flex: 1, marginTop: 10 }} showsVerticalScrollIndicator={false}>

@@ -7,7 +7,7 @@ const images = {
   khmer:require('../Images/khmer.jpg'),
   englishIcon:require('../Images/englishIcon.jpg'),
   chinese:require('../Images/chinese.png'),
-  computer:require('../Images/computer.jpg'),
+  computer:require('../Images/computer.png'),
   khicon:require('../Images/khicon.jpg'),
 
   homeCard:require('../Images/homeCard.png'),
