@@ -34,7 +34,7 @@ class ELearninVideoScreen extends Component {
 
     render() {
         const { statusLoading, data, item } = this.state
-        var res = item.link.replace("https://www.youtube.com/watch?v=", "");
+        var res = item.path.replace("https://www.youtube.com/watch?v=", "");
         if (statusLoading) return <Loading />
         return (
             <View style={styles.container}>

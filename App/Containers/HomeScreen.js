@@ -115,10 +115,10 @@ class HomeScreen extends Component {
       }
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Facebook") {
-      Linking.openURL('https://www.facebook.com/n/?OppiGamingg');
+      Linking.openURL('https://www.facebook.com/FanInternationalSchool');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Youtube") {
-      Linking.openURL('https://www.youtube.com/c/shroud');
+      Linking.openURL('https://www.youtube.com/c/FanInternationalSchool');
     }
     else if (Actions.currentScene == "HomeScreen" && item.name == "Admission") {
       Actions.AdmissionScreen();
