@@ -83,7 +83,7 @@ class MyClassDetailScreen extends Component {
 			if (newProps.getListStudent) {
 				const { fetching, error, payload } = newProps.getListStudent
 				if (fetching == false && error == null && payload) {
-					this.setState({ tempStudent: payload });
+					this.setState({ tempStudent: payload, statusLoading: false, statusLoadingStudent: false});
 				}
 			}
 			if (newProps.getListStudentByClass) {
@@ -537,7 +537,9 @@ class MyClassDetailScreen extends Component {
 								{statusLoadingStudent ?
 									<UIActivityIndicator color={Colors.main_color} size={40} style={{marginTop: 30}} />
 									:
+									data.length >= 1 ?
 									<ScrollView>
+
 										{data.map((eachStudent, ind) => {
 											return (
 												<TouchableOpacity
@@ -566,6 +568,9 @@ class MyClassDetailScreen extends Component {
 											);
 										})}
 									</ScrollView>
+									:
+									<Text style={{ fontSize: 16, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5, marginBottom: 10, width: '100%', textAlign: 'center', marginTop: 20 }}>No Student</Text>
+
 								}
 							</View>
 						</ScrollView>
