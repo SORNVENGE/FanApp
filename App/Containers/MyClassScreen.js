@@ -208,7 +208,10 @@ class MyClassScreen extends Component {
 		} else {
 			data = teacherClass
 		}
+		let classdata = data.filter(function (item) {
 
+			return item.status;
+		})
 		return (
 			<View style={{ flex: 1, backgroundColor: Colors.white }}>
 				<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
@@ -227,7 +230,7 @@ class MyClassScreen extends Component {
 					data.length >= 1 ?
 						<FlatList
 							style={{ paddingHorizontal: 10 }}
-							data={data}
+							data={classdata}
 							numColumns={2}
 							columnWrapperStyle={{ justifyContent: 'space-between' }}
 							renderItem={this.renderItemList}
