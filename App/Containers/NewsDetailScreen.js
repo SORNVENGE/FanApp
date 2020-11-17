@@ -28,7 +28,7 @@ export default class NewsDetailScreen extends Component{
                     <View style={{ justifyContent: 'center', padding: 10 }}>
                        
                             <View style={{ width: '100%', justifyContent: 'center' }}>
-                                <Image source={{ uri: "http://192.168.0.100:3000"+filePath }} style={{ width: '90%', height: 250, alignSelf: 'center' }} />
+                                <Image source={{ uri: "http://172.16.4.80:3000"+filePath }} style={{ width: '90%', height: 250, alignSelf: 'center' }} />
                             <View>
                             </View>  
                             <Text style={{ fontSize: 15, paddingTop: 10,paddingLeft:10,lineHeight:24 }}>

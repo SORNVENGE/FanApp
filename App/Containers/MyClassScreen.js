@@ -145,6 +145,7 @@ class MyClassScreen extends Component {
 	// }
 
 	renderItemList = ({ item, index }) => {
+		console.tron.log(item.subject)
 		return (
 			<TouchableOpacity
 				onPress={() => this.clickOnEachClass(item)}
@@ -167,11 +168,17 @@ class MyClassScreen extends Component {
 					marginBottom: 15,
 				}}
 			>
-				<View style={{ justifyContent: "center", width: "100%" }}>
-					<Image
+				<View style={{ justifyContent: "center", width: "100%",alignItems: 'center', }}>
+					{/* <Image
 						source={item.subject == "Computer" ? Images.computer : item.subject == "Khmer" ? Images.khicon : item.subject == "English" ? Images.englishIcon : Images.chinese}
-						style={{ width: '100%', height: 150, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
-					/>
+						style={{ width: '100%', height: 80, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+					/> */}
+					{/* <Image
+						source={item.subject == "Computer" ? Images.computer : item.subject == "Khmer" ? Images.khicon : item.subject == "English" ? Images.englishIcon : Images.chinese}
+						style={{ width: '100%', height: 80, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+					/> */}
+					<Image source={{uri:item.subject == "Computer" ? "https://i.dlpng.com/static/png/3946258-desktop-insight-uk-desktops-png-667_500_preview.webp" : item.subject == "Khmer" ? "https://www.asialifemagazine.com/education/wp-content/uploads/sites/6/2018/02/East-West-International-School-Phnom-Penh.jpg" : item.subject == "English" ?  "https://st2.depositphotos.com/1007499/5264/v/380/depositphotos_52645401-stock-illustration-english-stamp.jpg": "https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/a185e5a67f39.jpg" }}
+       				style={{width: 100, height: 90,resizeMode:"stretch"}} />
 				</View>
 				<View style={{ alignItems: 'center', justifyContent: "center", width: "100%", paddingVertical: 15, backgroundColor: 'white', borderRadius: 5, paddingLeft: 20, }}>
 					<Text style={{ color: Colors.main_color, width: '100%', textAlign: 'left', fontWight: "bold", fontSize: 14, marginLeft: 10, marginBottom: 5 }} >

@@ -33,11 +33,11 @@ const MyStatusBar = ({ backgroundColor, ...props }) => (
 class App extends Component {
 
 	componentDidMount () {
-		StatusBar.setBackgroundColor(Colors.main_color, true);
+		StatusBar.setBackgroundColor("red", true);
 	}
 
 	render () {
-		const StatusBarAPP = (<MyStatusBar backgroundColor={Colors.main_color} barStyle="light-content" />);
+		const StatusBarAPP = (<MyStatusBar backgroundColor={"red"} barStyle="light-content" />);
     	console.disableYellowBox = true;
 		return (
 			<Provider store={store}>

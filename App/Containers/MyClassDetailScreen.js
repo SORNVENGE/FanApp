@@ -463,6 +463,7 @@ class MyClassDetailScreen extends Component {
 			tempStudent,
 			tempStudentInClass
 		} = this.state;
+
 		if (statusLoading) return <Loading />;
 		let data = []
 		if (tempStudentInClass.students) {
@@ -499,8 +500,8 @@ class MyClassDetailScreen extends Component {
 						<ScrollView style={{ paddingBottom: 5, }}>
 							<View style={{ width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 10, }}>
 								<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', }}>
-									{/* <Text style={{ fontSize: 30, fontWeight: 'bold', color: Colors.main_color }}>C {this.state.index}</Text> */}
 									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5, marginBottom: 10 }}>Class : {classData.name}</Text>
+									<Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.main_color, marginVertical: 5, marginBottom: 10 }}>Teacher : {classData.teacher}</Text>
 								</View>
 								<View style={{
 									borderRadius: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center', padding: 20, backgroundColor: 'white', shadowColor: "#000",
