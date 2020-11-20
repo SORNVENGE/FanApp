@@ -8,7 +8,7 @@ const images = {
   englishIcon:require('../Images/englishIcon.jpg'),
   chinese:require('../Images/chinese.png'),
   computer:require('../Images/computer.png'),
-  khicon:require('../Images/khicon.jpg'),
+  khicon:require('../Images/khicon.png'),
 
   homeCard:require('../Images/homeCard.png'),
   profileIcon: require('../Images/Footer/profile_active.png'),

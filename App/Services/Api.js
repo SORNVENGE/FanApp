@@ -2,8 +2,8 @@
 import apisauce from 'apisauce'
 
 // our "constructor"
-// const create = (baseURL = 'http://192.168.0.241:3000/') => {
-    const create = (baseURL = 'http://192.168.0.100:3000/') => {
+// const create = (baseURL = 'https://fan-international-school.com/api:3000/') => {
+    const create = (baseURL = 'https://fan-international-school.com/api/') => {
 
   // ------
   // STEP 1
