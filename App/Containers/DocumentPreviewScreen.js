@@ -9,7 +9,7 @@ import Pdf from 'react-native-pdf';
 import { Colors } from '../Themes';
 import { Actions } from 'react-native-router-flux';
 import Loading from '../Components/Loading';
-import { Icon } from 'native-base';
+import { Icon } from 'native-base'; 
 
 class DocumentPreviewScreen extends React.Component {
     constructor(props) {
@@ -22,7 +22,8 @@ class DocumentPreviewScreen extends React.Component {
             current: 0,
             loading: true,
             screen: props.screen ? props.screen : '',
-            userData: props.tempUser.data ? props.tempUser.data : ''
+            userData: props.tempUser.data ? props.tempUser.data : '',
+            type: ''
         }
     }
 
@@ -42,12 +43,20 @@ class DocumentPreviewScreen extends React.Component {
 		}
 	}
     componentDidMount() {
-        if (this.state.selectedItem.type == 'image') {
+        const { selectedItem } = this.state
+        var ext = selectedItem.name.substr(selectedItem.name.lastIndexOf(".") + 1);
+        var type = "";
+		if (ext == "jpeg" || ext == "jpg" || ext == "png") {
+			type = "image";
+		} else if (ext == "pdf") {
+			type = "pdf";
+		}
+        if (type == 'image') {
             setTimeout(() => {
-                this.setState({ loading: false })
+                this.setState({ loading: false, type: type })
             }, 2500);
         } else {
-            this.setState({ loading: false })
+            this.setState({ loading: false, type: type  })
         }
     };
 
@@ -82,28 +91,21 @@ class DocumentPreviewScreen extends React.Component {
     }
 
     render() {
-        const { selectedItem, numOfPage, current, loading, userData } = this.state
-        console.tron.log(selectedItem)
+        const { selectedItem, numOfPage, current, loading, userData, type } = this.state
         let sources = {}
         if (selectedItem.path.includes("firebasestorage")) {
             sources = { uri: selectedItem.path, cache: true };
         } else {
-            sources = { uri:  "http://192.168.0.100:3000"+ selectedItem.path, cache: true };
+            sources = { uri:  "https://fan-international-school.com/api"+ selectedItem.path, cache: true };
         }  
         if (loading) return <Loading />
-        var ext = selectedItem.name.substr(selectedItem.name.lastIndexOf(".") + 1);
-        var type = "";
-		if (ext == "jpeg" || ext == "jpg" || ext == "png") {
-			type = "image";
-		} else if (ext == "pdf") {
-			type = "pdf";
-		}
+      
         return (
             <Container>
                 <Content>
                     <View style={styles.container}>
                         {type == 'image' ?
-                            <Image source={{ uri: selectedItem.path }} style={{ width: '100%', height: '80%' }} />
+                            <Image source={{ uri: "https://fan-international-school.com/api"+selectedItem.path }} style={{ width: '100%', height: '80%' }} />
                             :
                             <Pdf
                                 source={sources}

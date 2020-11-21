@@ -82,7 +82,7 @@ class HeaderScreen extends Component {
         }
         if (statusLoading) return <Loading />;
         return (
-            <View style={[ApplicationStyles.mainHeaderFooterContainer, { backgroundColor: "red", paddingTop: Platform.OS == "android" ? 4 : 0 }]}>
+            <View style={[ApplicationStyles.mainHeaderFooterContainer, { backgroundColor: "#f5365c", paddingTop: Platform.OS == "android" ? 4 : 0 }]}>
                 {statusLogo ?
                     <View style={[ApplicationStyles.mainHeightIconAndTitle, { paddingLeft: 10, flexDirection: 'row' }]}>
                         <View style={{ width: '10%' }} />

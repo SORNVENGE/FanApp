@@ -145,7 +145,6 @@ class MyClassScreen extends Component {
 	// }
 
 	renderItemList = ({ item, index }) => {
-		console.tron.log(item.subject)
 		return (
 			<TouchableOpacity
 				onPress={() => this.clickOnEachClass(item)}

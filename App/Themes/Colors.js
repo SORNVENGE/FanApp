@@ -1,7 +1,7 @@
 const colors = {
   background: '#F9FAFC',
   // main_color:'#511448',
-  main_color:'#9b0ca8',
+  main_color:'#f5365c',//#9b0ca8
   // main_color:'#167EF9',
   // main_color:'#0A5E7B', aba
   main_container: "#F0EFF5",

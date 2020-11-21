@@ -20,6 +20,8 @@ import { UploadFileTypes } from '../Redux/UploadFileRedux'
 import { ListDocByLessonTypes} from '../Redux/ListDocByLessonRedux'
 import { DeleteLessonTypes} from '../Redux/DeleteLessonRedux'
 
+import { UploadDocumentFilesTypes } from '../Redux/UploadDocumentFilesRedux'
+
 
 import { LoginTypes } from './../Redux/LoginRedux'
 import { NewsTypes } from './../Redux/NewsRedux'
@@ -43,6 +45,9 @@ import { getAddLessionByClass} from './AddLessionByClassSagas'
 import { getUploadFile} from './UploadFileSagas'
 import { getListDocByLesson} from './ListDocByLessonSagas'
 import { getDeleteLesson} from './DeleteLessonSagas'
+
+import { getUploadDocumentFiles} from './UploadDocumentFilesSagas'
+
 
 import { getLogin } from './LoginSagas'
 import { getNews } from './NewsSagas'
@@ -74,11 +79,11 @@ export default function * root () {
     takeLatest(ListDocByLessonTypes.LIST_DOC_BY_LESSON_REQUEST, getListDocByLesson, api),
     takeLatest(DeleteLessonTypes.DELETE_LESSON_REQUEST, getDeleteLesson, api),
     takeLatest(ListClassByTeacherTypes.LIST_CLASS_BY_TEACHER_REQUEST, getListClassByTeacher, api),
-
+    
+    takeLatest(UploadDocumentFilesTypes.UPLOAD_DOCUMENT_FILES_REQUEST, getUploadDocumentFiles, api),
     
     takeLatest(LoginTypes.LOGIN_REQUEST, getLogin, api),
     takeLatest(NewsTypes.NEWS_REQUEST, getNews, api),
-
 
   ])
 }

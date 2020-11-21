@@ -26,6 +26,7 @@ export const reducers = combineReducers({
   getListDocByLesson:require('./ListDocByLessonRedux').reducer,
   deleteLesson:require('./DeleteLessonRedux').reducer,
 
+  uploadDocumentFiles:require('./UploadDocumentFilesRedux').reducer,
 
 
   login: require('./LoginRedux').reducer,

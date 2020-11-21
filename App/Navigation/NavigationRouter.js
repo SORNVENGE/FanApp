@@ -70,7 +70,7 @@ class NavigationRouter extends Component {
 				
 					<Scene onEnter={() => this.onEnter(false, false, 'LoginScreen', 'LoginScreen')} key="LoginScreen" component={LoginScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'VerificationScreen', 'VerificationScreen')} key="VerificationScreen" component={VerificationScreen} hideNavBar={true} />
-					<Scene onEnter={() => this.onEnter(false, true, 'DocumentPreviewScreen', 'DocumentPreviewScreen')} key="DocumentPreviewScreen" component={DocumentPreviewScreen} hideNavBar={true} />
+					<Scene onEnter={() => this.onEnter(false, true, 'Preview Document', 'DocumentPreviewScreen')} key="DocumentPreviewScreen" component={DocumentPreviewScreen} hideNavBar={true} />
 					<Scene onEnter={() => this.onEnter(false, false, 'ELearningItemScreen', 'ELearningItemScreen')} key="ELearningItemScreen" component={ELearningItemScreen} hideNavBar={true} />
 					<Scene  onEnter={() => this.onEnter(false, false, 'ELearningSubjectScreen', 'ELearningSubjectScreen')} key="ELearningSubjectScreen" component={ELearningSubjectScreen} hideNavBar={true} />
 					<Scene   onEnter={() => this.onEnter(false, false, 'ELearningSubjectVideosScreen', 'ELearningSubjectVideosScreen')} key="ELearningSubjectVideosScreen" component={ELearningSubjectVideosScreen} hideNavBar={true} />

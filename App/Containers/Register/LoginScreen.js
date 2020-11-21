@@ -37,7 +37,6 @@ class LoginScreen extends Component {
             }
         }
         else if(newProps.login.fetching ==false && newProps.login.error == true){
-			console.tron.log({Data:newProps.login.fetching})
 			ToastAndroid.showWithGravityAndOffset("Please check username and password again!",ToastAndroid.SHORT,ToastAndroid.BOTTOM,10,10);
 				this.setState({ statusLoading: false });
         }

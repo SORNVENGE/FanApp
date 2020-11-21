@@ -70,7 +70,6 @@ class AddVideoScreen extends Component {
 
 	_handleAddVideo = () => {
 		const { title, videoId, title_kh, classId, item } = this.state
-		console.tron.log(item)
 		var res = videoId.replace("https://youtu.be/", "");
 		if (videoId == '') {
 			this.setState({ messageVideo: true })

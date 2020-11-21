@@ -55,6 +55,8 @@ import apisauce from 'apisauce'
   const getDeleteLesson = (data) => api.delete('lessons/' + data.lessionId + '/docs/' + data.docsId)
   const getListClassByTeacher = (data) => api.get('classes?teacher=' + data.teacherName )
    
+  const getUploadDocumentFiles = (data) => api.post('upload', data)
+
   const getNews =(data) =>api.get('/news')
 
 
@@ -87,7 +89,8 @@ import apisauce from 'apisauce'
     getListDocByLesson,
     getDeleteLesson,
     getListClassByTeacher,
-    getNews
+    getNews,
+    getUploadDocumentFiles
 
   }
 }
