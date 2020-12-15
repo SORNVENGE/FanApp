@@ -11,6 +11,7 @@ import {
 	TextInput,
 	ScrollView,
 	Alert,
+	BackHandler,
 	Platform
 } from "react-native";
 import { Icon } from 'native-base';
@@ -67,6 +68,7 @@ class LessionScreen extends Component {
 		this.lessionIdForUpload = ''
 		this.fileNameForUpload = ''
 		this.type = ''
+		this.classDatas = {}
 	}
 	componentWillReceiveProps(newProps) {
 		this.type_clicked = this.state.key_tab;
@@ -75,7 +77,10 @@ class LessionScreen extends Component {
 				const { fetching, error, payload } = newProps.getListDocByLesson
 
 				if (fetching == false && error == null && payload) {
-					this.setState({ documentData: [...payload], statusLoading: false })
+					setTimeout(() => {
+						this.setState({ documentData: [...payload], statusLoading: false })
+					}, 700);
+					
 					// Actions.LessionScreen({type: 'reset', item: this.state.item, classDetail: this.state.classData})
 				}
 			}
@@ -99,7 +104,7 @@ class LessionScreen extends Component {
 			if (newProps.uploadDocumentFile.fetching == false && this.props.uploadDocumentFile.fetching == true && newProps.uploadDocumentFile.error == null) {
 				if (newProps.uploadDocumentFile.payload) {
 					const { fetching, error, payload } = newProps.uploadDocumentFile
-					
+
 					let data = {
 						lessionId: this.lessionIdForUpload,
 						name: this.fileNameForUpload,
@@ -119,7 +124,8 @@ class LessionScreen extends Component {
 		}
 	}
 	componentWillMount = () => {
-		const { item } = this.state
+		const { item, classData } = this.state
+		this.classDatas = classData
 		var lessonId = item.lessonId
 		let data = {
 			lessionId: lessonId,
@@ -127,6 +133,17 @@ class LessionScreen extends Component {
 		this.props.requestListDocByLesson(data)
 	};
 
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+	}
+	onBackButtonPressed = () => {
+		// .MyClassDetailScreen({ classDetail: this.state.classData, key_tab: 'Lession' })
+		return Actions.currentScene == 'LessionScreen' ? Actions.MyClassDetailScreen({ type: 'reset', classDetail: this.classDatas, key_tab: 'Lession' }) : false
+	}
 
 
 	handlePresstap = tab => {
@@ -150,14 +167,14 @@ class LessionScreen extends Component {
 					// borderBottomWidth: IsTab ? 5 : 0,
 					// borderBottomColor: 'white',
 					marginBottom: 5,
-					shadowColor: "#000",
-					shadowOffset: {
-						width: 0,
-						height: 4,
-					},
-					shadowOpacity: 0.30,
-					shadowRadius: 4.65,
-					elevation: 8,
+					// shadowColor: "#000",
+					// shadowOffset: {
+					// 	width: 0,
+					// 	height: 4,
+					// },
+					// shadowOpacity: 0.30,
+					// shadowRadius: 4.65,
+					// elevation: 8,
 				}}
 			>
 				<Icon type="FontAwesome" name={index == 0 ? "file-pdf-o" : "file-video-o"} style={{ fontSize: 25, color: IsTab ? Colors.white : '#b3b3b3', padding: 5 }} />
@@ -211,16 +228,53 @@ class LessionScreen extends Component {
 				} else if (response.error) {
 				} else {
 					this.setState({ statusLoading: true });
-					const form = new FormData();
+					// console.tron.log(response.size)
+					var ext = response.fileName.substr(response.fileName.lastIndexOf(".") + 1);
+					var type = "";
+					if (ext == "jpeg" || ext == "jpg" || ext == "png") {
+						type = "image";
+					} else if (ext == "pdf") {
+						type = "pdf";
+					}
 
-					form.append('file', {
-						uri: "file://" + response.path,
-						type: response.type,
-						name: response.fileName,
-					});
-					this.lessionIdForUpload = lessonId
-					this.fileNameForUpload = response.fileName
-					this.props.requestUploadDocumentFiles(form)
+					if ((type == 'pdf' || type == "image") && (response.size <= 1000006)) {
+						const form = new FormData();
+						form.append('file', {
+							uri: "file://" + response.path,
+							type: response.type,
+							name: response.fileName,
+						});
+						this.lessionIdForUpload = lessonId
+						this.fileNameForUpload = response.fileName
+						this.props.requestUploadDocumentFiles(form)
+					} else {
+						if (response.size <= 1000006) {
+							Alert.alert(
+								'Warning!',
+								'You can upload only Image and Pdf!',
+								[
+									{
+										text: 'Ok',
+										onPress: () => this.setState({ statusLoading: false }),
+									},
+								],
+								{ cancelable: false },
+							);
+						} else {
+							Alert.alert(
+								'Warning!',
+								'You can upload only Image or Pdf Under 1Mb!',
+								[
+									{
+										text: 'Ok',
+										onPress: () => this.setState({ statusLoading: false }),
+									},
+								],
+								{ cancelable: false },
+							);
+						}
+
+					}
 
 					// firebase
 					// 	.storage()
@@ -268,7 +322,7 @@ class LessionScreen extends Component {
 		}
 	};
 	_handlePress = item => {
-		Actions.DocumentPreviewScreen({ selectedFile: item, classData: this.state.classData, item: this.state.item,  });
+		Actions.DocumentPreviewScreen({ selectedFile: item, classData: this.state.classData, item: this.state.item, });
 	};
 	renderItemList = ({ item, index }) => {
 		var ext = item.name.substr(item.name.lastIndexOf(".") + 1);
@@ -287,7 +341,7 @@ class LessionScreen extends Component {
 					padding: type == "image" ? 0 : 5,
 					marginLeft: 5,
 					marginRight: 5,
-					marginBottom: 5,
+					marginBottom: 10,
 					width: "30.8%",
 					borderColor: Colors.border,
 					borderWidth: 0.5,
@@ -303,7 +357,7 @@ class LessionScreen extends Component {
 					}}
 				>
 					<Image
-						source={type == "image" ? { uri: 'https://fan-international-school.com/api'+ item.path } : Images.pdf_icon}
+						source={type == "image" ? { uri: 'https://fan-international-school.com/api' + item.path } : Images.pdf_icon}
 						style={{
 							marginTop: type == "image" ? -3 : 0,
 							height: '100%',
@@ -464,6 +518,8 @@ class LessionScreen extends Component {
 									<FlatList
 										data={data}
 										numColumns={3}
+										
+						contentContainerStyle={{ paddingBottom: 120 }}
 										renderItem={this.renderItemList}
 										keyExtractor={(item, index) => index.toString}
 									/>

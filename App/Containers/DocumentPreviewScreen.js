@@ -34,7 +34,7 @@ class DocumentPreviewScreen extends React.Component {
 
 			if (newProps.deleteLesson.fetching == false && this.props.deleteLesson.fetching == true && newProps.deleteLesson.error == null) {
 				if (newProps.deleteLesson.payload) {
-                    Actions.LessionScreen({classDetail: classData, teacherId: teacherId, item: this.state.item})
+                    Actions.LessionScreen({type: 'reset', classDetail: classData, teacherId: teacherId, item: this.state.item})
 					this.setState({ statusLoading: false ,  })
 					ToastAndroid.showWithGravityAndOffset("Document Deleted!", ToastAndroid.SHORT, ToastAndroid.BOTTOM, 10, 10);
 				}
